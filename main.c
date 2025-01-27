@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/27 20:34:06 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/27 21:43:38 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_redirect(char *token)
 
 int	main(void)
 {
-	char	str[100] = "echo hi | cat << eof";
+	char	str[100] = "\"echo hi\" | cat << eof";
 	t_list	*tokens;
 
 	tokens = tokenize(str);
