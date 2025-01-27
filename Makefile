@@ -20,7 +20,8 @@ CFLAGS		:= -Wall -Wextra -Werror
 SRC = \
 main.c \
 tokenization.c \
-utils.c
+utils.c \
+tree.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
