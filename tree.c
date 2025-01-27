@@ -6,12 +6,16 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/27 18:58:11 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:57:00 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Set the node type (PIPE_TYPE, AND_TYPE)
+// Operator nodes don't have command arguments
+// Set the left child
+// Set the right child
 t_node	*create_operator_node(t_node_type type, t_node *left, t_node *right)
 {
 	t_node	*new_node;
@@ -26,6 +30,9 @@ t_node	*create_operator_node(t_node_type type, t_node *left, t_node *right)
 	return (new_node);
 }
 
+// Set the command arguments (["echo", "hi", NULL])
+// Command nodes don't have left children
+// Command nodes don't have right children
 t_node	*create_command_node(char **args)
 {
 	t_node	*new_node;
@@ -40,6 +47,13 @@ t_node	*create_command_node(char **args)
 	return (new_node);
 }
 
+// Set the redirection operator ("<<")
+// Set the file or delimiter ("eof")
+// Null-terminate the array
+// Set the node type to REDIRECT_TYPE
+// Set the redirection arguments
+// Set the command being redirected
+// Redirection nodes don't have right children
 t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 {
 	t_node	*new_node;
