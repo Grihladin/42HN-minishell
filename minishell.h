@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/27 18:37:26 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:57:38 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ t_list				*tokenize(char *str);
 // utils
 void				print_list(t_list *head);
 void				print_tree(t_node *root, int depth);
+void				free_double_array(char **arr);
 
 #endif
