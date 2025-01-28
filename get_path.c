@@ -1,0 +1,91 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_path.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/28 13:19:52 by psenko            #+#    #+#             */
+/*   Updated: 2025/01/28 13:22:37 by psenko           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*get_full_path(char *path, t_list *lstpath)
+{
+	char	*fullpath;
+	char	*tmp;
+
+	fullpath = NULL;
+	while (lstpath != NULL)
+	{
+		tmp = ft_strjoin(lstpath->content, "/");
+		if (tmp == NULL)
+			return (NULL);
+		fullpath = ft_strjoin(tmp, path);
+		free(tmp);
+		if (fullpath == NULL)
+			return (NULL);
+		if (access(fullpath, F_OK | X_OK) == 0)
+			return (fullpath);
+		if (fullpath != NULL)
+			free(fullpath);
+		lstpath = lstpath->next;
+	}
+	return (NULL);
+}
+
+// static void	ft_lstprint_paths(t_list *lst)
+// {
+// 	ft_printf("PATH list:\n");
+// 	ft_lstprint_str(lst);
+// 	ft_printf("\n");
+// }
+
+static char	*copy_next_path(char **str)
+{
+	char	*pathend;
+	size_t	len;
+	char	*path;
+
+	len = 0;
+	pathend = ft_strchr(*str, ':');
+	if (pathend != NULL)
+		len = pathend - *str;
+	else
+		len = ft_strlen(*str);
+	path = ft_calloc(len + 1, 1);
+	if (path == NULL)
+		return (NULL);
+	ft_strlcpy(path, *str, len + 1);
+	*str += len;
+	if (**str == ':')
+		(*str)++;
+	return (path);
+}
+
+int	get_paths(char **envp, struct s_paths *paths)
+{
+	char	*tmp;
+	char	*pathstr;
+
+	pathstr = "PATH=";
+	tmp = NULL;
+	while (*envp != NULL)
+	{
+		tmp = ft_strnstr(*envp, pathstr, 5);
+		if ((tmp != NULL) && (tmp != pathstr))
+			break ;
+		envp++;
+	}
+	if (tmp == NULL)
+		tmp = DEFAULT_PATH;
+	tmp += 5;
+	while (*tmp != '\0')
+	{
+		if (add_str_to_list(copy_next_path(&tmp), paths) == -1)
+			return (-1);
+	}
+	return (0);
+}
