@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 12:08:20 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 17:52:44 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_envadd_back(t_env_list **head, t_env_list *new_node)
 	return ;
 }
 
-void	create_env_list(t_env_list **head, char **env)
+void	create_env_list(t_env_list **head, char **env) 
 {
 	int			i;
 	int			j;
