@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 17:30:46 by psenko           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:20:40 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,28 @@ typedef struct s_node
 
 typedef struct s_env_list
 {
-	char			*variable;
-	char			*value;
+	char				*variable;
+	char				*value;
 	struct s_env_list	*next;
 }					t_env_list;
 // env
 
-t_env_list	*ft_new_env(char *variable, char *value);
-void	ft_envadd_back(t_env_list **head, t_env_list *new_node);
-void	create_env_list(t_env_list **head, char **env);
-void	print_env_list(t_env_list *head);
+// All main variables
+typedef struct s_vars
+{
+	t_env_list		*env_list;
+	t_node			*node_list;
+	char			**operators;
+}					t_vars;
+
+t_env_list			*ft_new_env(char *variable, char *value);
+void				ft_envadd_back(t_env_list **head, t_env_list *new_node);
+void				create_env_list(t_env_list **head, char **env);
+void				print_env_list(t_env_list *head);
 
 //export
 
-t_env_list	*sort_env_list(t_env_list *head);
+t_env_list			*sort_env_list(t_env_list *head);
 
 // tree functions
 

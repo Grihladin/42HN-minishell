@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/01/26 19:56:04 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:12:37 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	it_operator(char *str)
+{
+	;
+}
 
 static char	*split_copy_str(char **str, char *end)
 {
@@ -70,8 +75,9 @@ t_list	*tokenize(char *str)
 	new_str = NULL;
 	while (*str != '\0')
 	{
-		// now only spaces, need to skip all whitespaces
-		while (*str == ' ')
+		while ((*str != '\0') && ((*str == ' ') || (*str == '\t')
+				|| (*str == '\n') || (*str == '\v')
+				|| (*str == '\f') || (*str == '\r')))
 			str++;
 		end = find_str_end(&str);
 		new_str = split_copy_str(&str, end);
