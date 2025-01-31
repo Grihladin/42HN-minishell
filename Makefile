@@ -21,7 +21,9 @@ SRC = \
 main.c \
 tokenization.c \
 utils.c \
-tree.c
+tree.c \
+ft_env.c \
+ft_export.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

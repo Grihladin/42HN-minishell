@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/27 18:57:38 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 12:29:08 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ typedef struct s_node
 	struct s_node	*left;
 	struct s_node	*right;
 }					t_node;
+
+typedef struct s_env_list
+{
+	char			*variable;
+	char			*value;
+	struct s_env_list	*next;
+}					t_env_list;
+// env
+
+t_env_list	*ft_new_env(char *variable, char *value);
+void	ft_envadd_back(t_env_list **head, t_env_list *new_node);
+void	create_env_list(t_env_list **head, char **env);
+void	print_env_list(t_env_list *head);
+
+//export
+
+t_env_list	*sort_env_list(t_env_list *head);
 
 // tree functions
 

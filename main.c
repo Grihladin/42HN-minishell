@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/28 00:35:39 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 11:32:09 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,23 @@ t_node	*parse_tokens(t_list **tokens)
 }
 
 // dont test with && or || not implemented yet
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
-	char	str[100] = "\"echo hi\" | cat << eof | echo hello | grep file.txt";
-	t_list	*tokens;
-	t_node	*route;
+	int			v;
+	char		**vars;
+	t_env_list	*env_list;
 
-	tokens = tokenize(str);
-	print_list(tokens);
-	printf("\n");
-	route = parse_tokens(&tokens);
-	print_tree(route, 0);
+	env_list = NULL;
+	v = argc;
+	vars = argv;
+	create_env_list(&env_list, env);
+	print_env_list(sort_env_list(env_list));
+	// char	str[100] = "cat >> EOF | ";
+	// t_list	*tokens;
+	// t_node	*route;
+	// tokens = tokenize(str);
+	// print_list(tokens);
+	// printf("\n");
+	// route = parse_tokens(&tokens);
+	// print_tree(route, 0);
 }
