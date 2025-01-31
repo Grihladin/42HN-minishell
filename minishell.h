@@ -6,12 +6,14 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 12:29:08 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 17:22:18 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # include "libft/libft.h"
 # include <stdio.h>
@@ -71,6 +73,7 @@ t_node				*create_redirect_node(t_node *command, char *operator, char
 
 // tokenization
 t_list				*tokenize(char *str);
+int					get_paths(char **envp, struct s_paths *paths);
 
 // utils
 void				print_list(t_list *head);
