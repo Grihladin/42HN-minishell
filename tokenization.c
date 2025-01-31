@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/01/31 18:12:37 by psenko           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:58:57 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	it_operator(char *str)
-{
-	;
-}
+// char	it_operator(char *str)
+// {
+// 	;
+// }
 
 static char	*split_copy_str(char **str, char *end)
 {

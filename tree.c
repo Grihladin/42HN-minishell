@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/29 22:20:41 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:53:48 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_node	*create_operator_node(t_node_type type, t_node *left, t_node *right)
 	new_node->command_args = NULL;
 	new_node->left = left;
 	new_node->right = right;
+	new_node->env = NULL;
+	new_node->command_pid = 0;
 	return (new_node);
 }
 
@@ -44,6 +46,7 @@ t_node	*create_command_node(char **args)
 	new_node->command_args = args;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	///////HANDLE pid and env
 	return (new_node);
 }
 
@@ -76,5 +79,7 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 	new_node->command_args = args;
 	new_node->left = command;
 	new_node->right = NULL;
+	new_node->env = NULL;
+	new_node->command_pid = 0;
 	return (new_node);
 }

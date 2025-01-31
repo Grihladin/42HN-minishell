@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 18:50:16 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 19:07:09 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_node
 	t_node_type			type;
 	char				**command_args;
 	char				**env;
-	pid_t				command_id;
+	pid_t				command_pid;
 	struct s_node		*left;
 	struct s_node		*right;
 }						t_node;
@@ -65,6 +65,7 @@ void					print_env_list(t_env_list *head);
 // export
 
 t_env_list				*sort_env_list(t_env_list *head);
+void					ft_export(t_env_list *env, char **args);
 
 // tree functions
 

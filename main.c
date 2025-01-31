@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 17:54:52 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 19:54:21 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,18 @@ int	main(int argc, char **argv, char **env)
 	int			v;
 	char		**vars;
 	t_env_list	*env_list;
-	char		**current_env;
+	char		**args;
 
+	args = malloc(2 * sizeof(char *));
+	args[0] = ft_strdup("qwer=hi");
+	args[1] = NULL;
 	env_list = NULL;
 	v = argc;
 	vars = argv;
 	create_env_list(&env_list, env);
-	print_env_list(env_list);
+	ft_export(env_list, NULL);
+	ft_export(env_list, args);
+	ft_export(env_list, NULL);
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
 	// t_node	*route;

@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 17:52:44 by mratke           ###   ########.fr       */
+/*   Updated: 2025/01/31 19:13:11 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ void	create_env_list(t_env_list **head, char **env)
 		{
 			if (env[i][j] == '=')
 			{
-				var = malloc((j + 1) * sizeof(char));
-				ft_strlcpy(var, env[i], j + 1);
+				var = ft_substr(env[i], 0, j);
 				value = ft_strdup(env[i] + j + 1);
 				new_node = ft_new_env(var, value);
 				ft_envadd_back(head, new_node);
