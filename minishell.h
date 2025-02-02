@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 13:50:11 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/02 16:04:18 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ char					**copy_lst_to_arr(t_list **lst);
 void					print_list(t_list *head);
 void					print_tree(t_node *root, int depth);
 int						is_operator(char *str);
+int						is_space(char *str);
+size_t					token_len(char *str);
 void					free_double_array(char **arr);
 void					free_vars(t_vars *vars);
 void					free_list(t_list **lst);

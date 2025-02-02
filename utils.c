@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 14:00:21 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/02 17:19:45 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,23 @@ void	print_tree(t_node *root, int depth)
 	print_tree(root->right, depth + 1);
 }
 
+size_t	token_len(char *str)
+{
+	size_t		cnt;
+
+	cnt = 0;
+	if (str != NULL)
+	{
+		while ((*str != '\0') && (is_operator(str) == 0)
+			&& (is_space(str) == 0))
+		{
+			cnt++;
+			str++;
+		}
+	}
+	return (cnt);
+}
+
 int	is_operator(char *str)
 {
 	// {"<<", ">>", "||", "&&", "|", ">", "<"};
@@ -79,7 +96,16 @@ int	is_operator(char *str)
 		else
 			return (1);
 	}
-	else if (*str == '$')
-		return (3);
+	// else if (*str == '$')
+	// 	return (3);
+	return (0);
+}
+
+int	is_space(char *str)
+{
+	if ((*str != '\0') && ((*str == ' ') || (*str == '\t')
+			|| (*str == '\n') || (*str == '\v')
+			|| (*str == '\f') || (*str == '\r')))
+		return (1);
 	return (0);
 }
