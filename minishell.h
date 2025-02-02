@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 11:47:20 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:50:11 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,12 @@ typedef struct s_vars
 {
 	t_env_list			*env_list;
 	t_node				*node_list;
+	struct s_list		*paths;
+	t_list				*tokens;
 	char				**operators;
 }						t_vars;
 
+void					init(t_vars *vars);
 // export
 
 t_env_list				*sort_env_list(t_env_list *head);
@@ -85,13 +88,16 @@ t_node					*create_redirect_node(t_node *command, char *operator,
 							char * file);
 
 // tokenization
-t_list					*tokenize(char *str);
+t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 // int					get_paths(char **envp, struct s_paths *paths);
 
 // utils
 void					print_list(t_list *head);
 void					print_tree(t_node *root, int depth);
+int						is_operator(char *str);
 void					free_double_array(char **arr);
+void					free_vars(t_vars *vars);
+void					free_list(t_list **lst);
 
 #endif

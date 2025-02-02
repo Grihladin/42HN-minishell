@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/27 18:55:56 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/02 14:00:21 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,19 @@ void	print_tree(t_node *root, int depth)
 		printf("Operator: %d\n", root->type);
 	print_tree(root->left, depth + 1);
 	print_tree(root->right, depth + 1);
+}
+
+int	is_operator(char *str)
+{
+	// {"<<", ">>", "||", "&&", "|", ">", "<"};
+	if ((*str == '<') || (*str == '>') || (*str == '|') || (*str == '&'))
+	{
+		if (*(str + 1) == *str)
+			return (2);
+		else
+			return (1);
+	}
+	else if (*str == '$')
+		return (3);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 19:54:21 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/02 13:31:13 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,22 @@ t_node	*parse_tokens(t_list **tokens)
 int	main(int argc, char **argv, char **env)
 {
 	int			v;
-	char		**vars;
-	t_env_list	*env_list;
+	char		**argvtmp;
 	char		**args;
+	t_vars		vars;
 
+	init(&vars);
 	args = malloc(2 * sizeof(char *));
 	args[0] = ft_strdup("qwer=hi");
 	args[1] = NULL;
-	env_list = NULL;
 	v = argc;
-	vars = argv;
-	create_env_list(&env_list, env);
-	ft_export(env_list, NULL);
-	ft_export(env_list, args);
-	ft_export(env_list, NULL);
+	argvtmp = argv;
+	create_env_list(&(vars.env_list), env);
+	ft_export(vars.env_list, NULL);
+	ft_export(vars.env_list, args);
+	ft_export(vars.env_list, NULL);
+	vars.tokens = tokenize(&vars, argv[1]);
+
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
 	// t_node	*route;
@@ -126,4 +128,5 @@ int	main(int argc, char **argv, char **env)
 	// printf("\n");
 	// route = parse_tokens(&tokens);
 	// print_tree(route, 0);
+	free_vars(&vars);
 }
