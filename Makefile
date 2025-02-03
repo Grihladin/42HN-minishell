@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror 
 
 #################################
 #			Files				#
@@ -24,6 +24,7 @@ utils.c \
 tree.c \
 ft_env.c \
 ft_export.c \
+ft_export_utils.c \
 list_to_arr.c \
 free_vars.c \
 init.c

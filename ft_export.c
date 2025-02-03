@@ -6,78 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 19:49:41 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:58:01 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static t_env_list	*env_listdup(t_env_list *head)
-{
-	t_env_list	*duplicate;
-	t_env_list	*node;
-	t_env_list	*current;
-
-	current = head;
-	duplicate = NULL;
-	while (current)
-	{
-		node = ft_new_env(current->variable, current->value);
-		ft_envadd_back(&duplicate, node);
-		current = current->next;
-	}
-	return (duplicate);
-}
-
-static void	swap_content(t_env_list *node1, t_env_list *node2)
-{
-	char	*tmp_value;
-	char	*tmp_var;
-
-	tmp_value = node1->value;
-	tmp_var = node1->variable;
-	node1->value = node2->value;
-	node1->variable = node2->variable;
-	node2->value = tmp_value;
-	node2->variable = tmp_var;
-}
-
-t_env_list	*sort_env_list(t_env_list *head)
-{
-	t_env_list	*list;
-	t_env_list	*current;
-	int			swapped;
-
-	swapped = 1;
-	list = env_listdup(head);
-	while (swapped)
-	{
-		swapped = 0;
-		current = list;
-		while (current && current->next)
-		{
-			if (ft_strcmp(current->variable, current->next->variable) > 0)
-			{
-				swap_content(current, current->next);
-				swapped = 1;
-			}
-			current = current->next;
-		}
-	}
-	return (list);
-}
-
-static void	print_env_export(t_env_list *sorted_env_list)
-{
-	t_env_list	*current;
-
-	current = sorted_env_list;
-	while (current)
-	{
-		printf("declare -x %s=%s\n", current->variable, current->value);
-		current = current->next;
-	}
-}
 
 static int	is_valid_var_name(char *str)
 {
@@ -92,67 +25,82 @@ static int	is_valid_var_name(char *str)
 	return (1);
 }
 
-static void	add_new_env_var(t_env_list **head, char *arg)
+// split env in node t_env_list
+static t_env_list	*env_split_line(char *str)
 {
+	char		*key;
 	char		*value;
-	char		*var;
-	t_env_list	*node;
 	int			i;
+	t_env_list	*node;
 
 	i = 0;
-	while (arg[i] != '\0')
+	while (str[i] != '\0')
 	{
-		if (arg[i] == '=')
+		if (str[i] == '=')
 		{
-			var = ft_substr(arg, 0, i);
-			if (!is_valid_var_name(var))
-				return ;
-			value = ft_strdup(arg + i + 1);
-			node = ft_new_env(var, value);
-			ft_envadd_back(head, node);
-			return ;
+			key = ft_substr(str, 0, i);
+			if (!key || !is_valid_var_name(key))
+				return (free(key), NULL);
+			value = ft_strdup(str + i + 1);
+			if (!value)
+				return (free(key), NULL);
+			node = ft_new_env(key, value);
+			if (!node)
+				return (free(key), free(value), NULL);
+			return (node);
 		}
 		i++;
 	}
+	return (NULL);
+}
+
+static void	add_new_env_line(t_env_list **head, char *arg)
+{
+	t_env_list	*node;
+
+	node = env_split_line(arg);
+	if (!node)
+		return ;
+	ft_envadd_back(head, node);
 }
 
 static t_env_list	*is_in_env(t_env_list *head, char *arg)
 {
 	char		*var;
-	int			i;
+	t_env_list	*tmp;
 	t_env_list	*current;
 
-	i = 0;
-	while (arg[i] != '\0')
-	{
-		if (arg[i] == '=')
-		{
-			var = ft_substr(arg, 0, i - 1);
-			break ;
-		}
-		i++;
-	}
+	tmp = env_split_line(arg);
+	if (!tmp)
+		return (NULL);
+	var = tmp->key;
 	current = head;
 	while (current)
 	{
-		if (!ft_strcmp(current->variable, var))
+		if (!ft_strcmp(current->key, var))
+		{
+			free(tmp->key);
+			free(tmp->value);
+			free(tmp);
 			return (current);
+		}
 		current = current->next;
 	}
-	return (NULL);
+	return (free(tmp->key), free(tmp->value), free(tmp), NULL);
 }
 
 void	ft_export(t_env_list *env, char **args)
 {
-	int			i;
-	int			j;
-	char		*value;
+	t_env_list	*tmp;
 	t_env_list	*node;
+	t_env_list	*sorted_list;
+	int			i;
 
-	j = 0;
 	if (!args)
 	{
-		print_env_export(sort_env_list(env));
+		sorted_list = sort_env_list(env);
+		print_env_export(sorted_list);
+		ft_envdel(&sorted_list, free);
 		return ;
 	}
 	i = 0;
@@ -161,18 +109,14 @@ void	ft_export(t_env_list *env, char **args)
 		node = is_in_env(env, args[i]);
 		if (node)
 		{
-			while (args[i][j] != '\0')
-			{
-				if (args[i][j] == '=')
-				{
-					value = ft_strdup(args[i] + j + 1);
-					break ;
-				}
-				j++;
-			}
-			node->value = value;
+			tmp = env_split_line(args[i]);
+			free(node->value);
+			node->value = tmp->value;
+			free(tmp->key);
+			free(tmp);
 		}
-		add_new_env_var(&env, args[i]);
+		else
+			add_new_env_line(&env, args[i]);
 		i++;
 	}
 }

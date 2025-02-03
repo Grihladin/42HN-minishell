@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/02 13:32:43 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/03 20:11:11 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	free_env(t_env_list **env)
 	while (*env != NULL)
 	{
 		nxt = (*env)->next;
-		delete_content((*env)->variable);
+		delete_content((*env)->key);
 		delete_content((*env)->value);
 		free(*env);
 		*env = nxt;

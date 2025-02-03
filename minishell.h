@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 16:04:18 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:26:42 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_node
 
 typedef struct s_env_list
 {
-	char				*variable;
+	char				*key;
 	char				*value;
 	struct s_env_list	*next;
 }						t_env_list;
@@ -74,10 +74,13 @@ typedef struct s_vars
 }						t_vars;
 
 void					init(t_vars *vars);
+
 // export
 
+void					print_env_export(t_env_list *sorted_env_list);
 t_env_list				*sort_env_list(t_env_list *head);
 void					ft_export(t_env_list *env, char **args);
+void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 // tree functions
 

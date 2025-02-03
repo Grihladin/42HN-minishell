@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 11:47:21 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:16:53 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env_list	*ft_new_env(char *variable, char *value)
 		return (NULL);
 	}
 	new_node->next = NULL;
-	new_node->variable = variable;
+	new_node->key = variable;
 	new_node->value = value;
 	return (new_node);
 }
@@ -85,7 +85,7 @@ void	print_env_list(t_env_list *head)
 	i = 1;
 	while (head)
 	{
-		printf("var: %s, value: %s\n", head->variable, head->value);
+		printf("var: %s, value: %s\n", head->key, head->value);
 		i++;
 		head = head->next;
 	}
@@ -95,7 +95,7 @@ char	*find_var_env(t_env_list *head, char *var)
 {
 	while (head != NULL)
 	{
-		if (ft_strcmp(var, head->variable) == 0)
+		if (ft_strcmp(var, head->key) == 0)
 			return (head->value);
 		head = head->next;
 	}

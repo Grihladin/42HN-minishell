@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 19:36:52 by mratke            #+#    #+#             */
-/*   Updated: 2024/10/10 20:09:45 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:40:16 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void	*ft_memmove(void *dest, const void *src, size_t count)
 {
 	unsigned char	*d;
 	unsigned char	*s;
-	size_t			i;
 
 	d = (unsigned char *)dest;
 	s = (unsigned char *)src;
-	i = 0;
 	if (d == s || count == 0)
 		return (dest);
 	if (d > s && d < s + count)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 17:19:45 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:42:46 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_list(t_list *head)
 	i = 1;
 	while (head != NULL)
 	{
-		printf("Node %i, content: %s\n", i, head->content);
+		printf("Node %i, content: %s\n", i, (char *)head->content);
 		i++;
 		head = head->next;
 	}

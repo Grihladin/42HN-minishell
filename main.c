@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/02 13:31:13 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:12:07 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,18 @@ int	main(int argc, char **argv, char **env)
 
 	init(&vars);
 	args = malloc(2 * sizeof(char *));
-	args[0] = ft_strdup("qwer=hi");
+	args[0] = ft_strdup("ABC_!G=hi");
 	args[1] = NULL;
 	v = argc;
 	argvtmp = argv;
+	v++;
+	argvtmp++;
 	create_env_list(&(vars.env_list), env);
 	ft_export(vars.env_list, NULL);
 	ft_export(vars.env_list, args);
+	printf("\n");
 	ft_export(vars.env_list, NULL);
-	vars.tokens = tokenize(&vars, argv[1]);
+	// vars.tokens = tokenize(&vars, argv[1]);
 
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
@@ -128,5 +131,5 @@ int	main(int argc, char **argv, char **env)
 	// printf("\n");
 	// route = parse_tokens(&tokens);
 	// print_tree(route, 0);
-	free_vars(&vars);
+	// free_vars(&vars);
 }
