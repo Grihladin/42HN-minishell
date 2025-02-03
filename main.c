@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 22:26:01 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:52:44 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,10 @@ int	main(int argc, char **argv, char **env)
 	args = malloc(2 * sizeof(char *));
 	args[0] = ft_strdup("ABCD=hi");
 	args[1] = NULL;
-	arggs = malloc(2 * sizeof(char *));
-	arggs[0] = ft_strdup("ABC=bye");
-	arggs[1] = NULL;
+	arggs = malloc(3 * sizeof(char *));
+	arggs[0] = ft_strdup("-n");
+	arggs[1] = ft_strdup("qwer");
+	arggs[2] = NULL;
 	v = argc;
 	argvtmp = argv;
 	v++;
@@ -127,6 +128,7 @@ int	main(int argc, char **argv, char **env)
 	printf("\n");
 	ft_export(vars.env_list, NULL);
 	ft_pwd(vars.env_list);
+	ft_echo(arggs);
 	// vars.tokens = tokenize(&vars, argv[1]);
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
