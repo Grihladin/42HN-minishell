@@ -23,6 +23,7 @@ tokenization.c \
 utils.c \
 tree.c \
 ft_env.c \
+ft_pwd.c \
 ft_export.c \
 ft_export_utils.c \
 list_to_arr.c \

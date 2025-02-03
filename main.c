@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 22:12:07 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:26:01 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,19 @@ t_node	*parse_tokens(t_list **tokens)
 // dont test with && or || not implemented yet
 int	main(int argc, char **argv, char **env)
 {
-	int			v;
-	char		**argvtmp;
-	char		**args;
-	t_vars		vars;
+	int		v;
+	char	**argvtmp;
+	char	**args;
+	t_vars	vars;
+	char	**arggs;
 
 	init(&vars);
 	args = malloc(2 * sizeof(char *));
-	args[0] = ft_strdup("ABC_!G=hi");
+	args[0] = ft_strdup("ABCD=hi");
 	args[1] = NULL;
+	arggs = malloc(2 * sizeof(char *));
+	arggs[0] = ft_strdup("ABC=bye");
+	arggs[1] = NULL;
 	v = argc;
 	argvtmp = argv;
 	v++;
@@ -119,10 +123,11 @@ int	main(int argc, char **argv, char **env)
 	create_env_list(&(vars.env_list), env);
 	ft_export(vars.env_list, NULL);
 	ft_export(vars.env_list, args);
+	ft_export(vars.env_list, arggs);
 	printf("\n");
 	ft_export(vars.env_list, NULL);
+	ft_pwd(vars.env_list);
 	// vars.tokens = tokenize(&vars, argv[1]);
-
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
 	// t_node	*route;
