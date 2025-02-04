@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 22:46:20 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:08:28 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ t_node					*create_redirect_node(t_node *command, char *operator,
 // tokenization
 t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
+char					*copy_lst_to_str(t_list **lst);
+char					*handle_env_var(t_vars *vars, char *str);
 // int					get_paths(char **envp, struct s_paths *paths);
 
 // utils
@@ -111,5 +113,6 @@ size_t					token_len(char *str);
 void					free_double_array(char **arr);
 void					free_vars(t_vars *vars);
 void					free_list(t_list **lst);
+void					delete_content(void *n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/02 17:31:56 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/04 17:12:18 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,36 @@ static char	*copy_token_to_str(char **str, char *end)
 	return (dst);
 }
 
-static char	*get_next_token(char **str)
+static char	*get_next_token(t_vars *vars, char **str)
 {
 	char	*end;
 	char	*new_str;
+	char	*tmp_str;
 
 	end = NULL;
 	new_str = NULL;
+	tmp_str = NULL;
 	if (is_operator(*str))
 	{
 		end = *str + is_operator(*str);
 		return (copy_token_to_str(str, end));
 	}
-	else if (**str == '\'')
-	{
-		end = ft_strchr((*str) + 1, '\'');
-		if (end != NULL)
-			(*str)++;
-		return (copy_token_to_str(str, end));
-	}
 	else if (**str == '"')
 	{
-		end = ft_strchr((*str) + 1, '"');
-		if (end != NULL)
-			(*str)++;
-		// Need to Handle $ for variables
+		end = ft_strchr(++(*str), '"');
+		new_str = copy_token_to_str(str, end);
+		(*str)++;
+		if (ft_strchr(new_str, '$'))
+		{
+			tmp_str = handle_env_var(vars, new_str);
+			free(new_str);
+			new_str = tmp_str;
+		}
+		return (new_str);
+	}
+	else if (**str == '\'')
+	{
+		end = ft_strchr(++(*str), '\'');
 		new_str = copy_token_to_str(str, end);
 		(*str)++;
 		return (new_str);
@@ -75,9 +80,16 @@ static char	*get_next_token(char **str)
 	else
 	{
 		end = *str + token_len(*str);
-		return (copy_token_to_str(str, end));
+		new_str = copy_token_to_str(str, end);
+		if (ft_strchr(new_str, '$'))
+		{
+			tmp_str = handle_env_var(vars, new_str);
+			free(new_str);
+			new_str = tmp_str;
+		}
+		return (new_str);
 	}
-	return (end);
+	return (new_str);
 }
 
 t_list	*tokenize(t_vars *vars, char *str)
@@ -94,7 +106,7 @@ t_list	*tokenize(t_vars *vars, char *str)
 	{
 		while (is_space(str))
 			str++;
-		new_str = get_next_token(&str);
+		new_str = get_next_token(vars, &str);
 		if (new_str == NULL)
 			return (ft_lstclear(&str_list, free), NULL);
 		tmp = ft_lstnew(new_str);

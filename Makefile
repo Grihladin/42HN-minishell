@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror 
+CFLAGS		:= -Wall -Wextra -Werror
 
 #################################
 #			Files				#
@@ -29,7 +29,8 @@ ft_export.c \
 ft_export_utils.c \
 list_to_arr.c \
 free_vars.c \
-init.c
+init.c \
+env_var.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
