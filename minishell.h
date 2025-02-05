@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/04 15:08:28 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:01:42 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 
 typedef enum s_node_type
 {
-	COMMAND_TYPE,
-	PIPE_TYPE,
 	REDIRECT_TYPE,
+	PIPE_TYPE,
+	AND_TYPE,
 	OR_TYPE,
-	AND_TYPE
+	COMMAND_TYPE,
 }						t_node_type;
 
 // AST tree node declaration
@@ -108,6 +108,7 @@ char					*handle_env_var(t_vars *vars, char *str);
 void					print_list(t_list *head);
 void					print_tree(t_node *root, int depth);
 int						is_operator(char *str);
+int						type_of_operator(char *str);
 int						is_space(char *str);
 size_t					token_len(char *str);
 void					free_double_array(char **arr);

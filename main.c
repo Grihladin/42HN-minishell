@@ -3,24 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/04 17:15:03 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/05 16:03:59 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_redirect(char *token)
-{
-	if (ft_strcmp(token, "<") == 0 || ft_strcmp(token, "<<") == 0
-		|| ft_strcmp(token, ">") == 0 || ft_strcmp(token, ">>") == 0)
-	{
-		return (1);
-	}
-	return (0);
-}
 // temporary solution because i need an array of strings in command.
 static t_node	*handle_command(t_list **current)
 {
@@ -32,8 +23,7 @@ static t_node	*handle_command(t_list **current)
 	i = 0;
 	arg_count = 0;
 	temp = *current;
-	while (temp && !is_redirect(temp->content) && ft_strcmp(temp->content,
-			"|") != 0)
+	while (temp && !type_of_operator(temp->content))
 	{
 		arg_count++;
 		temp = temp->next;
@@ -65,16 +55,7 @@ t_node	*parse_tokens(t_list **tokens)
 	current = *tokens;
 	while (current)
 	{
-		if (ft_strcmp(current->content, "|") == 0)
-		{
-			if (!current->next)
-				return (left);
-			*tokens = current->next;
-			right = parse_tokens(tokens);
-			left = create_operator_node(PIPE_TYPE, left, right);
-			break ;
-		}
-		else if (is_redirect((char *)current->content))
+		if (type_of_operator(current->content) != 10 && type_of_operator(current->content) != 0)
 		{
 			oper = ft_strdup(current->content);
 			if (!current->next)
@@ -88,6 +69,15 @@ t_node	*parse_tokens(t_list **tokens)
 			free(oper);
 			free(file);
 			current = current->next;
+		}
+		else if (type_of_operator(current->content) == 10)
+		{
+			if (!current->next)
+				return (left);
+			*tokens = current->next;
+			right = parse_tokens(tokens);
+			left = create_operator_node(PIPE_TYPE, left, right);
+			break ;
 		}
 		else
 		{
@@ -129,15 +119,15 @@ int	main(int argc, char **argv, char **env)
 	ft_export(vars.env_list, NULL);
 	ft_pwd(vars.env_list);
 	ft_echo(arggs);
-	// printf("\n\n\n");
-	// vars.tokens = tokenize(&vars, argv[1]);
+	printf("\n\n\n");
+	vars.tokens = tokenize(&vars, argv[1]);
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
 	// t_node	*route;
 	// tokens = tokenize(str);
 	// print_list(tokens);
 	// printf("\n");
-	// route = parse_tokens(&tokens);
-	// print_tree(route, 0);
-	// free_vars(&vars);
+	vars.node_list = parse_tokens(&vars.tokens);
+	print_tree(vars.node_list, 0);
+	free_vars(&vars);
 }

@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 21:42:46 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/05 15:31:30 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_tree(t_node *root, int depth)
 	}
 	if (root->type == COMMAND_TYPE)
 	{
-		printf("Command: ");
+		printf("Command: \n");
 		i = 0;
 		while (root->command_args && root->command_args[i])
 		{
@@ -71,7 +71,7 @@ void	print_tree(t_node *root, int depth)
 
 size_t	token_len(char *str)
 {
-	size_t		cnt;
+	size_t	cnt;
 
 	cnt = 0;
 	if (str != NULL)
@@ -101,11 +101,29 @@ int	is_operator(char *str)
 	return (0);
 }
 
+int	type_of_operator(char *str)
+{
+	// {"<<", ">>", "||", "&&", "|", ">", "<"};
+	if ((*str == '<') || (*str == '>') || (*str == '|') || (*str == '&'))
+	{
+		if (*(str + 1) == *str)
+			return (2);
+		else
+		{
+			if (*str == '|')
+				return (10);
+			return (1);
+		}
+	}
+	// else if (*str == '$')
+	// 	return (3);
+	return (0);
+}
+
 int	is_space(char *str)
 {
-	if ((*str != '\0') && ((*str == ' ') || (*str == '\t')
-			|| (*str == '\n') || (*str == '\v')
-			|| (*str == '\f') || (*str == '\r')))
+	if ((*str != '\0') && ((*str == ' ') || (*str == '\t') || (*str == '\n')
+			|| (*str == '\v') || (*str == '\f') || (*str == '\r')))
 		return (1);
 	return (0);
 }
