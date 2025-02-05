@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 17:52:17 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/05 22:52:13 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # include "libft/libft.h"
+# include <dirent.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -89,6 +90,9 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 // pwd
 void					ft_pwd(t_env_list *env_list);
+
+// ft_cd
+void					ft_cd(t_vars *vars, char *dir);
 
 // tree functions
 
