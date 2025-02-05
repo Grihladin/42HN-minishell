@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:19:52 by psenko            #+#    #+#             */
-/*   Updated: 2025/01/28 13:22:37 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:53:38 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*get_full_path(char *path, t_list *lstpath)
 
 // static void	ft_lstprint_paths(t_list *lst)
 // {
-// 	ft_printf("PATH list:\n");
+// 	printf("PATH list:\n");
 // 	ft_lstprint_str(lst);
-// 	ft_printf("\n");
+// 	printf("\n");
 // }
 
 static char	*copy_next_path(char **str)
@@ -65,27 +65,16 @@ static char	*copy_next_path(char **str)
 	return (path);
 }
 
-int	get_paths(char **envp, struct s_paths *paths)
+int	get_paths(t_vars *vars)
 {
-	char	*tmp;
 	char	*pathstr;
 
-	pathstr = "PATH=";
-	tmp = NULL;
-	while (*envp != NULL)
+	pathstr = find_var_env(vars->env_list, "PATH");
+	while (*pathstr != '\0')
 	{
-		tmp = ft_strnstr(*envp, pathstr, 5);
-		if ((tmp != NULL) && (tmp != pathstr))
-			break ;
-		envp++;
-	}
-	if (tmp == NULL)
-		tmp = DEFAULT_PATH;
-	tmp += 5;
-	while (*tmp != '\0')
-	{
-		if (add_str_to_list(copy_next_path(&tmp), paths) == -1)
+		if (add_str_to_list(copy_next_path(&pathstr), &(vars->paths)) == -1)
 			return (-1);
 	}
+	// ft_lstprint_paths(vars->paths);
 	return (0);
 }

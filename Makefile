@@ -30,7 +30,10 @@ ft_export_utils.c \
 list_to_arr.c \
 free_vars.c \
 init.c \
-env_var.c
+env_var.c \
+utils1.c \
+get_path.c \
+env_to_array.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

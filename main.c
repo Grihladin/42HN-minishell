@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 16:03:59 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:57:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	main(int argc, char **argv, char **env)
 	char	**args;
 	t_vars	vars;
 	char	**arggs;
+	char	**env_arr;
 
 	init(&vars);
 	args = malloc(2 * sizeof(char *));
@@ -112,6 +113,7 @@ int	main(int argc, char **argv, char **env)
 	v++;
 	argvtmp++;
 	create_env_list(&(vars.env_list), env);
+	get_paths(&vars);
 	ft_export(vars.env_list, NULL);
 	ft_export(vars.env_list, args);
 	ft_export(vars.env_list, arggs);
@@ -129,5 +131,7 @@ int	main(int argc, char **argv, char **env)
 	// printf("\n");
 	vars.node_list = parse_tokens(&vars.tokens);
 	print_tree(vars.node_list, 0);
+	// env_arr = env_to_array(&vars);
+	// free_arr_of_str(&env_arr);
 	free_vars(&vars);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/03 20:11:11 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:53:24 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,32 @@ void	delete_content(void *n)
 		free(n);
 }
 
-void	free_split(char **strings)
+void	free_arr_of_str(char ***strings)
 {
 	char		**strings1;
 
-	strings1 = strings;
+	strings1 = *strings;
 	while (*strings1 != NULL)
 	{
 		free(*strings1);
 		strings1++;
 	}
+	free(*strings);
 }
 
-void	free_splitted_list(t_list **lst)
-{
-	t_list	*nxt;
+// void	free_splitted_list(t_list **lst)
+// {
+// 	t_list	*nxt;
 
-	while (*lst != NULL)
-	{
-		nxt = (*lst)->next;
-		free_split((char **)(*lst)->content);
-		ft_lstdelone(*lst, &delete_content);
-		*lst = nxt;
-	}
-	*lst = NULL;
-}
+// 	while (*lst != NULL)
+// 	{
+// 		nxt = (*lst)->next;
+// 		free_arr_of_str((char **)(*lst)->content);
+// 		ft_lstdelone(*lst, &delete_content);
+// 		*lst = nxt;
+// 	}
+// 	*lst = NULL;
+// }
 
 void	free_list(t_list **lst)
 {
@@ -76,6 +77,7 @@ void	free_vars(t_vars *vars)
 	// struct s_list	*tmp;
 	free_env(&(vars->env_list));
 	free_list(&(vars->tokens));
+	free_list(&(vars->paths));
 
 	// free_list(&(lists->paths));
 	// free_list(&(lists->cmndlst));

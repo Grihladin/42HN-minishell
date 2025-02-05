@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/04 17:12:00 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:28:57 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*get_next_part(t_vars *vars, char **str)
 	{
 		(*str)++;
 		while (((*str)[size] != '$') && ((*str)[size] != '\0')
-			&& (ft_isalpha((*str)[size]) || ft_isdigit((*str)[size])))
+			&& (ft_isalnum((*str)[size]) || ((*str)[size] == '_')))
 			size++;
 		tmp_str = ft_calloc(size + 1, 1);
 		ft_strlcpy(tmp_str, *str, size + 1);

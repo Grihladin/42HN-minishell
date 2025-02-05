@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 16:01:42 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:52:17 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_env_list				*ft_new_env(char *variable, char *value);
 void					ft_envadd_back(t_env_list **head, t_env_list *new_node);
 void					create_env_list(t_env_list **head, char **env);
 void					print_env_list(t_env_list *head);
+int						env_lstsize(t_env_list *lst);
 char					*find_var_env(t_env_list *head, char *var);
 
 // All main variables
@@ -68,7 +69,7 @@ typedef struct s_vars
 {
 	t_env_list			*env_list;
 	t_node				*node_list;
-	struct s_list		*paths;
+	t_list				*paths;
 	t_list				*tokens;
 	char				**operators;
 }						t_vars;
@@ -102,11 +103,13 @@ t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 char					*copy_lst_to_str(t_list **lst);
 char					*handle_env_var(t_vars *vars, char *str);
-// int					get_paths(char **envp, struct s_paths *paths);
+int						get_paths(t_vars *vars);
 
 // utils
 void					print_list(t_list *head);
+void					ft_lstprint_str(t_list *lst);
 void					print_tree(t_node *root, int depth);
+int						add_str_to_list(char *str, struct s_list **lst);
 int						is_operator(char *str);
 int						type_of_operator(char *str);
 int						is_space(char *str);
@@ -114,6 +117,9 @@ size_t					token_len(char *str);
 void					free_double_array(char **arr);
 void					free_vars(t_vars *vars);
 void					free_list(t_list **lst);
+void					free_arr_of_str(char ***strings);
 void					delete_content(void *n);
+
+char					**env_to_array(t_vars *vars);
 
 #endif

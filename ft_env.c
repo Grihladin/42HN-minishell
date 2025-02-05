@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 21:16:53 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/05 17:35:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	env_lstsize(t_env_list *lst)
+{
+	int			i;
+	t_env_list	*current;
+
+	i = 0;
+	current = lst;
+	while (current != NULL)
+	{
+		i++;
+		current = current->next;
+	}
+	return (i);
+}
 
 t_env_list	*ft_new_env(char *variable, char *value)
 {
