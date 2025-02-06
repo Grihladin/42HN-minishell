@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 18:27:19 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 18:33:08 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ void					ft_pwd(t_env_list *env_list);
 // ft_cd
 
 void					ft_cd(t_vars *vars, char *dir);
+
+// ft_unset
+
+void					ft_unset(t_vars *vars, char *var_to_unset);
 
 // tree functions
 

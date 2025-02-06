@@ -26,6 +26,7 @@ ft_cd.c \
 ft_env.c \
 ft_pwd.c \
 ft_echo.c \
+ft_unset.c \
 ft_export.c \
 ft_export_utils.c \
 ft_exit.c \
