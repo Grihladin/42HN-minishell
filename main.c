@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 18:00:25 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/06 19:23:37 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	type_of_operator(char *str)
+{
+	if (!ft_strcmp(str, ">") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<")
+		|| !ft_strcmp(str, "<<"))
+		return (REDIRECT_TYPE);
+	else if (!ft_strcmp(str, "|"))
+		return (PIPE_TYPE);
+	else if (!ft_strcmp(str, "&&") || !ft_strcmp(str, "||"))
+		return (AND_OR_TYPE);
+	return (0);
+}
 
 // temporary solution because i need an array of strings in command.
 static t_node	*handle_command(t_list **current)
@@ -41,6 +53,11 @@ static t_node	*handle_command(t_list **current)
 	return (create_command_node(args));
 }
 
+//Level 1 (&&):        &&
+//                   /    \
+//Level 2 (|):    cmd1    |
+//                     /   \
+//Level 3 (>):      cmd2   cmd3 > file
 t_node	*parse_tokens(t_list **tokens)
 {
 	t_node	*left;
@@ -55,7 +72,25 @@ t_node	*parse_tokens(t_list **tokens)
 	current = *tokens;
 	while (current)
 	{
-		if (type_of_operator(current->content) != 10 && type_of_operator(current->content) != 0)
+		if (type_of_operator(current->content) == AND_OR_TYPE)
+		{
+			if (!current->next)
+				return (left);
+			*tokens = current->next;
+			right = parse_tokens(tokens);
+			left = create_operator_node(AND_OR_TYPE, left, right);
+			break ;
+		}
+		else if (type_of_operator(current->content) == PIPE_TYPE)
+		{
+			if (!current->next)
+				return (left);
+			*tokens = current->next;
+			right = parse_tokens(tokens);
+			left = create_operator_node(PIPE_TYPE, left, right);
+			break ;
+		}
+		else if (type_of_operator(current->content) == REDIRECT_TYPE)
 		{
 			oper = ft_strdup(current->content);
 			if (!current->next)
@@ -69,15 +104,6 @@ t_node	*parse_tokens(t_list **tokens)
 			free(oper);
 			free(file);
 			current = current->next;
-		}
-		else if (type_of_operator(current->content) == 10)
-		{
-			if (!current->next)
-				return (left);
-			*tokens = current->next;
-			right = parse_tokens(tokens);
-			left = create_operator_node(PIPE_TYPE, left, right);
-			break ;
 		}
 		else
 		{
@@ -98,8 +124,8 @@ int	main(int argc, char **argv, char **env)
 	char	**args;
 	t_vars	vars;
 	char	**arggs;
-	// char	**env_arr;
 
+	// char	**env_arr;
 	init(&vars);
 	args = malloc(2 * sizeof(char *));
 	args[0] = ft_strdup("ABCD=hi");

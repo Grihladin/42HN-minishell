@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 15:31:30 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 18:46:55 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,6 @@ int	is_operator(char *str)
 			return (2);
 		else
 			return (1);
-	}
-	// else if (*str == '$')
-	// 	return (3);
-	return (0);
-}
-
-int	type_of_operator(char *str)
-{
-	// {"<<", ">>", "||", "&&", "|", ">", "<"};
-	if ((*str == '<') || (*str == '>') || (*str == '|') || (*str == '&'))
-	{
-		if (*(str + 1) == *str)
-			return (2);
-		else
-		{
-			if (*str == '|')
-				return (10);
-			return (1);
-		}
 	}
 	// else if (*str == '$')
 	// 	return (3);

@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 18:33:08 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 19:23:06 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 
 typedef enum s_node_type
 {
+	NEED_IT_SO_ENUM_STARTS_FROM_ONE,
+	AND_OR_TYPE,
 	REDIRECT_TYPE,
 	PIPE_TYPE,
-	AND_TYPE,
-	OR_TYPE,
 	COMMAND_TYPE,
 }						t_node_type;
 
