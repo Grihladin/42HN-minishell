@@ -6,13 +6,13 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 21:58:01 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 18:27:31 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_valid_var_name(char *str)
+int	is_valid_var_name(char *str)
 {
 	if (!str || !*str || ft_isdigit(*str))
 		return (0);
