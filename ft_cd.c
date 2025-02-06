@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 22:41:25 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 14:58:13 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static void	update_old_pwd(t_vars *vars, char *dir)
 	}
 }
 
-static int	handle_minus(char **new_dir, char *old_pwd)
+static int	handle_minus(t_env_list *env_list, char **new_dir, char *old_pwd)
 {
-	*new_dir = getenv("OLDPWD");
+	*new_dir = find_var_env(env_list, "OLDPWD");
 	if (!new_dir)
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
@@ -83,14 +83,14 @@ void	ft_cd(t_vars *vars, char *dir)
 
 	old_pwd = getcwd(NULL, 0);
 	if (!dir || !*dir)
-		new_dir = getenv("HOME");
+		new_dir = find_var_env(vars->env_list, "HOME");
 	else if (!ft_strcmp(dir, "-"))
 	{
-		if (handle_minus(&new_dir, old_pwd))
+		if (handle_minus(vars->env_list, &new_dir, old_pwd))
 			return ;
 	}
 	else if (dir[0] == '~')
-		new_dir = ft_strjoin(getenv("HOME"), dir + 1);
+		new_dir = ft_strjoin(find_var_env(vars->env_list, "HOME"), dir + 1);
 	else
 		new_dir = dir;
 	if (chdir(new_dir) == -1)
