@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:20:18 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 22:03:59 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:45:39 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	print_env_export(t_env_list *sorted_env_list)
 	current = sorted_env_list;
 	while (current)
 	{
-		printf("declare -x %s=%s\n", current->key, current->value);
+		if (current->value != NULL)
+			printf("declare -x %s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 }

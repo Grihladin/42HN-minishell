@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 22:52:13 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 15:52:05 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ void					init(t_vars *vars);
 // ft_echo
 
 void					ft_echo(char **args);
+
+// ft_cd
+
+void					ft_cd(t_vars *vars, char *dir);
 
 // export
 

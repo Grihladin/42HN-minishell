@@ -22,11 +22,13 @@ main.c \
 tokenization.c \
 utils.c \
 tree.c \
+ft_cd.c \
 ft_env.c \
 ft_pwd.c \
 ft_echo.c \
 ft_export.c \
 ft_export_utils.c \
+ft_exit.c \
 list_to_arr.c \
 free_vars.c \
 init.c \
