@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:12:43 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 15:45:52 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 18:39:11 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_exit(char **args)
 	ft_putendl_fd("exit", 2);
 	if (args[1])
 	{
-		if (!is_isdigit(args[1]))
+		if (!is_numeric(args[1]))
 		{
 			ft_putstr_fd("exit: numeric argument required\n", 2);
 			exit(2);

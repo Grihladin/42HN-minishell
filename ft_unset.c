@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:53:37 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 18:31:03 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/06 18:38:36 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	del_node(t_env_list **env_list, t_env_list *node,
 	{
 		tmp = *env_list;
 		*env_list = (*env_list)->next;
-		del(tmp->key);
-		del(tmp->value);
+		free(tmp->key);
+		free(tmp->value);
 		free(tmp);
 		return ;
 	}
 	prev_node->next = node->next;
-	del(node->key);
-	del(node->value);
+	free(node->key);
+	free(node->value);
 	free(node);
 }
 
