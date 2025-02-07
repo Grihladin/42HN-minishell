@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 20:58:35 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 22:00:30 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ static t_node	*parse_and_or(t_list **tokens)
 	}
 	return (left);
 }
-
-// temporary solution because i need an array of strings in command.
 
 t_node	*parse_tokens(t_list **tokens)
 {
