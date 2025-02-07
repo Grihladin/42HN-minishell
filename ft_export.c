@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 18:27:31 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 12:16:35 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_export(t_env_list *env, char **args)
 	if (!args)
 	{
 		sorted_list = sort_env_list(env);
-		print_env_export(sorted_list);
+		// print_env_export(sorted_list);
 		ft_envdel(&sorted_list, free);
 		return ;
 	}

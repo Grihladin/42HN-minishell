@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:01:56 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/07 11:31:02 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 12:00:36 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ static void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
+		// rl_on_new_line();
+		// rl_replace_line("CTRL-C\n", 0);
+		// rl_redisplay();
 		write(0, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);

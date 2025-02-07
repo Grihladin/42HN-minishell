@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/07 11:24:12 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 12:18:43 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	char	**args;
 	char	**arggs;
 
-	printf("%0.0dStarting %s\n", argc, argv[0]);
+	if ((argc == 0) || (argv == NULL))
+		return (0);
 	vars->env_list = NULL;
 	vars->node_list = NULL;
 	vars->operators = NULL;
@@ -36,10 +37,10 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	ft_export(vars->env_list, NULL);
 	ft_export(vars->env_list, args);
 	ft_export(vars->env_list, arggs);
-	printf("\n");
+	// printf("\n");
 	ft_export(vars->env_list, NULL);
-	ft_pwd(vars->env_list);
-	ft_echo(arggs);
-	printf("\n\n\n");
+	// ft_pwd(vars->env_list);
+	// ft_echo(arggs);
+	// printf("\n\n\n");
 	return (0);
 }

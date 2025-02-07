@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/07 11:39:13 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 12:15:20 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ int	wait_command(t_vars *vars)
 		}
 		else
 		{
-			rl_on_new_line();
-			rl_replace_line("exit\n", 0);
-			rl_redisplay();
+			// rl_replace_line("exit", 0);
+			write(0, "exit\n", 5);
+			// rl_redisplay();
+			// rl_on_new_line();
+			// rl_replace_line("SOme text", 0);
+			// rl_redisplay();
 			break ;
 		}
 	}
