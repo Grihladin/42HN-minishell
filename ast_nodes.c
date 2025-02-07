@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 21:44:50 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 22:04:04 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,11 @@ void	clear_tree(t_node *root)
 {
 	if (!root)
 		return ;
-	if (root->type == COMMAND_TYPE)
-	{
-		free_double_array(root->command_args);
-		free(root);
-		return ;
-	}
 	clear_tree(root->left);
 	clear_tree(root->right);
-	free_double_array(root->command_args);
+	if (root->command_args)
+		free_double_array(root->command_args);
+	if (root->env)
+		free(root->env);
 	free(root);
 }
