@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 10:45:52 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 11:14:55 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 
 // command type declaration
@@ -77,6 +78,7 @@ typedef struct s_vars
 	t_list				*paths;
 	t_list				*tokens;
 	char				**operators;
+	struct sigaction	sigaction;
 }						t_vars;
 
 // initialisation
@@ -98,6 +100,10 @@ void					print_env_export(t_env_list *sorted_env_list);
 t_env_list				*sort_env_list(t_env_list *head);
 void					ft_export(t_env_list *env, char **args);
 void					ft_envdel(t_env_list **lst, void (*del)(void *));
+
+// sig handling
+
+void					set_sigs(t_vars *vars);
 
 // prompt
 int						wait_command(t_vars *vars);

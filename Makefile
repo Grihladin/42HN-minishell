@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror -O3
+CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
 
 #################################
 #			Files				#
@@ -37,7 +37,8 @@ env_var.c \
 utils1.c \
 get_path.c \
 env_to_array.c \
-prompt.c
+prompt.c \
+sig_actions.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
