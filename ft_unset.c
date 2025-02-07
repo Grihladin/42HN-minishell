@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:53:37 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 18:38:36 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:52:41 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,31 @@ static void	env_delone(t_env_list **env_list, t_env_list *node_to_del)
 	}
 }
 
-void	ft_unset(t_vars *vars, char *var_to_unset)
+void	ft_unset(t_vars *vars, char **args)
 {
 	t_env_list	*current;
+	int			i;
 
-	if (!vars || !var_to_unset || !is_valid_var_name(var_to_unset))
+	if (!vars || !args)
 		return ;
-	current = vars->env_list;
-	while (current)
+	i = 1;
+	while (args[i])
 	{
-		if (!ft_strcmp(current->key, var_to_unset))
+		if (!is_valid_var_name(args[i]))
 		{
-			env_delone(&vars->env_list, current);
-			break ;
+			i++;
+			continue ;
 		}
-		current = current->next;
+		current = vars->env_list;
+		while (current)
+		{
+			if (!ft_strcmp(current->key, args[i]))
+			{
+				env_delone(&vars->env_list, current);
+				break ;
+			}
+			current = current->next;
+		}
+		i++;
 	}
 }

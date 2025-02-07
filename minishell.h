@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 13:22:26 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:28:23 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 
 # include "libft/libft.h"
 # include <dirent.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
 
 // command type declaration
 
@@ -65,7 +65,7 @@ typedef struct s_env_list
 t_env_list				*ft_new_env(char *variable, char *value);
 void					ft_envadd_back(t_env_list **head, t_env_list *new_node);
 void					create_env_list(t_env_list **head, char **env);
-void					print_env_list(t_env_list *head);
+void					ft_env(t_env_list *head);
 int						env_lstsize(t_env_list *lst);
 char					*find_var_env(t_env_list *head, char *var);
 
@@ -90,7 +90,7 @@ void					ft_echo(char **args);
 
 // ft_cd
 
-void					ft_cd(t_vars *vars, char *dir);
+void					ft_cd(t_vars *vars, char **args);
 
 // export
 
@@ -113,7 +113,7 @@ void					ft_pwd(t_env_list *env_list);
 
 // ft_cd
 
-void					ft_cd(t_vars *vars, char *dir);
+void					ft_cd(t_vars *vars, char **args);
 
 // ft_unset
 
@@ -125,7 +125,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char *file);
+							char * file);
 t_node					*parse_tokens(t_list **tokens);
 
 // tokenization

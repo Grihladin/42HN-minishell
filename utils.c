@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 18:46:55 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:47:55 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,18 @@ void	print_tree(t_node *root, int depth)
 		i = 0;
 		while (root->command_args && root->command_args[i])
 		{
+			//execute here
 			printf("%s ", root->command_args[i]);
 			i++;
 		}
 		printf("\n");
 	}
+	//printing operators here
 	else
 		printf("Operator: %d\n", root->type);
 	print_tree(root->left, depth + 1);
 	print_tree(root->right, depth + 1);
+	//depth need for spaces you can delete it
 }
 
 size_t	token_len(char *str)

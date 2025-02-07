@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 14:58:13 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:24:44 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,30 +76,30 @@ static void	update_env(t_vars *vars, char *old_pwd, char *dir, char *new_dir)
 		free(new_dir);
 }
 
-void	ft_cd(t_vars *vars, char *dir)
+void	ft_cd(t_vars *vars, char **args)
 {
 	char	*old_pwd;
 	char	*new_dir;
 
 	old_pwd = getcwd(NULL, 0);
-	if (!dir || !*dir)
+	if (!args || !*args[1])
 		new_dir = find_var_env(vars->env_list, "HOME");
-	else if (!ft_strcmp(dir, "-"))
+	else if (!ft_strcmp(args[1], "-"))
 	{
 		if (handle_minus(vars->env_list, &new_dir, old_pwd))
 			return ;
 	}
-	else if (dir[0] == '~')
-		new_dir = ft_strjoin(find_var_env(vars->env_list, "HOME"), dir + 1);
+	else if (args[1][0] == '~')
+		new_dir = ft_strjoin(find_var_env(vars->env_list, "HOME"), args[1] + 1);
 	else
-		new_dir = dir;
+		new_dir = args[1];
 	if (chdir(new_dir) == -1)
 	{
 		perror("cd");
 		free(old_pwd);
-		if (dir[0] == '~')
+		if (args[1] && args[1][0] == '~')
 			free(new_dir);
 		return ;
 	}
-	update_env(vars, old_pwd, dir, new_dir);
+	update_env(vars, old_pwd, args[1], new_dir);
 }

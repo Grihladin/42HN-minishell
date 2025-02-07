@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/05 17:35:58 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:27:22 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ void	create_env_list(t_env_list **head, char **env)
 	}
 }
 
-void	print_env_list(t_env_list *head)
+void	ft_env(t_env_list *head)
 {
 	int	i;
 
 	i = 1;
 	while (head)
 	{
-		printf("var: %s, value: %s\n", head->key, head->value);
+		printf("%s=%s\n", head->key, head->value);
 		i++;
 		head = head->next;
 	}
