@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 10:40:33 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:04:38 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	type_of_operator(char *str)
 }
 
 // temporary solution because i need an array of strings in command.
-static t_node	*handle_command(t_list **current)
+static	**handle_command(t_list **current)
 {
 	int		arg_count;
 	t_list	*temp;
@@ -50,13 +50,13 @@ static t_node	*handle_command(t_list **current)
 		i++;
 	}
 	args[arg_count] = NULL;
-	return (create_command_node(args));
+	return (args);
 }
 
-//Level 1 (&&):        &&
-//                   /    \
+// Level 1 (&&):        &&
+//                    /    \
 //Level 2 (|):    cmd1    |
-//                     /   \
+//                      /   \
 //Level 3 (>):      cmd2   cmd3 > file
 t_node	*parse_tokens(t_list **tokens)
 {
