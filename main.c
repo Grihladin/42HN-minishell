@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 19:23:37 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 10:40:33 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,45 +119,21 @@ t_node	*parse_tokens(t_list **tokens)
 // dont test with && or || not implemented yet
 int	main(int argc, char **argv, char **env)
 {
-	int		v;
-	char	**argvtmp;
-	char	**args;
 	t_vars	vars;
-	char	**arggs;
 
 	// char	**env_arr;
-	init(&vars);
-	args = malloc(2 * sizeof(char *));
-	args[0] = ft_strdup("ABCD=hi");
-	args[1] = NULL;
-	arggs = malloc(3 * sizeof(char *));
-	arggs[0] = ft_strdup("-n");
-	arggs[1] = ft_strdup("qwer");
-	arggs[2] = NULL;
-	v = argc;
-	argvtmp = argv;
-	v++;
-	argvtmp++;
-	create_env_list(&(vars.env_list), env);
-	get_paths(&vars);
-	ft_export(vars.env_list, NULL);
-	ft_export(vars.env_list, args);
-	ft_export(vars.env_list, arggs);
-	printf("\n");
-	ft_export(vars.env_list, NULL);
-	ft_pwd(vars.env_list);
-	ft_echo(arggs);
-	printf("\n\n\n");
-	vars.tokens = tokenize(&vars, argv[1]);
+	if (!init(&vars, argc, argv, env))
+	{
+		wait_command(&vars);
+	}
 	// char	str[100] = "cat >> EOF | ";
 	// t_list	*tokens;
 	// t_node	*route;
 	// tokens = tokenize(str);
 	// print_list(tokens);
 	// printf("\n");
-	vars.node_list = parse_tokens(&vars.tokens);
-	print_tree(vars.node_list, 0);
 	// env_arr = env_to_array(&vars);
 	// free_arr_of_str(&env_arr);
 	free_vars(&vars);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/06 19:23:06 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 10:45:52 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# define PROMPT "minishell: "
 
 # include "libft/libft.h"
 # include <dirent.h>
@@ -21,6 +22,9 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 // command type declaration
 
@@ -75,7 +79,9 @@ typedef struct s_vars
 	char				**operators;
 }						t_vars;
 
-void					init(t_vars *vars);
+// initialisation
+
+int						init(t_vars *vars, int argc, char **argv, char **env);
 
 // ft_echo
 
@@ -92,6 +98,9 @@ void					print_env_export(t_env_list *sorted_env_list);
 t_env_list				*sort_env_list(t_env_list *head);
 void					ft_export(t_env_list *env, char **args);
 void					ft_envdel(t_env_list **lst, void (*del)(void *));
+
+// prompt
+int						wait_command(t_vars *vars);
 
 // pwd
 
@@ -112,6 +121,7 @@ t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
 							char * file);
+t_node					*parse_tokens(t_list **tokens);
 
 // tokenization
 t_list					*tokenize(t_vars *vars, char *str);

@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -O3
 
 #################################
 #			Files				#
@@ -36,7 +36,8 @@ init.c \
 env_var.c \
 utils1.c \
 get_path.c \
-env_to_array.c
+env_to_array.c \
+prompt.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -52,7 +53,7 @@ all: $(NAME)
 	@echo "\033[0;32m$(NAME) built successfully!\033[0m"
 
 $(NAME): $(LIBFT) $(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
