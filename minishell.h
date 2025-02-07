@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 11:55:04 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 13:22:26 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char * file);
+							char *file);
 t_node					*parse_tokens(t_list **tokens);
 
 // tokenization
@@ -134,6 +134,9 @@ char					**copy_lst_to_arr(t_list **lst);
 char					*copy_lst_to_str(t_list **lst);
 char					*handle_env_var(t_vars *vars, char *str);
 int						get_paths(t_vars *vars);
+
+// execution
+int						execute_command(t_vars *vars, char *cmnd);
 
 // utils
 void					print_list(t_list *head);

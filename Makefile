@@ -38,7 +38,8 @@ utils1.c \
 get_path.c \
 env_to_array.c \
 prompt.c \
-sig_actions.c
+sig_actions.c \
+execute.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
