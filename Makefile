@@ -21,7 +21,8 @@ SRC = \
 main.c \
 tokenization.c \
 utils.c \
-tree.c \
+ast_nodes.c \
+ast_build.c \
 ft_cd.c \
 ft_env.c \
 ft_pwd.c \

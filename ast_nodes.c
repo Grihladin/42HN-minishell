@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.c                                             :+:      :+:    :+:   */
+/*   ast_nodes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/01/31 18:53:48 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 21:44:50 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // Operator nodes don't have command arguments
 // Set the left child
 // Set the right child
+
 t_node	*create_operator_node(t_node_type type, t_node *left, t_node *right)
 {
 	t_node	*new_node;
@@ -70,7 +71,7 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 		return (free(new_node), NULL);
 	args[0] = ft_strdup(operator);
 	args[1] = ft_strdup(file);
-	args[3] = NULL;
+	args[2] = NULL;
 	if (!args[0] || !args[1])
 		return (free_double_array(args), NULL);
 	new_node->type = REDIRECT_TYPE;
@@ -82,4 +83,34 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 	new_node->env = NULL;
 	new_node->command_pid = 0;
 	return (new_node);
+}
+
+int	type_of_operator(char *str)
+{
+	if (!ft_strcmp(str, ">") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<")
+		|| !ft_strcmp(str, "<<"))
+		return (REDIRECT_TYPE);
+	else if (!ft_strcmp(str, "|"))
+		return (PIPE_TYPE);
+	else if (!ft_strcmp(str, "&&"))
+		return (AND_TYPE);
+	else if (!ft_strcmp(str, "||"))
+		return (OR_TYPE);
+	return (COMMAND_TYPE);
+}
+
+void	clear_tree(t_node *root)
+{
+	if (!root)
+		return ;
+	if (root->type == COMMAND_TYPE)
+	{
+		free_double_array(root->command_args);
+		free(root);
+		return ;
+	}
+	clear_tree(root->left);
+	clear_tree(root->right);
+	free_double_array(root->command_args);
+	free(root);
 }

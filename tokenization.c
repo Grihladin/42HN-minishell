@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/04 17:12:18 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/07 21:41:25 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	it_operator(char *str)
-// {
-// 	;
-// }
+// ls|cat Makefile|cat<<'asd'>out in this case need to save '' as part of the token
+// crucial moment fore $ expand
 
 static char	*copy_token_to_str(char **str, char *end)
 {

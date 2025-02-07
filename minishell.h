@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 16:28:23 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 21:45:32 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@
 
 typedef enum s_node_type
 {
-	NEED_IT_SO_ENUM_STARTS_FROM_ONE,
-	AND_OR_TYPE,
-	REDIRECT_TYPE,
-	PIPE_TYPE,
 	COMMAND_TYPE,
+	AND_TYPE,
+	OR_TYPE,
+	PIPE_TYPE,
+	REDIRECT_TYPE,
 }						t_node_type;
 
 // AST tree node declaration
@@ -117,16 +117,18 @@ void					ft_cd(t_vars *vars, char **args);
 
 // ft_unset
 
-void					ft_unset(t_vars *vars, char *var_to_unset);
+void					ft_unset(t_vars *vars, char **args);
 
 // tree functions
 
+void					clear_tree(t_node *root);
 t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
 							char * file);
 t_node					*parse_tokens(t_list **tokens);
+int						type_of_operator(char *str);
 
 // tokenization
 t_list					*tokenize(t_vars *vars, char *str);

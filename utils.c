@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 16:47:55 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/07 20:53:30 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,33 @@ void	print_list(t_list *head)
 	}
 }
 
-void	print_tree(t_node *root, int depth)
+void	print_tree(t_node *node, int depth)
 {
-	int	i;
-
-	if (!root)
+	if (!node)
 		return ;
-	i = 0;
-	while (i < depth)
-	{
+	for (int i = 0; i < depth; i++)
 		printf("  ");
-		i++;
-	}
-	if (root->type == COMMAND_TYPE)
+	if (node->type == COMMAND_TYPE)
 	{
-		printf("Command: \n");
-		i = 0;
-		while (root->command_args && root->command_args[i])
-		{
-			//execute here
-			printf("%s ", root->command_args[i]);
-			i++;
-		}
+		printf("Command: ");
+		for (int i = 0; node->command_args[i]; i++)
+			printf("%s ", node->command_args[i]);
 		printf("\n");
 	}
-	//printing operators here
+	else if (node->type == REDIRECT_TYPE)
+	{
+		printf("Operator: REDIRECT\n");
+		for (int i = 0; node->command_args[i]; i++)
+			printf("%s ", node->command_args[i]);
+		print_tree(node->left, depth + 1);
+	}
 	else
-		printf("Operator: %d\n", root->type);
-	print_tree(root->left, depth + 1);
-	print_tree(root->right, depth + 1);
-	//depth need for spaces you can delete it
+	{
+		printf("Operator: %s\n",
+			node->type == PIPE_TYPE ? "PIPE" : node->type == AND_TYPE ? "AND" : "OR");
+		print_tree(node->left, depth + 1);
+		print_tree(node->right, depth + 1);
+	}
 }
 
 size_t	token_len(char *str)
