@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 09:57:34 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 14:59:37 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	print_tree(t_node *node, int depth)
 		printf("Operator: REDIRECT\n");
 		for (int i = 0; node->command_args[i]; i++)
 			printf("%s ", node->command_args[i]);
+		printf("\n");
 		print_tree(node->left, depth + 1);
 	}
 	else

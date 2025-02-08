@@ -6,13 +6,13 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/08 12:46:06 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 16:43:04 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// ls|cat Makefile|cat<<'asd'>out in this case need to save '' as part of the token
+// ls | cat Makefile | cat << 'asd' > out in this case need to save '' as part of the token
 // crucial moment fore $ expand
 
 static char	*copy_token_to_str(char **str, char *end)

@@ -1,43 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/08 16:08:37 by psenko           ###   ########.fr       */
+/*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
+/*   Updated: 2025/02/08 14:53:22 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wait_command(t_vars *vars)
+int	*create_pipe(void)
 {
-	char	*cmnd;
+	int		*p;
 
-	cmnd = NULL;
-	while (1)
-	{
-		cmnd = readline(PROMPT);
-		if (cmnd)
-		{
-			add_history(cmnd);
-			execute_tree(vars, cmnd);
-			free(cmnd);
-			cmnd = NULL;
-		}
-		else
-		{
-			// rl_replace_line("exit", 0);
-			write(0, "exit\n", 5);
-			// rl_on_new_line();
-			// rl_redisplay();
-			// rl_replace_line("SOme text", 0);
-			// rl_redisplay();
-			// continue ;
-			break ;
-		}
-	}
-	return (0);
+	p = ft_calloc(2, sizeof(int));
+	if (p == NULL)
+		return (-1);
+	if (pipe(p))
+		return (perror("Pipe create error"), free(p), -1);
+	return (p);
 }

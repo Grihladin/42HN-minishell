@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 12:33:16 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 16:14:27 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 // command type declaration
 
@@ -104,6 +105,10 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 // sig handling
 
 void					set_sigs(t_vars *vars);
+
+// pipes
+
+int						*create_pipe(void);
 
 // prompt
 int						wait_command(t_vars *vars);
