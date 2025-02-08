@@ -6,23 +6,23 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:59:16 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/05 17:56:43 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 12:28:31 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_arr_of_str(char **arr)
-{
-	char		**strings;
+// static void	print_arr_of_str(char **arr)
+// {
+// 	char		**strings;
 
-	strings = arr;
-	while (*strings != NULL)
-	{
-		printf("%s\n", *strings);
-		strings++;
-	}
-}
+// 	strings = arr;
+// 	while (*strings != NULL)
+// 	{
+// 		printf("%s\n", *strings);
+// 		strings++;
+// 	}
+// }
 
 char	**env_to_array(t_vars *vars)
 {
@@ -47,6 +47,6 @@ char	**env_to_array(t_vars *vars)
 		env_lst = env_lst->next;
 	}
 	*arrtmp = NULL;
-	print_arr_of_str(arr);
+	// print_arr_of_str(arr);
 	return (arr);
 }

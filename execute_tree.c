@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 11:30:08 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 12:39:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 	if (node->type == COMMAND_TYPE)
 	{
 		// printf("Execute command: %s\n", node->command_args[0]);
-		execute_command(vars, node->command_args);
+		execute_command(vars, node, node->command_args);
 		// printf("Execute command: %s\n", node->command_args[0]);
 		// for (int i = 0; node->command_args[i]; i++)
 		// 	printf("%s ", node->command_args[i]);
@@ -45,9 +45,9 @@ static void	execute_node(t_vars *vars, t_node *node)
 int	execute_tree(t_vars *vars, char *cmnd)
 {
 	// printf("Execute command: %s\n", cmnd);
-	// printf("Print tokens list:\n");
-	// print_list(str_list);
 	vars->tokens = tokenize(vars, cmnd);
+	printf("Print tokens list:\n");
+	print_list(vars->tokens);
 	vars->node_list = parse_tokens(&(vars->tokens));
 	// printf("Print tree\n");
 	// print_tree(vars->node_list, 0);

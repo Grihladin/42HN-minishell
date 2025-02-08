@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/08 11:14:54 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 12:46:06 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,27 @@ static char	*copy_token_to_str(char **str, char *end)
 	return (dst);
 }
 
+static char	*handle_vars(t_vars *vars, char *instr)
+{
+	char	*tmp_str;
+
+	tmp_str = NULL;
+	if (ft_strchr(instr, '$'))
+	{
+		tmp_str = handle_env_var(vars, instr);
+		free(instr);
+		instr = tmp_str;
+	}
+	return (instr);
+}
+
 static char	*get_next_token(t_vars *vars, char **str)
 {
 	char	*end;
 	char	*new_str;
-	char	*tmp_str;
 
 	end = NULL;
 	new_str = NULL;
-	tmp_str = NULL;
 	if (is_operator(*str))
 	{
 		end = *str + is_operator(*str);
@@ -60,12 +72,7 @@ static char	*get_next_token(t_vars *vars, char **str)
 		end = ft_strchr(++(*str), '"');
 		new_str = copy_token_to_str(str, end);
 		(*str)++;
-		if (ft_strchr(new_str, '$'))
-		{
-			tmp_str = handle_env_var(vars, new_str);
-			free(new_str);
-			new_str = tmp_str;
-		}
+		new_str = handle_vars(vars, new_str);
 		return (new_str);
 	}
 	else if (**str == '\'')
@@ -79,12 +86,7 @@ static char	*get_next_token(t_vars *vars, char **str)
 	{
 		end = *str + token_len(*str);
 		new_str = copy_token_to_str(str, end);
-		if (ft_strchr(new_str, '$'))
-		{
-			tmp_str = handle_env_var(vars, new_str);
-			free(new_str);
-			new_str = tmp_str;
-		}
+		new_str = handle_vars(vars, new_str);
 		return (new_str);
 	}
 	return (new_str);
@@ -104,13 +106,16 @@ t_list	*tokenize(t_vars *vars, char *str)
 	{
 		while (is_space(str))
 			str++;
-		new_str = get_next_token(vars, &str);
-		if (new_str == NULL)
-			return (ft_lstclear(&str_list, free), NULL);
-		tmp = ft_lstnew(new_str);
-		if (tmp == NULL)
-			return (ft_lstclear(&tmp, free), NULL);
-		ft_lstadd_back(&str_list, tmp);
+		if (*str != '\0')
+		{
+			new_str = get_next_token(vars, &str);
+			if (new_str == NULL)
+				return (ft_lstclear(&str_list, free), NULL);
+			tmp = ft_lstnew(new_str);
+			if (tmp == NULL)
+				return (ft_lstclear(&tmp, free), NULL);
+			ft_lstadd_back(&str_list, tmp);
+		}
 	}
 	return (str_list);
 }

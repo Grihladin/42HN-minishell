@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 11:25:40 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/08 12:33:16 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_vars
 	t_list				*tokens;
 	char				**operators;
 	struct sigaction	sigaction;
+	t_list				*forks;
 }						t_vars;
 
 // initialisation
@@ -139,11 +140,16 @@ t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 char					*copy_lst_to_str(t_list **lst);
 char					*handle_env_var(t_vars *vars, char *str);
+
+// paths
+
 int						get_paths(t_vars *vars);
+char					*get_full_path(char *path, t_list *lstpath);
 
 // execution
 int						execute_tree(t_vars *vars, char *cmnd);
-int						execute_command(t_vars *vars, char **args);
+int						execute_command(t_vars *vars, t_node *node,
+							char **args);
 
 // utils
 void					print_list(t_list *head);
