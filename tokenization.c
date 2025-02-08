@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/07 21:41:25 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:14:54 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,5 @@ t_list	*tokenize(t_vars *vars, char *str)
 			return (ft_lstclear(&tmp, free), NULL);
 		ft_lstadd_back(&str_list, tmp);
 	}
-	print_list(str_list);
 	return (str_list);
 }

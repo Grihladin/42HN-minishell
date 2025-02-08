@@ -40,7 +40,8 @@ get_path.c \
 env_to_array.c \
 prompt.c \
 sig_actions.c \
-execute.c
+execute.c \
+execute_tree.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

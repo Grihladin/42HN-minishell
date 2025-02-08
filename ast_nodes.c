@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_nodes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 22:04:04 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:04:14 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_node	*create_command_node(char **args)
 	new_node->command_args = args;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	new_node->env = NULL;
 	///////HANDLE pid and env
 	return (new_node);
 }
@@ -99,15 +100,15 @@ int	type_of_operator(char *str)
 	return (COMMAND_TYPE);
 }
 
-void	clear_tree(t_node *root)
+void	clear_tree(t_node **root)
 {
-	if (!root)
+	if (*root == NULL)
 		return ;
-	clear_tree(root->left);
-	clear_tree(root->right);
-	if (root->command_args)
-		free_double_array(root->command_args);
-	if (root->env)
-		free(root->env);
-	free(root);
+	clear_tree(&((*root)->left));
+	clear_tree(&((*root)->right));
+	if ((*root)->command_args)
+		free_double_array((*root)->command_args);
+	delete_content((*root)->env);
+	delete_content(*root);
+	*root = NULL;
 }

@@ -3,38 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 16:52:07 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/08 11:30:08 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_tree(t_node *root)
+static void	execute_node(t_vars *vars, t_node *node)
 {
-	int	i;
-
-	if (!root)
+	if (!node)
 		return ;
-	i = 0;
-	if (root->type == COMMAND_TYPE)
+	if (node->type == COMMAND_TYPE)
 	{
-		// printf("Command: \n");
-		i = 0;
-		while (root->command_args && root->command_args[i])
-		{
-			// command here
-			// printf("%s ", root->command_args[i]);
-			i++;
-		}
-		printf("\n");
+		// printf("Execute command: %s\n", node->command_args[0]);
+		execute_command(vars, node->command_args);
+		// printf("Execute command: %s\n", node->command_args[0]);
+		// for (int i = 0; node->command_args[i]; i++)
+		// 	printf("%s ", node->command_args[i]);
+		// printf("\n");
 	}
-	// operators here
+	else if (node->type == REDIRECT_TYPE)
+	{
+		// printf("Operator: REDIRECT\n");
+		// for (int i = 0; node->command_args[i]; i++)
+		// 	printf("%s ", node->command_args[i]);
+		// printf("\n");
+		execute_node(vars, node->left);
+	}
 	else
-		printf("Operator: %d\n", root->type);
-	execute_tree(root->left);
-	execute_tree(root->right);
-	// depth need for spaces you can delete it
+	{
+		// printf("Operator: %s\n",
+		// 	node->type == PIPE_TYPE ? "PIPE" : node->type == AND_TYPE ? "AND" : "OR");
+		execute_node(vars, node->left);
+		execute_node(vars, node->right);
+	}
+}
+
+int	execute_tree(t_vars *vars, char *cmnd)
+{
+	// printf("Execute command: %s\n", cmnd);
+	// printf("Print tokens list:\n");
+	// print_list(str_list);
+	vars->tokens = tokenize(vars, cmnd);
+	vars->node_list = parse_tokens(&(vars->tokens));
+	// printf("Print tree\n");
+	// print_tree(vars->node_list, 0);
+	// printf("Execute tree\n");
+	execute_node(vars, vars->node_list);
+	// execute_programm(vars, cmnd);
+	clear_tree(&(vars->node_list));
+	free_list(&(vars->tokens));
+	return (0);
 }
