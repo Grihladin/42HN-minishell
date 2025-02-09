@@ -41,10 +41,13 @@ env_to_array.c \
 prompt.c \
 sig_actions.c \
 execute.c \
-execute_tree.c
+execute_tree.c \
+pipes.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
+
+HEADERS = minishell.h
 
 OBJ_DIR = objects
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -56,7 +59,7 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 all: $(NAME)
 	@echo "\033[0;32m$(NAME) built successfully!\033[0m"
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(OBJ) $(HEADERS)
 	@$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)

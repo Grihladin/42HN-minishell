@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 16:14:27 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 12:56:34 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <termios.h>
 
 // command type declaration
 
@@ -50,6 +51,8 @@ typedef struct s_node
 	t_node_type			type;
 	char				**command_args;
 	char				**env;
+	int					*new_fds;
+	int					*old_fds;
 	pid_t				command_pid;
 	struct s_node		*left;
 	struct s_node		*right;
@@ -80,6 +83,7 @@ typedef struct s_vars
 	char				**operators;
 	struct sigaction	sigaction;
 	t_list				*forks;
+	int					*old_fds;
 }						t_vars;
 
 // initialisation
@@ -106,9 +110,12 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 void					set_sigs(t_vars *vars);
 
-// pipes
+// fds for pipes and redirections
 
-int						*create_pipe(void);
+int						create_pipe(int **p);
+int						save_fds(int **fd);
+int						restore_fds(int **fd);
+int						close_fds(int **fd);
 
 // prompt
 int						wait_command(t_vars *vars);

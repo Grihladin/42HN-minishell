@@ -6,11 +6,34 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 11:04:14 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 11:22:46 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_node	*create_new_node(void)
+{
+	t_node	*new_node;
+
+	new_node = ft_calloc(1, sizeof(t_node));
+	if (!new_node)
+		return (NULL);
+	// new_node->right = NULL;
+	// new_node->left = NULL;
+	// new_node->command_args = NULL;
+	// new_node->env = NULL;
+	new_node->new_fds = ft_calloc(2, sizeof(int));
+	new_node->old_fds = ft_calloc(2, sizeof(int));
+	if (new_node->new_fds == NULL || new_node->old_fds == NULL)
+		return (free(new_node), NULL);
+	new_node->new_fds[0] = -1;
+	new_node->new_fds[1] = -1;
+	new_node->old_fds[0] = -1;
+	new_node->old_fds[1] = -1;
+	new_node->command_pid = 0;
+	return (new_node);
+}
 
 // Set the node type (PIPE_TYPE, AND_TYPE)
 // Operator nodes don't have command arguments
@@ -21,15 +44,12 @@ t_node	*create_operator_node(t_node_type type, t_node *left, t_node *right)
 {
 	t_node	*new_node;
 
-	new_node = malloc(sizeof(t_node));
+	new_node = create_new_node();
 	if (!new_node)
 		return (NULL);
 	new_node->type = type;
-	new_node->command_args = NULL;
 	new_node->left = left;
 	new_node->right = right;
-	new_node->env = NULL;
-	new_node->command_pid = 0;
 	return (new_node);
 }
 
@@ -40,14 +60,11 @@ t_node	*create_command_node(char **args)
 {
 	t_node	*new_node;
 
-	new_node = malloc(sizeof(t_node));
+	new_node = create_new_node();
 	if (!new_node)
 		return (NULL);
 	new_node->type = COMMAND_TYPE;
 	new_node->command_args = args;
-	new_node->left = NULL;
-	new_node->right = NULL;
-	new_node->env = NULL;
 	///////HANDLE pid and env
 	return (new_node);
 }
@@ -59,12 +76,12 @@ t_node	*create_command_node(char **args)
 // Set the redirection arguments
 // Set the command being redirected
 // Redirection nodes don't have right children
-t_node	*create_redirect_node(t_node *command, char *operator, char * file)
+t_node	*create_redirect_node(t_node *command, char *operator, char *file)
 {
 	t_node	*new_node;
 	char	**args;
 
-	new_node = malloc(sizeof(t_node));
+	new_node = create_new_node();
 	if (!new_node)
 		return (NULL);
 	args = malloc(3 * sizeof(char *));
@@ -80,9 +97,6 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 		return (NULL);
 	new_node->command_args = args;
 	new_node->left = command;
-	new_node->right = NULL;
-	new_node->env = NULL;
-	new_node->command_pid = 0;
 	return (new_node);
 }
 
@@ -106,9 +120,10 @@ void	clear_tree(t_node **root)
 		return ;
 	clear_tree(&((*root)->left));
 	clear_tree(&((*root)->right));
-	if ((*root)->command_args)
-		free_double_array((*root)->command_args);
-	delete_content((*root)->env);
+	free_double_array((*root)->command_args);
+	free_double_array((*root)->env);
+	delete_content((*root)->new_fds);
+	delete_content((*root)->old_fds);
 	delete_content(*root);
 	*root = NULL;
 }

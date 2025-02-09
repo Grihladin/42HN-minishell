@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 14:59:37 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 10:48:10 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_double_array(char **arr)
 {
 	int	i;
 
-	if (!arr)
+	if (arr == NULL)
 		return ;
 	i = 0;
 	while (arr[i] != NULL)

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 16:16:53 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 13:02:20 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,68 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
-	int		in_fd;
-	int		old_in;
-	int		old_out;
-
-	in_fd = 0;
 	if (!node)
 		return ;
 	if (node->type == COMMAND_TYPE)
 	{
-
-		// printf("Execute command: %s\n", node->command_args[0]);
 		execute_command(vars, node, node->command_args);
-		// printf("Execute command: %s\n", node->command_args[0]);
-		// for (int i = 0; node->command_args[i]; i++)
-		// 	printf("%s ", node->command_args[i]);
-		// printf("\n");
 	}
 	else if (node->type == REDIRECT_TYPE)
 	{
-		// printf("Operator: REDIRECT\n");
-		// for (int i = 0; node->command_args[i]; i++)
-		// 	printf("%s ", node->command_args[i]);
-		// printf("\n");
-		old_in = dup(STDIN_FILENO);
-		old_out = dup(STDOUT_FILENO);
+		save_fds(&(node->old_fds));
 		if (ft_strcmp("<", node->command_args[0]) == 0)
 		{
-			in_fd = open(node->command_args[1], O_RDONLY);
-			dup2(in_fd, STDIN_FILENO);
+			node->new_fds[0] = open(node->command_args[1], O_RDONLY);
+			dup2(node->new_fds[0], STDIN_FILENO);
 		}
 		else if (ft_strcmp(">", node->command_args[0]) == 0)
 		{
-			in_fd = open(node->command_args[1], O_CREAT
+			node->new_fds[1] = open(node->command_args[1], O_CREAT
 					| O_TRUNC | O_WRONLY, 0644);
-			dup2(in_fd, STDOUT_FILENO);
+			dup2(node->new_fds[1], STDOUT_FILENO);
 		}
-		close(in_fd);
+		else if (ft_strcmp(">>", node->command_args[0]) == 0)
+		{
+			node->new_fds[1] = open(node->command_args[1], O_CREAT
+					| O_APPEND | O_WRONLY, 0644);
+			dup2(node->new_fds[1], STDOUT_FILENO);
+		}
+		// HEREDOC
+		// else if (ft_strcmp("<<", node->command_args[0]) == 0)
+		// {
+		// 	node->new_fds[1] = open(node->command_args[1], O_CREAT
+		// 			| O_APPEND | O_WRONLY, 0644);
+		// 	dup2(node->new_fds[1], STDOUT_FILENO);
+		// }
+		close_fds(&(node->new_fds));
 		execute_node(vars, node->left);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		dup2(old_in, STDIN_FILENO);
-		dup2(old_out, STDOUT_FILENO);
+		restore_fds(&(node->old_fds));
 	}
 	else
 	{
 		// printf("Operator: %s\n",
 		// 	node->type == PIPE_TYPE ? "PIPE" : node->type == AND_TYPE ? "AND" : "OR");
-		// if (node->type == PIPE_TYPE)
-		// {
-		// 	;
-		// }
-		execute_node(vars, node->left);
-		execute_node(vars, node->right);
+		if (node->type == PIPE_TYPE)
+		{
+			save_fds(&(node->old_fds));
+			create_pipe(&(node->new_fds));
+			dup2(node->new_fds[1], STDOUT_FILENO);
+			execute_node(vars, node->left);
+			close(node->new_fds[1]);
+			close(STDOUT_FILENO);
+			dup2(node->old_fds[1], STDOUT_FILENO);
+			dup2(node->new_fds[0], STDIN_FILENO);
+			close(node->new_fds[0]);
+			execute_node(vars, node->right);
+			restore_fds(&(node->old_fds));
+		}
 	}
 }
 
 int	execute_tree(t_vars *vars, char *cmnd)
 {
+	struct termios	term1;
+
 	// printf("Execute command: %s\n", cmnd);
 	vars->tokens = tokenize(vars, cmnd);
 	// printf("Print tokens list:\n");
@@ -80,7 +84,15 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	printf("Print tree\n");
 	print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
+	// save_fds(&(vars->old_fds));
+	tcgetattr(STDIN_FILENO, &term1);
+	term1.c_lflag &= ~ECHO;
+	tcsetattr(STDIN_FILENO, 0, &term1);
 	execute_node(vars, vars->node_list);
+	waitpid(-1, NULL, 0);
+	term1.c_lflag |= ECHO;
+	tcsetattr(STDIN_FILENO, 0, &term1);
+	// restore_fds(&(vars->old_fds));
 	// execute_programm(vars, cmnd);
 	clear_tree(&(vars->node_list));
 	free_list(&(vars->tokens));

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/07 12:18:43 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 12:07:02 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	vars->operators = NULL;
 	vars->paths = NULL;
 	vars->tokens = NULL;
+	vars->old_fds = ft_calloc(2, sizeof(int));
+	vars->old_fds[0] = -1;
+	vars->old_fds[1] = -1;
 	set_sigs(vars);
-	args = malloc(2 * sizeof(char *));
+	args = ft_calloc(2, sizeof(char *));
 	args[0] = ft_strdup("ABCD=hi");
 	args[1] = NULL;
-	arggs = malloc(3 * sizeof(char *));
+	arggs = ft_calloc(3, sizeof(char *));
 	arggs[0] = ft_strdup("-n");
 	arggs[1] = ft_strdup("qwer");
 	arggs[2] = NULL;
