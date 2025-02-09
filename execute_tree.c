@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 14:28:57 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 16:45:19 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 	if (node->type == COMMAND_TYPE)
 	{
 		vars->cmnd_nmbrs++;
-		execute_command(vars, node, node->command_args);
+		vars->return_code = execute_command(vars, node, node->command_args);
 	}
 	else if (node->type == REDIRECT_TYPE)
 	{
@@ -69,6 +69,22 @@ static void	execute_node(t_vars *vars, t_node *node)
 			close(node->new_fds[0]);
 			execute_node(vars, node->right);
 			restore_fds(&(node->old_fds));
+		}
+		// || является логическим «ИЛИ» и выполнит вторую часть оператора,
+		// только если первая часть не верна;
+		else if (node->type == OR_TYPE)
+		{
+			execute_node(vars, node->left);
+			if (vars->return_code != 0)
+				execute_node(vars, node->right);
+		}
+		// && является логическим «И» и выполнит вторую часть оператора
+		// только в том случае, если первая часть верна.
+		else if (node->type == AND_TYPE)
+		{
+			execute_node(vars, node->left);
+			if (vars->return_code == 0)
+				execute_node(vars, node->right);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 15:13:59 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 16:27:39 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_vars
 	t_list				*forks;
 	int					*old_fds;
 	int					cmnd_nmbrs;
+	int					return_code;
 }						t_vars;
 
 // initialisation
