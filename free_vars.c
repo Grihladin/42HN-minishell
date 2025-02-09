@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/05 17:53:24 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 17:02:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,11 @@ void	free_vars(t_vars *vars)
 	// 	tmp = tmp->next;
 	// }
 	// free_list(&(lists->ppslst));
+}
+
+void	reset_vars(t_vars *vars)
+{
+	clear_tree(&(vars->node_list));
+	free_list(&(vars->tokens));
+	vars->return_code = 0;
 }

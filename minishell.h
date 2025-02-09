@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 16:27:39 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 17:02:29 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,11 @@ size_t					token_len(char *str);
 void					free_double_array(char **arr);
 void					free_vars(t_vars *vars);
 void					free_list(t_list **lst);
+void					reset_vars(t_vars *vars);
 void					free_arr_of_str(char ***strings);
 void					delete_content(void *n);
 
 char					**env_to_array(t_vars *vars);
+int						wait_childs(int *cnt_chld);
 
 #endif

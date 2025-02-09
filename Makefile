@@ -42,7 +42,8 @@ prompt.c \
 sig_actions.c \
 execute.c \
 execute_tree.c \
-pipes.c
+pipes.c \
+wait_childs.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

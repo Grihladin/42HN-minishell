@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 16:45:19 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 17:03:11 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
+	int		tmpint;
+
+	tmpint = 0;
 	if (!node)
 		return ;
 	if (node->type == COMMAND_TYPE)
 	{
 		vars->cmnd_nmbrs++;
-		vars->return_code = execute_command(vars, node, node->command_args);
+		tmpint = execute_command(vars, node, node->command_args);
+		if (vars->return_code == 0)
+			vars->return_code = tmpint;
 	}
 	else if (node->type == REDIRECT_TYPE)
 	{
@@ -75,6 +80,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 		else if (node->type == OR_TYPE)
 		{
 			execute_node(vars, node->left);
+			wait_childs(&(vars->cmnd_nmbrs));
 			if (vars->return_code != 0)
 				execute_node(vars, node->right);
 		}
@@ -83,6 +89,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 		else if (node->type == AND_TYPE)
 		{
 			execute_node(vars, node->left);
+			wait_childs(&(vars->cmnd_nmbrs));
 			if (vars->return_code == 0)
 				execute_node(vars, node->right);
 		}
@@ -109,15 +116,11 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// term1.c_lflag &= ~ECHO;
 	// tcsetattr(STDIN_FILENO, 0, &term1);
 	execute_node(vars, vars->node_list);
-	while (vars->cmnd_nmbrs)
-	{
-		wait(NULL);
-		vars->cmnd_nmbrs--;
-	}
+	wait_childs(&(vars->cmnd_nmbrs));
 	// term1.c_lflag |= ECHO;
 	// tcsetattr(STDIN_FILENO, 0, &term1);
 	// restore_fds(&(vars->old_fds));
 	// execute_programm(vars, cmnd);
-	clear_tree(&(vars->node_list));
-	return (free_list(&(vars->tokens)), 0);
+	reset_vars(vars);
+	return (0);
 }

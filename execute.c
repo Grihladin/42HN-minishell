@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 16:42:25 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 16:53:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,11 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 	return (0);
 }
 
-// static int	execute_programm(t_vars *vars, char *cmnd, char **args, char **env)
 int	execute_command(t_vars *vars, t_node *node, char **args)
 {
 	if (it_builtin_programm(args[0]))
 		return (execute_builtin_programm(vars, args));
 	else
-	{
 		return (execute_programm(vars, node, args));
-	}
 	return (0);
 }
