@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:32:04 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/03 22:52:27 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/09 21:36:22 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,26 @@ void	ft_echo(char **args)
 {
 	int	i;
 	int	new_line_flag;
+	int	j;
 
 	new_line_flag = 1;
-	i = 0;
-	if (!args)
-		return ;
-	while (args[i] && !ft_strcmp(args[i], "-n"))
+	i = 1;
+	if (!args || !args[1])
 	{
+		printf("\n");
+		return ;
+	}
+	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
+	{
+		j = 2;
+		while (args[i][j] == 'n')
+			j++;
+		if (args[i][j] != '\0')
+			break ;
 		new_line_flag = 0;
 		i++;
 	}
-	while (args[i] != NULL)
+	while (args[i])
 	{
 		printf("%s", args[i]);
 		if (args[i + 1])

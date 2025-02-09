@@ -43,7 +43,9 @@ sig_actions.c \
 execute.c \
 execute_tree.c \
 pipes.c \
-wait_childs.c
+wait_childs.c \
+get_next_line.c \
+get_next_line_utils.c \
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

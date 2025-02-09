@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 16:24:44 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/09 23:43:16 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	update_old_pwd(t_vars *vars, char *dir)
 static int	handle_minus(t_env_list *env_list, char **new_dir, char *old_pwd)
 {
 	*new_dir = find_var_env(env_list, "OLDPWD");
-	if (!new_dir)
+	if (!*new_dir)
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		free(old_pwd);
@@ -71,8 +71,7 @@ static void	update_env(t_vars *vars, char *old_pwd, char *dir, char *new_dir)
 	tmp = getcwd(NULL, 0);
 	update_old_pwd(vars, old_pwd);
 	update_pwd(vars, tmp);
-	free(tmp);
-	if (dir[0] == '~')
+	if (dir && dir[0] == '~')
 		free(new_dir);
 }
 
@@ -82,7 +81,7 @@ void	ft_cd(t_vars *vars, char **args)
 	char	*new_dir;
 
 	old_pwd = getcwd(NULL, 0);
-	if (!args || !*args[1])
+	if (!args[1])
 		new_dir = find_var_env(vars->env_list, "HOME");
 	else if (!ft_strcmp(args[1], "-"))
 	{

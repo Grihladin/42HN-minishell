@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 16:53:53 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 19:11:17 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	execute_builtin_programm(t_vars *vars, char **args)
 	else if (!ft_strcmp("pwd", args[0]))
 		return (ft_pwd(vars->env_list), 1);
 	else if (!ft_strcmp("export", args[0]))
-		return (ft_export(vars->env_list, args), 1);
+		return (ft_export(&vars->env_list, args), 1);
 	else if (!ft_strcmp("unset", args[0]))
 		return (ft_unset(vars, args), 1);
 	else if (!ft_strcmp("exit", args[0]))

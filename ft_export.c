@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 11:31:38 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 23:10:58 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	is_valid_var_name(char *str)
 {
 	if (!str || !*str || ft_isdigit(*str))
+		return (0);
+	if (!ft_strcmp(str, "_"))
 		return (0);
 	while (*str)
 	{
@@ -51,7 +53,13 @@ static t_env_list	*env_split_line(char *str)
 		}
 		i++;
 	}
-	return (NULL);
+	key = ft_substr(str, 0, i);
+	if (!key || !is_valid_var_name(key))
+		return (free(key), NULL);
+	node = ft_new_env(key, ft_strdup(""));
+	if (!node)
+		return (free(key), NULL);
+	return (node);
 }
 
 static void	add_new_env_line(t_env_list **head, char *arg)
@@ -89,24 +97,38 @@ static t_env_list	*is_in_env(t_env_list *head, char *arg)
 	return (free(tmp->key), free(tmp->value), free(tmp), NULL);
 }
 
-void	ft_export(t_env_list *env, char **args)
+void	ft_export(t_env_list **env, char **args)
 {
 	t_env_list	*tmp;
 	t_env_list	*node;
 	t_env_list	*sorted_list;
 	int			i;
 
-	if (!args)
+	// printf("DEBUG: ft_export called\n");
+	// printf("DEBUG: args received: ");
+	// if (args)
+	// {
+	// 	i = 0;
+	// 	while (args[i])
+	// 	{
+	// 		printf("%i %s", i, args[i]);
+	// 		i++;
+	// 	}
+	// }
+	// else
+	// 	printf("(null)");
+	// printf("\n");
+	if (!args || !args[1])
 	{
-		sorted_list = sort_env_list(env);
+		sorted_list = sort_env_list(*env);
 		print_env_export(sorted_list);
 		ft_envdel(&sorted_list, free);
 		return ;
 	}
-	i = 0;
+	i = 1;
 	while (args[i] != NULL)
 	{
-		node = is_in_env(env, args[i]);
+		node = is_in_env(*env, args[i]);
 		if (node)
 		{
 			tmp = env_split_line(args[i]);
@@ -116,7 +138,7 @@ void	ft_export(t_env_list *env, char **args)
 			free(tmp);
 		}
 		else
-			add_new_env_line(&env, args[i]);
+			add_new_env_line(env, args[i]);
 		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 17:02:29 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 23:02:02 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 
 # include "libft/libft.h"
 # include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
-# include <unistd.h>
-# include <fcntl.h>
 # include <termios.h>
-# include <errno.h>
+# include <unistd.h>
 
 // command type declaration
 
@@ -106,7 +106,7 @@ void					ft_cd(t_vars *vars, char **args);
 int						is_valid_var_name(char *str);
 void					print_env_export(t_env_list *sorted_env_list);
 t_env_list				*sort_env_list(t_env_list *head);
-void					ft_export(t_env_list *env, char **args);
+void					ft_export(t_env_list **env, char **args);
 void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 // sig handling
@@ -114,6 +114,21 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 void					set_sigs(t_vars *vars);
 
 // fds for pipes and redirections
+
+// getnextline
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+char					*get_next_line(int fd);
+
+int						is_in_str(char *s, char c);
+char					*ft_strdup(const char *src);
+char					*ft_str_merge(char *s1, char *s2);
+char					*get_next_line(int fd);
+int						ft_strlen(const char *s);
+char					*line_validator(char *s);
+char					*read_and_merge(int fd, char *current_line);
 
 int						create_pipe(int **p);
 int						save_fds(int **fd);
@@ -146,7 +161,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char *file);
+							char * file);
 t_node					*parse_tokens(t_list **tokens);
 int						type_of_operator(char *str);
 

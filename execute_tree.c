@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 17:03:11 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 23:07:14 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(&(vars->tokens));
-	printf("Print tree\n");
-	print_tree(vars->node_list, 0);
+	// printf("Print tree\n");
+	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	// save_fds(&(vars->old_fds));
 	// tcgetattr(STDIN_FILENO, &term1);
