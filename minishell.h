@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 12:56:34 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 15:13:59 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# define PROMPT "minishell: "
+# define PROMPT "minishell > "
 
 # include "libft/libft.h"
 # include <dirent.h>
@@ -27,6 +27,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <termios.h>
+# include <errno.h>
 
 // command type declaration
 
@@ -84,6 +85,7 @@ typedef struct s_vars
 	struct sigaction	sigaction;
 	t_list				*forks;
 	int					*old_fds;
+	int					cmnd_nmbrs;
 }						t_vars;
 
 // initialisation

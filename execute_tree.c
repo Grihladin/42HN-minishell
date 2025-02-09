@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 13:02:20 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 14:28:57 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 		return ;
 	if (node->type == COMMAND_TYPE)
 	{
+		vars->cmnd_nmbrs++;
 		execute_command(vars, node, node->command_args);
 	}
 	else if (node->type == REDIRECT_TYPE)
@@ -74,27 +75,33 @@ static void	execute_node(t_vars *vars, t_node *node)
 
 int	execute_tree(t_vars *vars, char *cmnd)
 {
-	struct termios	term1;
+	// struct termios	term1;
 
 	// printf("Execute command: %s\n", cmnd);
 	vars->tokens = tokenize(vars, cmnd);
+	if (ft_lstsize(vars->tokens) < 1)
+		return (free_list(&(vars->tokens)), 0);
 	// printf("Print tokens list:\n");
 	// print_list(vars->tokens);
+	add_history(cmnd);
 	vars->node_list = parse_tokens(&(vars->tokens));
 	printf("Print tree\n");
 	print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	// save_fds(&(vars->old_fds));
-	tcgetattr(STDIN_FILENO, &term1);
-	term1.c_lflag &= ~ECHO;
-	tcsetattr(STDIN_FILENO, 0, &term1);
+	// tcgetattr(STDIN_FILENO, &term1);
+	// term1.c_lflag &= ~ECHO;
+	// tcsetattr(STDIN_FILENO, 0, &term1);
 	execute_node(vars, vars->node_list);
-	waitpid(-1, NULL, 0);
-	term1.c_lflag |= ECHO;
-	tcsetattr(STDIN_FILENO, 0, &term1);
+	while (vars->cmnd_nmbrs)
+	{
+		wait(NULL);
+		vars->cmnd_nmbrs--;
+	}
+	// term1.c_lflag |= ECHO;
+	// tcsetattr(STDIN_FILENO, 0, &term1);
 	// restore_fds(&(vars->old_fds));
 	// execute_programm(vars, cmnd);
 	clear_tree(&(vars->node_list));
-	free_list(&(vars->tokens));
-	return (0);
+	return (free_list(&(vars->tokens)), 0);
 }

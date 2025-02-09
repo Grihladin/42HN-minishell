@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 12:00:29 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 15:14:38 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,25 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 		if (node->command_pid == 0)
 		{
 			tmp_env = env_to_array(vars);
-			execve(fullpath, args, tmp_env);
+			if (execve(fullpath, args, tmp_env) == -1)
+			{
+				perror("Error!");
+				// printf("%s\n", strerror(errno));
+				return (-1);
+			}
 		}
 		// else
 		// 	waitpid(node->command_pid, NULL, 0);
+	}
+	else
+	{
+		tmp_env = env_to_array(vars);
+		if (execve(args[0], args, tmp_env) == -1)
+		{
+			perror("Error!");
+			// printf("%s\n", strerror(errno));
+			return (-1);
+		}
 	}
 	return (0);
 }
@@ -56,7 +71,7 @@ int	execute_command(t_vars *vars, t_node *node, char **args)
 		return (0);
 	else
 	{
-		execute_programm(vars, node, args);
+		return (execute_programm(vars, node, args));
 	}
 	return (0);
 }

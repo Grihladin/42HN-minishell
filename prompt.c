@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 12:35:13 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/09 14:28:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	wait_command(t_vars *vars)
 		cmnd = readline(PROMPT);
 		if (cmnd)
 		{
-			add_history(cmnd);
 			execute_tree(vars, cmnd);
 			free(cmnd);
 			cmnd = NULL;
