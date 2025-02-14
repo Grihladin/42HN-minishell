@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/14 16:15:26 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:55:27 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,20 @@ static int	it_builtin_programm(char *cmnd)
 	return (0);
 }
 
-static int	execute_builtin_programm(t_vars *vars, t_node *node, char **args)
+static int	execute_builtin_programm(t_vars *vars, char **args)
 {
 	if (!ft_strcmp("exit", args[0]))
-		ft_exit(args, vars);
-	node->command_pid = fork();
-	if (node->command_pid == 0)
-	{
-		// Need add exit code
-		if (!ft_strcmp("echo", args[0]))
-			exit(ft_echo(args));
-		else if (!ft_strcmp("cd", args[0]))
-			exit(ft_cd(vars, args));
-		else if (!ft_strcmp("pwd", args[0]))
-			exit(ft_pwd(vars->env_list));
-		else if (!ft_strcmp("export", args[0]))
-			exit(ft_export(&vars->env_list, args));
-		else if (!ft_strcmp("unset", args[0]))
-			exit(ft_unset(vars, args));
-	}
+		return (ft_exit(args, vars));
+	else if (!ft_strcmp("echo", args[0]))
+		return (ft_echo(args));
+	else if (!ft_strcmp("cd", args[0]))
+		return (ft_cd(vars, args));
+	else if (!ft_strcmp("pwd", args[0]))
+		return (ft_pwd(vars->env_list));
+	else if (!ft_strcmp("export", args[0]))
+		return (ft_export(&vars->env_list, args));
+	else if (!ft_strcmp("unset", args[0]))
+		return (ft_unset(vars, args));
 	return (0);
 }
 
@@ -79,7 +74,7 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 int	execute_command(t_vars *vars, t_node *node, char **args)
 {
 	if (it_builtin_programm(args[0]))
-		return (execute_builtin_programm(vars, node, args));
+		return (execute_builtin_programm(vars, args));
 	else
 		return (execute_programm(vars, node, args));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 16:42:50 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:49:35 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	execute_node(t_vars *vars, t_node *node)
 	}
 	else
 	{
-		// printf("Operator: %s\n",
 		// 	node->type == PIPE_TYPE ? "PIPE" : node->type == AND_TYPE ? "AND" : "OR");
 		if (node->type == PIPE_TYPE)
 		{
@@ -68,7 +67,6 @@ static void	execute_node(t_vars *vars, t_node *node)
 			dup2(node->new_fds[1], STDOUT_FILENO);
 			close(node->new_fds[1]);
 			execute_node(vars, node->left);
-			// close(STDOUT_FILENO);
 			dup2(node->old_fds[1], STDOUT_FILENO);
 			dup2(node->new_fds[0], STDIN_FILENO);
 			close(node->new_fds[0]);
