@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/14 09:45:00 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 14:58:00 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	it_builtin_programm(char *cmnd)
 
 static int	execute_builtin_programm(t_vars *vars, t_node *node, char **args)
 {
-	node->command_pid = fork();
 	if (!ft_strcmp("exit", args[0]))
 		ft_exit(args, vars);
+	node->command_pid = fork();
 	if (node->command_pid == 0)
 	{
 		if (!ft_strcmp("echo", args[0]))
