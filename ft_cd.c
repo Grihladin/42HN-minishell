@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 15:46:30 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:46:53 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	update_pwd(t_vars *vars, char *dir)
 {
 	t_env_list	*node;
+	t_env_list	*new_node;
 
 	if (!vars || !dir)
 		return ;
@@ -25,15 +26,23 @@ static void	update_pwd(t_vars *vars, char *dir)
 		{
 			free(node->value);
 			node->value = dir;
-			break ;
+			return ;
 		}
 		node = node->next;
 	}
+	new_node = ft_new_env(ft_strdup("PWD"), dir);
+	if (!new_node)
+	{
+		free(dir);
+		return ;
+	}
+	ft_envadd_back(&vars->env_list, new_node);
 }
 
 static void	update_old_pwd(t_vars *vars, char *dir)
 {
 	t_env_list	*node;
+	t_env_list	*new_node;
 
 	if (!vars || !dir)
 		return ;
@@ -44,10 +53,17 @@ static void	update_old_pwd(t_vars *vars, char *dir)
 		{
 			free(node->value);
 			node->value = dir;
-			break ;
+			return ;
 		}
 		node = node->next;
 	}
+	new_node = ft_new_env(ft_strdup("OLDPWD"), dir);
+	if (!new_node)
+	{
+		free(dir);
+		return ;
+	}
+	ft_envadd_back(&vars->env_list, new_node);
 }
 
 static int	handle_minus(t_env_list *env_list, char **new_dir, char *old_pwd)
@@ -79,6 +95,7 @@ int	ft_cd(t_vars *vars, char **args)
 {
 	char	*old_pwd;
 	char	*new_dir;
+	char	*home;
 
 	if (!vars || !args)
 		return (1);
@@ -98,6 +115,13 @@ int	ft_cd(t_vars *vars, char **args)
 	}
 	else if (args[1][0] == '~')
 	{
+		home = find_var_env(vars->env_list, "HOME");
+		if (!home)
+		{
+			ft_putstr_fd("cd: HOME not set\n", 2);
+			free(old_pwd);
+			return (1);
+		}
 		new_dir = ft_strjoin(find_var_env(vars->env_list, "HOME"), args[1] + 1);
 		if (!new_dir)
 			return (free(old_pwd), 1);
