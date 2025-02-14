@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/08 16:43:04 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:40:08 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,14 @@ static char	*handle_vars(t_vars *vars, char *instr)
 	return (instr);
 }
 
-static char	*get_next_token(t_vars *vars, char **str)
+static char	*get_string_in_quotes(t_vars *vars, char **str)
 {
 	char	*end;
 	char	*new_str;
 
 	end = NULL;
 	new_str = NULL;
-	if (is_operator(*str))
-	{
-		end = *str + is_operator(*str);
-		return (copy_token_to_str(str, end));
-	}
-	else if (**str == '"')
+	if (**str == '"')
 	{
 		end = ft_strchr(++(*str), '"');
 		new_str = copy_token_to_str(str, end);
@@ -82,12 +77,41 @@ static char	*get_next_token(t_vars *vars, char **str)
 		(*str)++;
 		return (new_str);
 	}
+	return (new_str);
+}
+
+static char	*get_next_token(t_vars *vars, char **str)
+{
+	char	*new_str;
+	char	*tmp_str;
+	char	*tmp_str1;
+
+	new_str = NULL;
+	tmp_str = NULL;
+	tmp_str1 = NULL;
+	if (is_operator(*str))
+		return (copy_token_to_str(str, (*str + is_operator(*str))));
 	else
 	{
-		end = *str + token_len(*str);
-		new_str = copy_token_to_str(str, end);
-		new_str = handle_vars(vars, new_str);
-		return (new_str);
+		while ((**str != '\0') && (is_space(*str) == 0))
+		{
+			if ((**str == '\'') || (**str == '"'))
+				tmp_str = get_string_in_quotes(vars, str);
+			else
+			{
+				tmp_str = copy_token_to_str(str, token_end(*str));
+				tmp_str = handle_vars(vars, tmp_str);
+			}
+			if (new_str == NULL)
+				new_str = tmp_str;
+			else
+			{
+				tmp_str1 = ft_strjoin(new_str, tmp_str);
+				free(new_str);
+				free(tmp_str);
+				new_str = tmp_str1;
+			}
+		}
 	}
 	return (new_str);
 }
