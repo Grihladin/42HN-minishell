@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 23:07:14 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 09:28:25 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static void	execute_node(t_vars *vars, t_node *node)
 			save_fds(&(node->old_fds));
 			create_pipe(&(node->new_fds));
 			dup2(node->new_fds[1], STDOUT_FILENO);
-			execute_node(vars, node->left);
 			close(node->new_fds[1]);
-			close(STDOUT_FILENO);
+			execute_node(vars, node->left);
+			// close(STDOUT_FILENO);
 			dup2(node->old_fds[1], STDOUT_FILENO);
 			dup2(node->new_fds[0], STDIN_FILENO);
 			close(node->new_fds[0]);

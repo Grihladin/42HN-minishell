@@ -1,3 +1,4 @@
+.DS_Store
 .vscode/
 libft/objects
 libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:12:43 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/08 10:58:03 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 09:44:06 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_numeric(char *str)
 
 // this function intended to work with combined command thats why i use args[1] because args in my head look like this |exit|arg|
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, t_vars *vars)
 {
 	int	exit_code;
 
@@ -52,5 +52,6 @@ int	ft_exit(char **args)
 			return (1);
 		}
 	}
+	free_vars(vars);
 	exit((unsigned char)exit_code);
 }

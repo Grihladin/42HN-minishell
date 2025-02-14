@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 12:05:59 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 09:51:54 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ int	restore_fds(int **fd)
 	{
 		close(STDIN_FILENO);
 		dup2((*fd)[0], STDIN_FILENO);
+		close((*fd)[0]);
 	}
 	if ((*fd)[1] > -1)
 	{
 		close(STDOUT_FILENO);
 		dup2((*fd)[1], STDOUT_FILENO);
+		close((*fd)[1]);
 	}
 	return (0);
 }

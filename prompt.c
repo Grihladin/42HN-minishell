@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 23:06:06 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 09:48:47 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	wait_command(t_vars *vars)
 	while (1)
 	{
 		// cmnd = readline(PROMPT);
+		// Forbidden function
 		if (isatty(fileno(stdin)))
 			cmnd = readline(PROMPT);
 		else
@@ -38,7 +39,8 @@ int	wait_command(t_vars *vars)
 		else
 		{
 			// rl_replace_line("exit", 0);
-			write(0, "exit\n", 5);
+			ft_putendl_fd("exit", 2);
+			// write(0, "exit\n", 5);
 			// rl_on_new_line();
 			// rl_redisplay();
 			// rl_replace_line("SOme text", 0);
@@ -47,5 +49,6 @@ int	wait_command(t_vars *vars)
 			break ;
 		}
 	}
-	return (0);
+	free_vars(vars);
+	exit (0);
 }

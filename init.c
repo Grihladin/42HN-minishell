@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 21:39:54 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 09:30:59 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,5 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	set_sigs(vars);
 	create_env_list(&(vars->env_list), env);
 	shell_lvl(&(vars->env_list));
-	get_paths(vars);
 	return (0);
 }

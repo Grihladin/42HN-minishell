@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/09 17:02:53 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 09:31:09 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	free_vars(t_vars *vars)
 	// struct s_list	*tmp;
 	free_env(&(vars->env_list));
 	free_list(&(vars->tokens));
-	free_list(&(vars->paths));
 
 	// free_list(&(lists->paths));
 	// free_list(&(lists->cmndlst));
