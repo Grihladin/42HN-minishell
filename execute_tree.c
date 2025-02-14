@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 16:49:35 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:41:29 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
-	int		tmpint;
+	int	tmpint;
 
 	tmpint = 0;
 	if (!node)
@@ -36,14 +36,14 @@ static void	execute_node(t_vars *vars, t_node *node)
 		}
 		else if (ft_strcmp(">", node->command_args[0]) == 0)
 		{
-			node->new_fds[1] = open(node->command_args[1], O_CREAT
-					| O_TRUNC | O_WRONLY, 0644);
+			node->new_fds[1] = open(node->command_args[1],
+					O_CREAT | O_TRUNC | O_WRONLY, 0644);
 			dup2(node->new_fds[1], STDOUT_FILENO);
 		}
 		else if (ft_strcmp(">>", node->command_args[0]) == 0)
 		{
-			node->new_fds[1] = open(node->command_args[1], O_CREAT
-					| O_APPEND | O_WRONLY, 0644);
+			node->new_fds[1] = open(node->command_args[1],
+					O_CREAT | O_APPEND | O_WRONLY, 0644);
 			dup2(node->new_fds[1], STDOUT_FILENO);
 		}
 		// HEREDOC
@@ -97,13 +97,12 @@ static void	execute_node(t_vars *vars, t_node *node)
 int	execute_tree(t_vars *vars, char *cmnd)
 {
 	// struct termios	term1;
-
 	// printf("Execute command: %s\n", cmnd);
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	printf("Print tokens list:\n");
-	print_list(vars->tokens);
+	// printf("Print tokens list:\n");
+	// print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(&(vars->tokens));
 	// printf("Print tree\n");
