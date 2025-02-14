@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 23:43:16 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:46:30 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,33 @@ static void	update_env(t_vars *vars, char *old_pwd, char *dir, char *new_dir)
 		free(new_dir);
 }
 
-void	ft_cd(t_vars *vars, char **args)
+int	ft_cd(t_vars *vars, char **args)
 {
 	char	*old_pwd;
 	char	*new_dir;
 
+	if (!vars || !args)
+		return (1);
 	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return (1);
 	if (!args[1])
+	{
 		new_dir = find_var_env(vars->env_list, "HOME");
+		if (!new_dir)
+			return (free(old_pwd), 1);
+	}
 	else if (!ft_strcmp(args[1], "-"))
 	{
 		if (handle_minus(vars->env_list, &new_dir, old_pwd))
-			return ;
+			return (free(old_pwd), 1);
 	}
 	else if (args[1][0] == '~')
+	{
 		new_dir = ft_strjoin(find_var_env(vars->env_list, "HOME"), args[1] + 1);
+		if (!new_dir)
+			return (free(old_pwd), 1);
+	}
 	else
 		new_dir = args[1];
 	if (chdir(new_dir) == -1)
@@ -98,7 +110,8 @@ void	ft_cd(t_vars *vars, char **args)
 		free(old_pwd);
 		if (args[1] && args[1][0] == '~')
 			free(new_dir);
-		return ;
+		return (1);
 	}
 	update_env(vars, old_pwd, args[1], new_dir);
+	return (0);
 }

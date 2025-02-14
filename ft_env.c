@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 16:27:22 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:55:11 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,16 @@ void	create_env_list(t_env_list **head, char **env)
 	}
 }
 
-void	ft_env(t_env_list *head)
+int	ft_env(t_env_list *head)
 {
-	int	i;
-
-	i = 1;
+	if (!head)
+		return (1);
 	while (head)
 	{
 		printf("%s=%s\n", head->key, head->value);
-		i++;
 		head = head->next;
 	}
+	return (0);
 }
 
 char	*find_var_env(t_env_list *head, char *var)

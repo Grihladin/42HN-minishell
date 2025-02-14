@@ -6,13 +6,13 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:32:04 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 21:36:22 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:51:57 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **args)
+int	ft_echo(char **args)
 {
 	int	i;
 	int	new_line_flag;
@@ -23,7 +23,7 @@ void	ft_echo(char **args)
 	if (!args || !args[1])
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
@@ -44,4 +44,5 @@ void	ft_echo(char **args)
 	}
 	if (new_line_flag)
 		printf("\n");
+	return (0);
 }

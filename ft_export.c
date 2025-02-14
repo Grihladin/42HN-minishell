@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 23:10:58 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:57:24 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static t_env_list	*is_in_env(t_env_list *head, char *arg)
 	return (free(tmp->key), free(tmp->value), free(tmp), NULL);
 }
 
-void	ft_export(t_env_list **env, char **args)
+int	ft_export(t_env_list **env, char **args)
 {
 	t_env_list	*tmp;
 	t_env_list	*node;
@@ -121,9 +121,11 @@ void	ft_export(t_env_list **env, char **args)
 	if (!args || !args[1])
 	{
 		sorted_list = sort_env_list(*env);
+		if (!sorted_list)
+			return (1);
 		print_env_export(sorted_list);
 		ft_envdel(&sorted_list, free);
-		return ;
+		return (0);
 	}
 	i = 1;
 	while (args[i] != NULL)
@@ -141,4 +143,5 @@ void	ft_export(t_env_list **env, char **args)
 			add_new_env_line(env, args[i]);
 		i++;
 	}
+	return (0);
 }

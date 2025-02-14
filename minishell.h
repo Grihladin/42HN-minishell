@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 09:43:27 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:09:09 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_env_list
 t_env_list				*ft_new_env(char *variable, char *value);
 void					ft_envadd_back(t_env_list **head, t_env_list *new_node);
 void					create_env_list(t_env_list **head, char **env);
-void					ft_env(t_env_list *head);
+int						ft_env(t_env_list *head);
 int						env_lstsize(t_env_list *lst);
 char					*find_var_env(t_env_list *head, char *var);
 
@@ -95,18 +95,18 @@ int						init(t_vars *vars, int argc, char **argv, char **env);
 
 // ft_echo
 
-void					ft_echo(char **args);
+int						ft_echo(char **args);
 
 // ft_cd
 
-void					ft_cd(t_vars *vars, char **args);
+int						ft_cd(t_vars *vars, char **args);
 
 // export
 
 int						is_valid_var_name(char *str);
 void					print_env_export(t_env_list *sorted_env_list);
 t_env_list				*sort_env_list(t_env_list *head);
-void					ft_export(t_env_list **env, char **args);
+int						ft_export(t_env_list **env, char **args);
 void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 // sig handling
@@ -140,15 +140,15 @@ int						wait_command(t_vars *vars);
 
 // pwd
 
-void					ft_pwd(t_env_list *env_list);
+int						ft_pwd(t_env_list *env_list);
 
 // ft_cd
 
-void					ft_cd(t_vars *vars, char **args);
+int						ft_cd(t_vars *vars, char **args);
 
 // ft_unset
 
-void					ft_unset(t_vars *vars, char **args);
+int						ft_unset(t_vars *vars, char **args);
 
 // ft_exit
 
