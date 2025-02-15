@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 12:02:31 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 12:53:03 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,10 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
-	int	tmpint;
-
-	tmpint = 0;
 	if (!node)
 		return ;
 	if (node->type == COMMAND_TYPE)
-	{
-		tmpint = execute_command(vars, node, node->command_args);
-		if (vars->return_code == 0)
-			vars->return_code = tmpint;
-	}
+		execute_command(vars, node, node->command_args);
 	else if (node->type == REDIRECT_TYPE)
 	{
 		save_fds(&(node->old_fds));
@@ -83,7 +76,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 		else if (node->type == OR_TYPE)
 		{
 			execute_node(vars, node->left);
-			wait_childs(&(vars->cmnd_nmbrs));
+			wait_childs(vars);
 			if (vars->return_code != 0)
 				execute_node(vars, node->right);
 		}
@@ -92,7 +85,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 		else if (node->type == AND_TYPE)
 		{
 			execute_node(vars, node->left);
-			wait_childs(&(vars->cmnd_nmbrs));
+			wait_childs(vars);
 			if (vars->return_code == 0)
 				execute_node(vars, node->right);
 		}
@@ -113,16 +106,8 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// printf("Print tree\n");
 	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
-	// save_fds(&(vars->old_fds));
-	// tcgetattr(STDIN_FILENO, &term1);
-	// term1.c_lflag &= ~ECHO;
-	// tcsetattr(STDIN_FILENO, 0, &term1);
 	execute_node(vars, vars->node_list);
-	wait_childs(&(vars->cmnd_nmbrs));
-	// term1.c_lflag |= ECHO;
-	// tcsetattr(STDIN_FILENO, 0, &term1);
-	// restore_fds(&(vars->old_fds));
-	// execute_programm(vars, cmnd);
+	wait_childs(vars);
 	reset_vars(vars);
 	return (0);
 }

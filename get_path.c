@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:19:52 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/05 17:53:38 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 12:33:55 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ int	get_paths(t_vars *vars)
 	char	*pathstr;
 
 	pathstr = find_var_env(vars->env_list, "PATH");
-	while (*pathstr != '\0')
+	if (pathstr != NULL)
 	{
-		if (add_str_to_list(copy_next_path(&pathstr), &(vars->paths)) == -1)
-			return (-1);
+		while (*pathstr != '\0')
+		{
+			if (add_str_to_list(copy_next_path(&pathstr), &(vars->paths)) == -1)
+				return (-1);
+		}
 	}
 	// ft_lstprint_paths(vars->paths);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/05 17:28:57 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 12:31:26 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static char	*get_next_part(t_vars *vars, char **str)
 	size = 0;
 	new_str = NULL;
 	tmp_str = NULL;
-	if (**str == '$')
+	if ((**str == '$') && (ft_isalnum(*((*str) + 1))
+			|| (*((*str) + 1) == '_')))
 	{
 		(*str)++;
 		while (((*str)[size] != '$') && ((*str)[size] != '\0')
@@ -66,6 +67,8 @@ static char	*get_next_part(t_vars *vars, char **str)
 	}
 	else
 	{
+		if (**str == '$')
+			size++;
 		while (((*str)[size] != '$') && ((*str)[size] != '\0'))
 			size++;
 		new_str = ft_calloc(size + 1, 1);
