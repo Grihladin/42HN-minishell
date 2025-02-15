@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:12:43 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 09:44:06 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 13:36:12 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_exit(char **args, t_vars *vars)
 		if (!is_numeric(args[1]))
 		{
 			ft_putstr_fd("exit: numeric argument required\n", 2);
-			exit(2);
+			exit(255);
 		}
 		exit_code = ft_atoi(args[1]);
 		if (exit_code > 255)
