@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 16:15:09 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:37:27 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # define PROMPT "minishell > "
 
-# include "libft/libft.h"
 # include "get_next_line/get_next_line_bonus.h"
+# include "libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -29,6 +29,12 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+# define ERR_NOT_FOUND 127
+# define ERR_NO_PERM 126
+# define ERR_SYNTAX 2
+# define ERR_GENERAL 1
+# define ERR_HEADER "minishell: "
 
 // command type declaration
 
@@ -166,7 +172,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char *file);
+							char * file);
 t_node					*parse_tokens(t_list **tokens);
 int						type_of_operator(char *str);
 

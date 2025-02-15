@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/08 16:14:45 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:38:02 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	add_str_to_list(char *str, struct s_list **lst)
 {
-	t_list		*tmp;
+	t_list	*tmp;
 
 	if (str == NULL)
 		return (-1);
@@ -41,4 +41,23 @@ void	ft_lstprint_str(t_list *lst)
 		printf("%s\n", lst->content);
 		lst = lst->next;
 	}
+}
+
+int	error_message(t_vars *vars, t_node *node, int error)
+{
+	ft_putendl_fd(ERR_HEADER, 2);
+	if (node->command_args)
+	{
+		ft_putstr_fd(node->command_args[1], 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (error == ERR_NOT_FOUND)
+		ft_putendl_fd("command not found", 2);
+	else if (error == ERR_NO_PERM)
+		ft_putendl_fd("permission denied", 2);
+	else if (error == ERR_SYNTAX)
+		ft_putendl_fd("syntax error", 2);
+	else if (error == ERR_GENERAL)
+		ft_putendl_fd("error", 2);
+	return (error);
 }
