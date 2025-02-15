@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 12:53:03 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:43:47 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
+	t_list	*str_list;
+
 	if (!node)
 		return ;
 	if (node->type == COMMAND_TYPE)
@@ -42,9 +44,11 @@ static void	execute_node(t_vars *vars, t_node *node)
 		else if (ft_strcmp("<<", node->command_args[0]) == 0)
 		{
 			create_pipe(&(node->new_fds));
+			str_list = here_doc(vars, node, node->command_args);
 			dup2(node->new_fds[1], STDOUT_FILENO);
 			close(node->new_fds[1]);
-			here_doc_fork(vars, node, node->command_args);
+			write_list_to_fd(str_list, STDIN_FILENO);
+			ft_lstclear(&str_list, free);
 			dup2(node->old_fds[1], STDOUT_FILENO);
 			dup2(node->new_fds[0], STDIN_FILENO);
 			close(node->new_fds[0]);

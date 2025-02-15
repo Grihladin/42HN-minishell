@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 12:42:31 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:28:51 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 void					set_sigs(t_vars *vars);
 
-// fds for pipes and redirections
+// pipes and redirections
+
+void					write_list_to_fd(t_list *str_list, int fd);
 
 // getnextline
 # ifndef BUFFER_SIZE
@@ -154,8 +156,7 @@ int						ft_exit(char **args, t_vars *vars);
 
 // HERE_DOC
 
-int						here_doc_fork(t_vars *vars, t_node *node,
-							char **args);
+t_list					*here_doc(t_vars *vars, t_node *node, char **args);
 
 // tree functions
 
