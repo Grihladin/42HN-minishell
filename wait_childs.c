@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:48:36 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 13:36:13 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:38:24 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	wait_childs(t_vars *vars)
 		pid = wait(&(vars->return_code));
 		if (pid >= 0 && WIFEXITED(vars->return_code))
 		{
-			vars->return_code = WEXITSTATUS(vars->return_code);
+			// vars->return_code = WEXITSTATUS(vars->return_code);
+			vars->return_code = vars->return_code;
 			// printf("PID %d return code %d\n", pid, vars->return_code);
 		}
 		(vars->cmnd_nmbrs)--;

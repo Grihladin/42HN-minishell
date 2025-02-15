@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 17:20:32 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:42:35 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 			tmp_env = env_to_array(vars);
 			if (execve(fullpath, args, tmp_env) == -1)
 			{
-				perror("Execute error!");
+				error_message(node, errno);
 				exit(errno);
 			}
 		}
@@ -63,10 +63,7 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 			tmp_env = env_to_array(vars);
 			if (execve(args[0], args, tmp_env) == -1)
 			{
-				// perror("No file!");
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(args[0], STDERR_FILENO);
-				ft_putendl_fd(" command not found", STDERR_FILENO);
+				error_message(node, errno);
 				exit(errno);
 			}
 		}
