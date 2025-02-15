@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 17:38:02 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:41:43 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_lstprint_str(t_list *lst)
 	}
 }
 
-int	error_message(t_vars *vars, t_node *node, int error)
+int	error_message(t_node *node, int error)
 {
 	ft_putendl_fd(ERR_HEADER, 2);
 	if (node->command_args)

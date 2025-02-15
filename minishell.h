@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 17:40:50 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:41:36 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int						execute_command(t_vars *vars, t_node *node,
 
 // utils
 
-int						error_message(t_vars *vars, t_node *node, int error);
+int						error_message(t_node *node, int error);
 
 void					print_list(t_list *head);
 void					ft_lstprint_str(t_list *lst);
