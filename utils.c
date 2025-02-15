@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 16:42:04 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 18:02:10 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*token_end(char *str)
 		else
 		{
 			while ((*str != '\0') && (is_operator(str) == 0)
-				&& (is_space(str) == 0) && (*str != '\'') && (*str != '"'))
+				&& (is_space(*str) == 0) && (*str != '\'') && (*str != '"'))
 				str++;
 			end = str;
 		}
@@ -107,10 +107,10 @@ int	is_operator(char *str)
 	return (0);
 }
 
-int	is_space(char *str)
+int	is_space(char str)
 {
-	if ((*str != '\0') && ((*str == ' ') || (*str == '\t') || (*str == '\n')
-			|| (*str == '\v') || (*str == '\f') || (*str == '\r')))
+	if ((str != '\0') && ((str == ' ') || (str == '\t') || (str == '\n')
+			|| (str == '\v') || (str == '\f') || (str == '\r')))
 		return (1);
 	return (0);
 }

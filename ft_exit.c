@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:12:43 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 14:20:06 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:55:39 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_exit(char **args, t_vars *vars)
 	int	exit_code;
 
 	exit_code = 0;
-	ft_putendl_fd("exit", 2);
+	// ft_putendl_fd("exit", 2);
 	if (args[1])
 	{
 		if (!is_numeric(args[1]))

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/14 16:40:08 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 18:02:02 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static char	*get_next_token(t_vars *vars, char **str)
 		return (copy_token_to_str(str, (*str + is_operator(*str))));
 	else
 	{
-		while ((**str != '\0') && (is_space(*str) == 0))
+		while ((**str != '\0') && (is_space(**str) == 0))
 		{
 			if ((**str == '\'') || (**str == '"'))
 				tmp_str = get_string_in_quotes(vars, str);
@@ -128,7 +128,7 @@ t_list	*tokenize(t_vars *vars, char *str)
 		free_list(&(vars->tokens));
 	while (*str != '\0')
 	{
-		while (is_space(str))
+		while (is_space(*str))
 			str++;
 		if (*str != '\0')
 		{

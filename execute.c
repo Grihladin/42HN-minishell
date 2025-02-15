@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 17:42:35 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 18:30:19 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,11 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 		}
 		else
 		{
-			tmp_env = env_to_array(vars);
-			if (execve(args[0], args, tmp_env) == -1)
-			{
-				error_message(node, errno);
-				exit(errno);
-			}
+			error_message(node, ERR_NOT_FOUND);
+			exit(ERR_NOT_FOUND);
 		}
 	}
+	vars->last_pid = node->command_pid;
 	free_list(&(vars->paths));
 	return (0);
 }

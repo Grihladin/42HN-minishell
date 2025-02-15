@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 17:41:36 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/15 18:30:18 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_vars
 	int					*old_fds;
 	int					cmnd_nmbrs;
 	int					return_code;
+	pid_t				last_pid;
 }						t_vars;
 
 // initialisation
@@ -202,7 +203,7 @@ void					print_tree(t_node *root, int depth);
 int						add_str_to_list(char *str, struct s_list **lst);
 int						is_operator(char *str);
 int						type_of_operator(char *str);
-int						is_space(char *str);
+int						is_space(char str);
 char					*token_end(char *str);
 void					free_double_array(char **arr);
 void					free_vars(t_vars *vars);
