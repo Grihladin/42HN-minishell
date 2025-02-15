@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 17:41:29 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/15 12:02:31 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	execute_node(t_vars *vars, t_node *node)
 		return ;
 	if (node->type == COMMAND_TYPE)
 	{
-		vars->cmnd_nmbrs++;
 		tmpint = execute_command(vars, node, node->command_args);
 		if (vars->return_code == 0)
 			vars->return_code = tmpint;
@@ -47,15 +46,20 @@ static void	execute_node(t_vars *vars, t_node *node)
 			dup2(node->new_fds[1], STDOUT_FILENO);
 		}
 		// HEREDOC
-		// else if (ft_strcmp("<<", node->command_args[0]) == 0)
-		// {
-		// 	node->new_fds[1] = open(node->command_args[1], O_CREAT
-		// 			| O_APPEND | O_WRONLY, 0644);
-		// 	dup2(node->new_fds[1], STDOUT_FILENO);
-		// }
+		else if (ft_strcmp("<<", node->command_args[0]) == 0)
+		{
+			create_pipe(&(node->new_fds));
+			dup2(node->new_fds[1], STDOUT_FILENO);
+			close(node->new_fds[1]);
+			here_doc_fork(vars, node, node->command_args);
+			dup2(node->old_fds[1], STDOUT_FILENO);
+			dup2(node->new_fds[0], STDIN_FILENO);
+			close(node->new_fds[0]);
+		}
 		close_fds(&(node->new_fds));
 		execute_node(vars, node->left);
 		restore_fds(&(node->old_fds));
+		close_fds(&(node->old_fds));
 	}
 	else
 	{
@@ -72,6 +76,7 @@ static void	execute_node(t_vars *vars, t_node *node)
 			close(node->new_fds[0]);
 			execute_node(vars, node->right);
 			restore_fds(&(node->old_fds));
+			close_fds(&(node->old_fds));
 		}
 		// || является логическим «ИЛИ» и выполнит вторую часть оператора,
 		// только если первая часть не верна;

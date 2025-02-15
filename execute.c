@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/14 16:55:27 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 12:02:32 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 	char	*fullpath;
 	char	**tmp_env;
 
+	vars->cmnd_nmbrs++;
 	get_paths(vars);
 	node->command_pid = fork();
 	if (node->command_pid == 0)

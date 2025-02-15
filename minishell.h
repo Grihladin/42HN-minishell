@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 16:27:40 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 11:52:34 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define PROMPT "minishell > "
 
 # include "libft/libft.h"
+# include "get_next_line/get_next_line_bonus.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -120,12 +121,9 @@ void					set_sigs(t_vars *vars);
 #  define BUFFER_SIZE 1
 # endif
 
-char					*get_next_line(int fd);
-
 int						is_in_str(char *s, char c);
 char					*ft_strdup(const char *src);
 char					*ft_str_merge(char *s1, char *s2);
-char					*get_next_line(int fd);
 int						ft_strlen(const char *s);
 char					*line_validator(char *s);
 char					*read_and_merge(int fd, char *current_line);
@@ -153,6 +151,11 @@ int						ft_unset(t_vars *vars, char **args);
 // ft_exit
 
 int						ft_exit(char **args, t_vars *vars);
+
+// HERE_DOC
+
+int						here_doc_fork(t_vars *vars, t_node *node,
+							char **args);
 
 // tree functions
 

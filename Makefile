@@ -44,11 +44,13 @@ execute.c \
 execute_tree.c \
 pipes.c \
 wait_childs.c \
-get_next_line.c \
-get_next_line_utils.c \
+here_doc.c \
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
+
+GET_NEXT_LINE_DIR = get_next_line
+GET_NEXT_LINE = $(GET_NEXT_LINE_DIR)/get_next_line.a
 
 HEADERS = minishell.h
 
@@ -62,8 +64,8 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 all: $(NAME)
 	@echo "\033[0;32m$(NAME) built successfully!\033[0m"
 
-$(NAME): $(LIBFT) $(OBJ) $(HEADERS)
-	@$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT)
+$(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJ) $(HEADERS)
+	@$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT) $(GET_NEXT_LINE)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
@@ -75,13 +77,18 @@ $(OBJ_DIR): $(HEADERS)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
+$(GET_NEXT_LINE):
+	@$(MAKE) -C $(GET_NEXT_LINE_DIR)
+
 clean:
 	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(GET_NEXT_LINE_DIR) clean
 
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(GET_NEXT_LINE_DIR) fclean
 
 re: fclean all
 
