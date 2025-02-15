@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 17:41:43 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:50:36 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	ft_lstprint_str(t_list *lst)
 
 int	error_message(t_node *node, int error)
 {
-	ft_putendl_fd(ERR_HEADER, 2);
-	if (node->command_args)
+	ft_putstr_fd(ERR_HEADER, 2);
+	if (node && node->command_args && node->command_args[0])
 	{
-		ft_putstr_fd(node->command_args[1], 2);
+		ft_putstr_fd(node->command_args[0], 2);
 		ft_putstr_fd(": ", 2);
 	}
 	if (error == ERR_NOT_FOUND)
