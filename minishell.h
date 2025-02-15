@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 14:28:51 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:15:09 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_vars
 	t_node				*node_list;
 	t_list				*paths;
 	t_list				*tokens;
+	t_list				*here_doc_buf;
 	char				**operators;
 	struct sigaction	sigaction;
 	t_list				*forks;
@@ -156,7 +157,7 @@ int						ft_exit(char **args, t_vars *vars);
 
 // HERE_DOC
 
-t_list					*here_doc(t_vars *vars, t_node *node, char **args);
+int						here_doc(t_vars *vars, t_node *node, char **args);
 
 // tree functions
 
@@ -165,7 +166,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char * file);
+							char *file);
 t_node					*parse_tokens(t_list **tokens);
 int						type_of_operator(char *str);
 

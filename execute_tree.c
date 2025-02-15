@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 14:43:47 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:17:51 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
-	t_list	*str_list;
-
 	if (!node)
 		return ;
 	if (node->type == COMMAND_TYPE)
@@ -43,12 +41,13 @@ static void	execute_node(t_vars *vars, t_node *node)
 		// HEREDOC
 		else if (ft_strcmp("<<", node->command_args[0]) == 0)
 		{
+			free_list(&(vars->here_doc_buf));
 			create_pipe(&(node->new_fds));
-			str_list = here_doc(vars, node, node->command_args);
-			dup2(node->new_fds[1], STDOUT_FILENO);
-			close(node->new_fds[1]);
-			write_list_to_fd(str_list, STDIN_FILENO);
-			ft_lstclear(&str_list, free);
+			here_doc(vars, node, node->command_args);
+			// dup2(node->new_fds[1], STDOUT_FILENO);
+			// close(node->new_fds[1]);
+			write_list_to_fd(vars->here_doc_buf, node->new_fds[1]);
+			free_list(&(vars->here_doc_buf));
 			dup2(node->old_fds[1], STDOUT_FILENO);
 			dup2(node->new_fds[0], STDIN_FILENO);
 			close(node->new_fds[0]);

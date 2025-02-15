@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/14 09:30:59 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:08:29 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	vars->operators = NULL;
 	vars->paths = NULL;
 	vars->tokens = NULL;
+	vars->here_doc_buf = NULL;
 	vars->cmnd_nmbrs = 0;
 	vars->return_code = 0;
 	vars->old_fds = ft_calloc(2, sizeof(int));
