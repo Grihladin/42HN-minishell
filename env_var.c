@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 12:31:26 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/15 13:08:49 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ static char	*get_next_part(t_vars *vars, char **str)
 			new_str = ft_strdup(env_val);
 		free(tmp_str);
 		return (new_str);
+	}
+	else if ((**str == '$') && (*((*str) + 1) == '?'))
+	{
+		new_str = ft_itoa(vars->return_code);
+		(*str) += 2;
 	}
 	else
 	{
