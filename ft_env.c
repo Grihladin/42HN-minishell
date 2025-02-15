@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 18:45:17 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:16:44 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ void	create_env_list(t_env_list **head, char **env)
 				var = ft_substr(env[i], 0, j);
 				value = ft_strdup(env[i] + j + 1);
 				new_node = ft_new_env(var, value);
+				if (!ft_strcmp(new_node->key, "OLDPWD"))
+				{
+					free(new_node->value);
+					new_node->value = ft_strdup("");
+				}
 				ft_envadd_back(head, new_node);
 				break ;
 			}
