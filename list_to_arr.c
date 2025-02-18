@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:30:13 by psenko            #+#    #+#             */
-/*   Updated: 2025/01/31 17:45:42 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 23:13:02 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 char	**copy_lst_to_arr(t_list **lst)
 {
 	size_t	arr_size;
-	t_list	*tmplst;
-	char	**arr;
-	char	**arrtmp;
+	t_list	*tmp_list;
+	char	**result;
+	char	**tmp_array;
 
-	tmplst = NULL;
+	tmp_list = NULL;
 	arr_size = ft_lstsize(*lst);
-	arr = ft_calloc(arr_size + 1, sizeof(char *));
-	if (arr == NULL)
+	result = ft_calloc(arr_size + 1, sizeof(char *));
+	if (result == NULL)
 		return (ft_lstclear(lst, free), NULL);
-	tmplst = *lst;
-	arrtmp = arr;
-	while (tmplst != NULL)
+	tmp_list = *lst;
+	tmp_array = result;
+	while (tmp_list != NULL)
 	{
-		*arrtmp = tmplst->content;
-		arrtmp++;
-		tmplst->content = NULL;
-		tmplst = tmplst->next;
+		*tmp_array = tmp_list->content;
+		tmp_array++;
+		tmp_list->content = NULL;
+		tmp_list = tmp_list->next;
 	}
-	*arrtmp = NULL;
+	*tmp_array = NULL;
 	ft_lstclear(lst, free);
-	return (arr);
+	return (result);
 }
