@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 17:55:06 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:18:12 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,34 @@ int	wait_command(t_vars *vars)
 {
 	char	*cmnd;
 	char	*line;
+	int		exit_code;
 
-	cmnd = NULL;
+	exit_code = vars->return_code;
 	while (1)
 	{
-		// cmnd = readline(PROMPT);
-		// Forbidden function
-		if (isatty(fileno(stdin)))
+		if (isatty(STDIN_FILENO))
+		{
 			cmnd = readline(PROMPT);
+			if (!cmnd) // EOF (Ctrl+D)
+				break ;
+		}
 		else
 		{
-			line = get_next_line(fileno(stdin));
+			line = get_next_line(STDIN_FILENO);
+			if (!line)
+				break ;
 			cmnd = ft_strtrim(line, "\n");
 			free(line);
+			if (!cmnd)
+				break ;
 		}
-		if (cmnd)
+		if (*cmnd) // Only execute non-empty commands
 		{
 			execute_tree(vars, cmnd);
-			free(cmnd);
-			cmnd = NULL;
+			exit_code = vars->return_code;
 		}
-		else
-		{
-			// rl_replace_line("exit", 0);
-			// ft_putendl_fd("exit", 2);
-			// write(0, "exit\n", 5);
-			// rl_on_new_line();
-			// rl_redisplay();
-			// rl_replace_line("SOme text", 0);
-			// rl_redisplay();
-			// continue ;
-			break ;
-		}
+		free(cmnd);
 	}
 	free_vars(vars);
-	exit (0);
+	return (exit_code);
 }
