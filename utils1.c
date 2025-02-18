@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 17:50:36 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:12:37 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,19 @@ int	error_message(t_node *node, int error)
 	else if (error == ERR_GENERAL)
 		ft_putendl_fd("error", 2);
 	return (error);
+}
+
+char	*ft_strtolower(char *str)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = ft_strdup(str);
+	while (tmp[i])
+	{
+		tmp[i] = ft_tolower(tmp[i]);
+		i++;
+	}
+	return (tmp);
 }

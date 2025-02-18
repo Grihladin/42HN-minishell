@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 17:38:22 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:12:55 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	it_builtin_programm(char *cmnd)
 {
+	cmnd = ft_strtolower(cmnd);
 	if ((!ft_strcmp("echo", cmnd)) || (!ft_strcmp("cd", cmnd))
 		|| (!ft_strcmp("pwd", cmnd)) || (!ft_strcmp("export", cmnd))
 		|| (!ft_strcmp("unset", cmnd)) || (!ft_strcmp("exit", cmnd)))
