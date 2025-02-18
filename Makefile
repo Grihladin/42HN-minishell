@@ -19,36 +19,36 @@ CFLAGS		:= -Wall -Wextra -Werror
 
 SRC = \
 main.c \
-tokenization.c \
-ast_nodes.c \
+init.c \
+utils.c \
+pipes.c \
+utils2.c \
+prompt.c \
+utils1.c \
+execute.c \
+env_var.c \
+get_path.c \
+here_doc.c \
+free_vars.c \
 ast_build.c \
+ast_nodes.c \
+list_to_arr.c \
+sig_actions.c \
+wait_childs.c \
+tokenization.c \
+execute_tree.c \
+env_to_array.c \
 builtins/ft_cd/ft_cd.c \
-builtins/ft_cd/ft_cd_utils.c \
-builtins/ft_env/ft_env.c \
-builtins/ft_env/ft_env_utils.c \
 builtins/ft_pwd/ft_pwd.c \
+builtins/ft_env/ft_env.c \
 builtins/ft_echo/ft_echo.c \
+builtins/ft_exit/ft_exit.c \
 builtins/ft_unset/ft_unset.c \
+builtins/ft_cd/ft_cd_utils.c \
 builtins/ft_export/ft_export.c \
+builtins/ft_env/ft_env_utils.c \
 builtins/ft_export/ft_export_utils.c \
 builtins/ft_export/ft_export_utils1.c \
-builtins/ft_exit/ft_exit.c \
-list_to_arr.c \
-free_vars.c \
-init.c \
-env_var.c \
-utils.c \
-utils1.c \
-utils2.c \
-get_path.c \
-env_to_array.c \
-prompt.c \
-sig_actions.c \
-execute.c \
-execute_tree.c \
-pipes.c \
-wait_childs.c \
-here_doc.c \
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

@@ -6,12 +6,15 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/07 22:00:30 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:54:57 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// HERE need to implement quotes and doublequotes and dollar sign expansion
+// this fucntion gets a starting token and then goes until next operator
+// and creates a command node with the arguments
 static t_node	*parse_command(t_list **current)
 {
 	int		arg_count;
