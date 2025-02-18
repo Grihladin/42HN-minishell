@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:24:58 by psenko            #+#    #+#             */
-/*   Updated: 2025/01/28 13:25:41 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:21:43 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,34 +60,34 @@ static char	**copy_next_prms(char *str)
 	return (cmnd);
 }
 
-int	get_commands(int argc, char **argv, struct s_lists *lists)
-{
-	char	*tmp;
-	int		ind;
+// int	get_commands(int argc, char **argv, struct s_lists *lists)
+// {
+// 	char	*tmp;
+// 	int		ind;
 
-	tmp = NULL;
-	ind = 2;
-	while (ind < (argc - 1))
-	{
-		if (lists->here_doc && ind == 2)
-		{
-			tmp = ft_strdup(argv[ind]);
-			if (add_str_to_list(tmp, &(lists->cmndlst)) == -1)
-				return (-1);
-		}
-		else
-		{
-			tmp = argv[ind];
-			if (add_str_to_list(copy_next_command(&tmp, lists->paths),
-					&(lists->cmndlst)) == -1)
-				return (-1);
-		}
-		if (add_split_to_list(copy_next_prms(tmp), &(lists->prmslst)) == -1)
-			return (-1);
-		ind++;
-	}
-	return (0);
-}
+// 	tmp = NULL;
+// 	ind = 2;
+// 	while (ind < (argc - 1))
+// 	{
+// 		if (lists->here_doc && ind == 2)
+// 		{
+// 			tmp = ft_strdup(argv[ind]);
+// 			if (add_str_to_list(tmp, &(lists->cmndlst)) == -1)
+// 				return (-1);
+// 		}
+// 		else
+// 		{
+// 			tmp = argv[ind];
+// 			if (add_str_to_list(copy_next_command(&tmp, lists->paths),
+// 					&(lists->cmndlst)) == -1)
+// 				return (-1);
+// 		}
+// 		if (add_split_to_list(copy_next_prms(tmp), &(lists->prmslst)) == -1)
+// 			return (-1);
+// 		ind++;
+// 	}
+// 	return (0);
+// }
 
 	// ft_lstprint_commands(lists->cmndlst);
 	// ft_lstprint_params(lists->prmslst);
