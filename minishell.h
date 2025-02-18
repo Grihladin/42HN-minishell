@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 18:11:28 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:56:07 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ int						ft_echo(char **args);
 
 int						ft_cd(t_vars *vars, char **args);
 
-// export
+// ft_export
 
+t_env_list				*env_split_line(char *str);
+t_env_list				*is_in_env(t_env_list *head, char *arg);
 int						is_valid_var_name(char *str);
 void					print_env_export(t_env_list *sorted_env_list);
 t_env_list				*sort_env_list(t_env_list *head);
@@ -122,7 +124,7 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 
 void					set_sigs(t_vars *vars);
 
-// pipes and redirections
+// pipes and redirection
 
 void					write_list_to_fd(t_list *str_list, int fd);
 
@@ -153,6 +155,8 @@ int						ft_pwd(t_env_list *env_list);
 // ft_cd
 
 int						ft_cd(t_vars *vars, char **args);
+void					update_old_pwd(t_vars *vars, char *dir);
+void					update_pwd(t_vars *vars, char *dir);
 
 // ft_unset
 

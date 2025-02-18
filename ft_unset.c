@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:53:37 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 16:08:55 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:02:37 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,26 @@ static void	env_delone(t_env_list **env_list, t_env_list *node_to_del)
 	}
 }
 
-int	ft_unset(t_vars *vars, char **args)
+static void	find_and_del(t_vars *vars, char **args, int i)
 {
 	t_env_list	*current;
-	int			i;
-	int			ret;
+
+	current = vars->env_list;
+	while (current)
+	{
+		if (!ft_strcmp(current->key, args[i]))
+		{
+			env_delone(&vars->env_list, current);
+			break ;
+		}
+		current = current->next;
+	}
+}
+
+int	ft_unset(t_vars *vars, char **args)
+{
+	int	i;
+	int	ret;
 
 	if (!vars || !args)
 		return (1);
@@ -71,16 +86,7 @@ int	ft_unset(t_vars *vars, char **args)
 			i++;
 			continue ;
 		}
-		current = vars->env_list;
-		while (current)
-		{
-			if (!ft_strcmp(current->key, args[i]))
-			{
-				env_delone(&vars->env_list, current);
-				break ;
-			}
-			current = current->next;
-		}
+		find_and_del(vars, args, i);
 		i++;
 	}
 	return (ret);

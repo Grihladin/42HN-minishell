@@ -6,73 +6,20 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 18:21:16 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:05:17 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_pwd(t_vars *vars, char *dir)
-{
-	t_env_list	*node;
-	t_env_list	*new_node;
-
-	if (!vars || !dir)
-		return ;
-	node = vars->env_list;
-	while (node)
-	{
-		if (!ft_strcmp(node->key, "PWD"))
-		{
-			free(node->value);
-			node->value = dir;
-			return ;
-		}
-		node = node->next;
-	}
-	new_node = ft_new_env(ft_strdup("PWD"), dir);
-	if (!new_node)
-	{
-		free(dir);
-		return ;
-	}
-	ft_envadd_back(&vars->env_list, new_node);
-}
-
-static void	update_old_pwd(t_vars *vars, char *dir)
-{
-	t_env_list	*node;
-	t_env_list	*new_node;
-
-	if (!vars || !dir)
-		return ;
-	node = vars->env_list;
-	while (node)
-	{
-		if (!ft_strcmp(node->key, "OLDPWD"))
-		{
-			free(node->value);
-			node->value = dir;
-			return ;
-		}
-		node = node->next;
-	}
-	new_node = ft_new_env(ft_strdup("OLDPWD"), dir);
-	if (!new_node)
-	{
-		free(dir);
-		return ;
-	}
-	ft_envadd_back(&vars->env_list, new_node);
-}
-
 static int	handle_minus(t_env_list *env_list, char **new_dir, char *old_pwd)
 {
 	*new_dir = find_var_env(env_list, "OLDPWD");
-	if (!*new_dir)
+	if (!*new_dir || !ft_strcmp(*new_dir, ""))
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
-		free(old_pwd);
+		if (old_pwd)
+			free(old_pwd);
 		return (1);
 	}
 	ft_putstr_fd(*new_dir, 1);
@@ -91,11 +38,35 @@ static void	update_env(t_vars *vars, char *old_pwd, char *dir, char *new_dir)
 		free(new_dir);
 }
 
+static char	*handle_tilde_path(t_vars *vars, const char *arg)
+{
+	char	*home;
+
+	home = find_var_env(vars->env_list, "HOME");
+	if (!home)
+	{
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return (NULL);
+	}
+	return (ft_strjoin(home, arg + 1));
+}
+
+static int	change_directory(char *new_dir, char **args)
+{
+	if (chdir(new_dir) == -1)
+	{
+		perror("cd");
+		if (args[1] && args[1][0] == '~')
+			free(new_dir);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_cd(t_vars *vars, char **args)
 {
 	char	*old_pwd;
 	char	*new_dir;
-	char	*home;
 
 	if (!vars || !args)
 		return (1);
@@ -103,39 +74,18 @@ int	ft_cd(t_vars *vars, char **args)
 	if (!old_pwd)
 		return (1);
 	if (!args[1])
-	{
 		new_dir = find_var_env(vars->env_list, "HOME");
-		if (!new_dir)
-			return (free(old_pwd), 1);
-	}
 	else if (!ft_strcmp(args[1], "-"))
 	{
 		if (handle_minus(vars->env_list, &new_dir, old_pwd))
-			return (free(old_pwd), 1);
+			return (1);
 	}
 	else if (args[1][0] == '~')
-	{
-		home = find_var_env(vars->env_list, "HOME");
-		if (!home)
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			free(old_pwd);
-			return (1);
-		}
-		new_dir = ft_strjoin(find_var_env(vars->env_list, "HOME"), args[1] + 1);
-		if (!new_dir)
-			return (free(old_pwd), 1);
-	}
+		new_dir = handle_tilde_path(vars, args[1]);
 	else
 		new_dir = args[1];
-	if (chdir(new_dir) == -1)
-	{
-		perror("cd");
-		free(old_pwd);
-		if (args[1] && args[1][0] == '~')
-			free(new_dir);
-		return (1);
-	}
+	if (!new_dir || change_directory(new_dir, args))
+		return (free(old_pwd), 1);
 	update_env(vars, old_pwd, args[1], new_dir);
 	return (0);
 }

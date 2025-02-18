@@ -6,26 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:40:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 17:16:44 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:33:16 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	env_lstsize(t_env_list *lst)
-{
-	int			i;
-	t_env_list	*current;
-
-	i = 0;
-	current = lst;
-	while (current != NULL)
-	{
-		i++;
-		current = current->next;
-	}
-	return (i);
-}
 
 t_env_list	*ft_new_env(char *variable, char *value)
 {
@@ -63,16 +48,32 @@ void	ft_envadd_back(t_env_list **head, t_env_list *new_node)
 	return ;
 }
 
-void	create_env_list(t_env_list **head, char **env)
+void	create_env_node(t_env_list **head, int j, int i, char **env)
 {
-	int			i;
-	int			j;
-	char		*value;
 	char		*var;
+	char		*value;
 	t_env_list	*new_node;
 
-	value = NULL;
-	var = NULL;
+	var = ft_substr(env[i], 0, j);
+	if (!var)
+		return ;
+	value = ft_strdup(env[i] + j + 1);
+	if (!value)
+		return ;
+	new_node = ft_new_env(var, value);
+	if (!ft_strcmp(new_node->key, "OLDPWD"))
+	{
+		free(new_node->value);
+		new_node->value = ft_strdup("");
+	}
+	ft_envadd_back(head, new_node);
+}
+
+void	create_env_list(t_env_list **head, char **env)
+{
+	int	i;
+	int	j;
+
 	i = 0;
 	while (env[i] != NULL)
 	{
@@ -81,15 +82,7 @@ void	create_env_list(t_env_list **head, char **env)
 		{
 			if (env[i][j] == '=')
 			{
-				var = ft_substr(env[i], 0, j);
-				value = ft_strdup(env[i] + j + 1);
-				new_node = ft_new_env(var, value);
-				if (!ft_strcmp(new_node->key, "OLDPWD"))
-				{
-					free(new_node->value);
-					new_node->value = ft_strdup("");
-				}
-				ft_envadd_back(head, new_node);
+				create_env_node(head, j, i, env);
 				break ;
 			}
 			j++;
@@ -108,15 +101,4 @@ int	ft_env(t_env_list *head)
 		head = head->next;
 	}
 	return (0);
-}
-
-char	*find_var_env(t_env_list *head, char *var)
-{
-	while (head != NULL)
-	{
-		if (ft_strcmp(var, head->key) == 0)
-			return (head->value);
-		head = head->next;
-	}
-	return (NULL);
 }

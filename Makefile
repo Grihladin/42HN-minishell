@@ -20,22 +20,26 @@ CFLAGS		:= -Wall -Wextra -Werror
 SRC = \
 main.c \
 tokenization.c \
-utils.c \
 ast_nodes.c \
 ast_build.c \
 ft_cd.c \
+ft_cd_utils.c \
 ft_env.c \
+ft_env_utils.c \
 ft_pwd.c \
 ft_echo.c \
 ft_unset.c \
 ft_export.c \
 ft_export_utils.c \
+ft_export_utils1.c \
 ft_exit.c \
 list_to_arr.c \
 free_vars.c \
 init.c \
 env_var.c \
+utils.c \
 utils1.c \
+utils2.c \
 get_path.c \
 env_to_array.c \
 prompt.c \

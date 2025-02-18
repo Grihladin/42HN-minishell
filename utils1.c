@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 18:12:37 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:35:40 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,18 @@ char	*ft_strtolower(char *str)
 		i++;
 	}
 	return (tmp);
+}
+
+void	clear_tree(t_node **root)
+{
+	if (*root == NULL)
+		return ;
+	clear_tree(&((*root)->left));
+	clear_tree(&((*root)->right));
+	free_double_array((*root)->command_args);
+	free_double_array((*root)->env);
+	delete_content((*root)->new_fds);
+	delete_content((*root)->old_fds);
+	delete_content(*root);
+	*root = NULL;
 }

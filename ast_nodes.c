@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_nodes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/09 11:22:46 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:35:27 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_node	*create_command_node(char **args)
 		return (NULL);
 	new_node->type = COMMAND_TYPE;
 	new_node->command_args = args;
-	///////HANDLE pid and env
 	return (new_node);
 }
 
@@ -76,7 +75,7 @@ t_node	*create_command_node(char **args)
 // Set the redirection arguments
 // Set the command being redirected
 // Redirection nodes don't have right children
-t_node	*create_redirect_node(t_node *command, char *operator, char *file)
+t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 {
 	t_node	*new_node;
 	char	**args;
@@ -112,18 +111,4 @@ int	type_of_operator(char *str)
 	else if (!ft_strcmp(str, "||"))
 		return (OR_TYPE);
 	return (COMMAND_TYPE);
-}
-
-void	clear_tree(t_node **root)
-{
-	if (*root == NULL)
-		return ;
-	clear_tree(&((*root)->left));
-	clear_tree(&((*root)->right));
-	free_double_array((*root)->command_args);
-	free_double_array((*root)->env);
-	delete_content((*root)->new_fds);
-	delete_content((*root)->old_fds);
-	delete_content(*root);
-	*root = NULL;
 }
