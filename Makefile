@@ -64,12 +64,12 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 all: $(NAME)
 	@echo "\033[0;32m$(NAME) built successfully!\033[0m"
 
-$(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJ) $(HEADERS)
-	@$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT) $(GET_NEXT_LINE)
+$(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJ)
+	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT) $(GET_NEXT_LINE)
 
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR): $(HEADERS)
 	@mkdir -p $(OBJ_DIR)
