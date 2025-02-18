@@ -6,23 +6,23 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 18:12:55 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 23:00:07 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	it_builtin_programm(char *cmnd)
+static int	it_builtin_program(char *cmd)
 {
-	cmnd = ft_strtolower(cmnd);
-	if ((!ft_strcmp("echo", cmnd)) || (!ft_strcmp("cd", cmnd))
-		|| (!ft_strcmp("pwd", cmnd)) || (!ft_strcmp("export", cmnd))
-		|| (!ft_strcmp("unset", cmnd)) || (!ft_strcmp("exit", cmnd)))
+	cmd = ft_strtolower(cmd);
+	if ((!ft_strcmp("echo", cmd)) || (!ft_strcmp("cd", cmd))
+		|| (!ft_strcmp("pwd", cmd)) || (!ft_strcmp("export", cmd))
+		|| (!ft_strcmp("unset", cmd)) || (!ft_strcmp("exit", cmd)))
 		return (1);
 	return (0);
 }
 
-static int	execute_builtin_programm(t_vars *vars, char **args)
+static int	execute_builtin_program(t_vars *vars, char **args)
 {
 	if (!ft_strcmp("exit", args[0]))
 		return (ft_exit(args, vars));
@@ -39,7 +39,7 @@ static int	execute_builtin_programm(t_vars *vars, char **args)
 	return (0);
 }
 
-static int	execute_programm(t_vars *vars, t_node *node, char **args)
+static int	execute_program(t_vars *vars, t_node *node, char **args)
 {
 	char	*fullpath;
 	char	**tmp_env;
@@ -76,12 +76,12 @@ static int	execute_programm(t_vars *vars, t_node *node, char **args)
 
 int	execute_command(t_vars *vars, t_node *node, char **args)
 {
-	if (it_builtin_programm(args[0]))
+	if (it_builtin_program(args[0]))
 	{
-		vars->return_code = execute_builtin_programm(vars, args);
+		vars->return_code = execute_builtin_program(vars, args);
 		return (0);
 	}
 	else
-		return (execute_programm(vars, node, args));
+		return (execute_program(vars, node, args));
 	return (0);
 }

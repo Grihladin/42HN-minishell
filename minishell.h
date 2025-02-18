@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:56:07 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 23:05:10 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# define PROMPT "minishell > "
+# define PROMPT "⚡️➜  minishell "
 
 # include "get_next_line/get_next_line_bonus.h"
 # include "libft/libft.h"
