@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 18:18:12 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 23:09:30 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	wait_command(t_vars *vars)
 {
-	char	*cmnd;
+	char	*cmd;
 	char	*line;
 	int		exit_code;
 
@@ -23,8 +23,8 @@ int	wait_command(t_vars *vars)
 	{
 		if (isatty(STDIN_FILENO))
 		{
-			cmnd = readline(PROMPT);
-			if (!cmnd) // EOF (Ctrl+D)
+			cmd = readline(PROMPT);
+			if (!cmd)
 				break ;
 		}
 		else
@@ -32,18 +32,17 @@ int	wait_command(t_vars *vars)
 			line = get_next_line(STDIN_FILENO);
 			if (!line)
 				break ;
-			cmnd = ft_strtrim(line, "\n");
+			cmd = ft_strtrim(line, "\n");
 			free(line);
-			if (!cmnd)
+			if (!cmd)
 				break ;
 		}
-		if (*cmnd) // Only execute non-empty commands
+		if (*cmd)
 		{
-			execute_tree(vars, cmnd);
+			execute_tree(vars, cmd);
 			exit_code = vars->return_code;
 		}
-		free(cmnd);
+		free(cmd);
 	}
-	free_vars(vars);
-	return (exit_code);
+	return (free(vars), exit_code);
 }
