@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:50:59 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:52:53 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:54 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 int	is_valid_var_name(char *str)
 {

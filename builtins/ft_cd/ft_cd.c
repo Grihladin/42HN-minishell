@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:55:31 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:05:17 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:21 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 static int	handle_minus(t_env_list *env_list, char **new_dir, char *old_pwd)
 {

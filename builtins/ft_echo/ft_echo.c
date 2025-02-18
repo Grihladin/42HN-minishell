@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:32:04 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:24:25 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:31 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 int	new_line_check(char **args, int *i)
 {

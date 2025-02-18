@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:55:02 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:57 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 static t_env_list	*separate_line(char *str, int i)
 {

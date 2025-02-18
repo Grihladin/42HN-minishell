@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:20:50 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/14 16:06:43 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:30:00 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 int	ft_pwd(t_env_list *env_list)
 {

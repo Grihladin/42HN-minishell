@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:31:59 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:33:22 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:35 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 char	*find_var_env(t_env_list *head, char *var)
 {

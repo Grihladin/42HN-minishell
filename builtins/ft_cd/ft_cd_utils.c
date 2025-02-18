@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:05:02 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:06:24 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:07 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 void	update_pwd(t_vars *vars, char *dir)
 {

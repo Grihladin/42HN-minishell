@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:20:18 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/15 17:18:21 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:50 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 t_env_list	*env_listdup(t_env_list *head)
 {

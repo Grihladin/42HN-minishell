@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:12:43 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:34:21 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:42 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 static int	is_numeric(char *str)
 {

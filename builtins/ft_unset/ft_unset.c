@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:53:37 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 22:02:37 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:30:03 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 static void	del_node(t_env_list **env_list, t_env_list *node,
 		t_env_list *prev_node)
