@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:48:36 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 17:23:59 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:31:08 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int	wait_childs(t_vars *vars)
 			(vars->cmnd_nmbrs)--;
 		}
 	}
+	// printf("Ret code: %d\n", vars->return_code);
 	return (0);
 }
