@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 16:58:09 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:05:21 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,14 @@ static t_node	*parse_command(t_list **current)
 	i = 0;
 	arg_count = 0;
 	temp = *current;
-	if (*current && type_of_operator((*current)->content))
-		return (create_command_node(NULL));
+	if (!temp || type_of_operator(temp->content) == PIPE_TYPE)
+	{
+		args = malloc(sizeof(char *));
+		if (!args)
+			return (NULL);
+		args[0] = NULL;
+		return (create_command_node(args));
+	}
 	while (temp && !type_of_operator(temp->content))
 	{
 		arg_count++;
