@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 09:17:26 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:25:37 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*copy_lst_to_str(t_list **lst)
 	strsize = 0;
 	while (tmp_lst != NULL)
 	{
-		strsize += ft_strlen((char *) tmp_lst->content);
+		strsize += ft_strlen((char *)tmp_lst->content);
 		tmp_lst = tmp_lst->next;
 	}
 	result_str = ft_calloc(strsize + 1, sizeof(char));
@@ -32,11 +32,35 @@ char	*copy_lst_to_str(t_list **lst)
 	tmp_lst = *lst;
 	while (tmp_lst != NULL)
 	{
-		ft_strlcat(result_str, (char *) tmp_lst->content, strsize + 1);
+		ft_strlcat(result_str, (char *)tmp_lst->content, strsize + 1);
 		tmp_lst = tmp_lst->next;
 	}
 	free_list(lst);
 	return (result_str);
+}
+
+static char	*get_var(t_vars *vars, char **str)
+{
+	int		size;
+	char	*new_str;
+	char	*tmp_str;
+	char	*env_val;
+
+	new_str = NULL;
+	tmp_str = NULL;
+	env_val = NULL;
+	size = 0;
+	while (((*str)[size] != '$') && ((*str)[size] != '\0')
+				&& (ft_isalnum((*str)[size]) || ((*str)[size] == '_')))
+		size++;
+	tmp_str = ft_calloc(size + 1, 1);
+	ft_strlcpy(tmp_str, *str, size + 1);
+	*str += size;
+	env_val = find_var_env(vars->env_list, tmp_str);
+	if (env_val != NULL)
+		new_str = ft_strdup(env_val);
+	free(tmp_str);
+	return (new_str);
 }
 
 static char	*get_next_part(t_vars *vars, char **str)
@@ -44,37 +68,39 @@ static char	*get_next_part(t_vars *vars, char **str)
 	int		size;
 	char	*new_str;
 	char	*tmp_str;
-	char	*env_val;
+	char	*end;
 
 	size = 0;
 	new_str = NULL;
 	tmp_str = NULL;
-	if ((**str == '$') && (ft_isalnum(*((*str) + 1))
-			|| (*((*str) + 1) == '_')))
+	if (**str == '"')
 	{
 		(*str)++;
-		while (((*str)[size] != '$') && ((*str)[size] != '\0')
-			&& (ft_isalnum((*str)[size]) || ((*str)[size] == '_')))
-			size++;
-		tmp_str = ft_calloc(size + 1, 1);
-		ft_strlcpy(tmp_str, *str, size + 1);
-		*str += size;
-		env_val = find_var_env(vars->env_list, tmp_str);
-		if (env_val != NULL)
-			new_str = ft_strdup(env_val);
-		free(tmp_str);
-		return (new_str);
+		while (**str != '"')
+		{
+			(*str)++;
+		}
+	}
+	else if (**str == '\'')
+	{
+		end = ft_strchr(++(*str), '\'');
+		new_str = copy_token_to_str(str, end);
+		(*str)++;
 	}
 	else if ((**str == '$') && (*((*str) + 1) == '?'))
 	{
 		new_str = ft_itoa(vars->return_code);
 		(*str) += 2;
 	}
+	else if (**str == '$')
+	{
+		(*str)++;
+		new_str = get_var(vars, str);
+	}
 	else
 	{
-		if (**str == '$')
-			size++;
-		while (((*str)[size] != '$') && ((*str)[size] != '\0'))
+		while (((*str)[size] != '$') && ((*str)[size] != '\'')
+				&& ((*str)[size] != '"') && ((*str)[size] != '\0'))
 			size++;
 		new_str = ft_calloc(size + 1, 1);
 		ft_strlcpy(new_str, *str, size + 1);

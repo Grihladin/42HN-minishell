@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 09:17:16 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:51:43 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ int						type_of_operator(char *str);
 t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 char					*copy_lst_to_str(t_list **lst);
+char					*copy_token_to_str(char **str, char *end);
 char					*handle_env_var(t_vars *vars, char *str);
 char					*handle_vars(t_vars *vars, char *instr);
 

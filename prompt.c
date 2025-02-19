@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 08:50:39 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:27:18 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	wait_command(t_vars *vars)
 			execute_tree(vars, cmd);
 			exit_code = vars->return_code;
 		}
-		free(cmd);
+		delete_content(cmd);
 	}
-	return (free(vars), exit_code);
+	return (free_vars(vars), exit_code);
 }

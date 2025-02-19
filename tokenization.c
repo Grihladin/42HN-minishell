@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 09:26:58 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:28:11 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // ls | cat Makefile | cat << 'asd' > out in this case need to save '' as part of the token
 // crucial moment fore $ expand
 
-static char	*copy_token_to_str(char **str, char *end)
+char	*copy_token_to_str(char **str, char *end)
 {
 	size_t	len;
 	char	*dst;
@@ -101,6 +101,10 @@ static char	*get_next_token(char **str)
 			}
 		}
 	}
+	// Debug
+	// tmp_str = handle_vars(vars, new_str);
+	// free(new_str);
+	// new_str = tmp_str;
 	return (new_str);
 }
 
