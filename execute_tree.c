@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 19:49:49 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:10:28 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static void	execute_node(t_vars *vars, t_node *node)
 {
-	pid_t	pid_right;
-	pid_t	pid_left;
-
 	if (!node)
 		return ;
 	if (node->type == COMMAND_TYPE)
@@ -67,35 +64,18 @@ static void	execute_node(t_vars *vars, t_node *node)
 			save_fds(&(node->old_fds));
 			if (create_pipe(&(node->new_fds)) < 0)
 				return ;
-			pid_right = fork();
-			if (pid_right == 0)
-			{
-				close(node->new_fds[1]);
-				dup2(node->new_fds[0], STDIN_FILENO);
-				close(node->new_fds[0]);
-				execute_node(vars, node->right);
-				exit(EXIT_SUCCESS);
-			}
-			else
-			{
-				pid_left = fork();
-				if (pid_left == 0)
-				{
-					close(node->new_fds[0]);
-					dup2(node->new_fds[1], STDOUT_FILENO);
-					close(node->new_fds[1]);
-					execute_node(vars, node->left);
-					exit(EXIT_SUCCESS);
-				}
-				else
-				{
-					close(node->new_fds[0]);
-					close(node->new_fds[1]);
-					waitpid(pid_left, NULL, 0);
-					waitpid(pid_right, NULL, 0);
-					restore_fds(&(node->old_fds));
-				}
-			}
+			dup2(node->new_fds[1], STDOUT_FILENO);
+			execute_node(vars, node->left);
+			close(node->new_fds[1]);
+			dup2(node->old_fds[1], STDOUT_FILENO);
+			close(node->old_fds[1]);
+
+			dup2(node->new_fds[0], STDIN_FILENO);
+			execute_node(vars, node->right);
+			close(node->new_fds[0]);
+			dup2(node->old_fds[0], STDIN_FILENO);
+			close(node->old_fds[0]);
+			// restore_fds(&(node->old_fds));
 		}
 		// || является логическим «ИЛИ» и выполнит вторую часть оператора,
 		// только если первая часть не верна;
