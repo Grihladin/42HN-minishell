@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 23:09:30 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/19 08:50:39 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	wait_command(t_vars *vars)
 	exit_code = vars->return_code;
 	while (1)
 	{
+		cmd = NULL;
 		if (isatty(STDIN_FILENO))
 		{
 			cmd = readline(PROMPT);

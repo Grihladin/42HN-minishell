@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 18:10:36 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:17:26 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,18 @@ char	*handle_env_var(t_vars *vars, char *str)
 	result_str = copy_lst_to_str(&str_list);
 	free_list(&str_list);
 	return (result_str);
+}
+
+char	*handle_vars(t_vars *vars, char *instr)
+{
+	char	*tmp_str;
+
+	tmp_str = NULL;
+	if (ft_strchr(instr, '$'))
+	{
+		tmp_str = handle_env_var(vars, instr);
+		free(instr);
+		instr = tmp_str;
+	}
+	return (instr);
 }

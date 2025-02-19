@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 23:05:10 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:17:16 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char * file);
+							char *file);
 t_node					*parse_tokens(t_list **tokens);
 int						type_of_operator(char *str);
 
@@ -186,6 +186,7 @@ t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 char					*copy_lst_to_str(t_list **lst);
 char					*handle_env_var(t_vars *vars, char *str);
+char					*handle_vars(t_vars *vars, char *instr);
 
 // paths
 

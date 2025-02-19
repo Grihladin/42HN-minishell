@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 18:02:02 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:26:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,7 @@ static char	*copy_token_to_str(char **str, char *end)
 	return (dst);
 }
 
-static char	*handle_vars(t_vars *vars, char *instr)
-{
-	char	*tmp_str;
-
-	tmp_str = NULL;
-	if (ft_strchr(instr, '$'))
-	{
-		tmp_str = handle_env_var(vars, instr);
-		free(instr);
-		instr = tmp_str;
-	}
-	return (instr);
-}
-
-static char	*get_string_in_quotes(t_vars *vars, char **str)
+static char	*get_string_in_quotes(char **str)
 {
 	char	*end;
 	char	*new_str;
@@ -64,23 +50,25 @@ static char	*get_string_in_quotes(t_vars *vars, char **str)
 	new_str = NULL;
 	if (**str == '"')
 	{
-		end = ft_strchr(++(*str), '"');
-		new_str = copy_token_to_str(str, end);
-		(*str)++;
-		new_str = handle_vars(vars, new_str);
+		end = ft_strchr((*str) + 1, '"');
+		// end = ft_strchr(*str, '"');
+		new_str = copy_token_to_str(str, end + 1);
+		// (*str)++;
+		// new_str = handle_vars(vars, new_str);
 		return (new_str);
 	}
 	else if (**str == '\'')
 	{
-		end = ft_strchr(++(*str), '\'');
-		new_str = copy_token_to_str(str, end);
-		(*str)++;
+		end = ft_strchr((*str) + 1, '\'');
+		// end = ft_strchr(*str, '\'');
+		new_str = copy_token_to_str(str, end + 1);
+		// (*str)++;
 		return (new_str);
 	}
 	return (new_str);
 }
 
-static char	*get_next_token(t_vars *vars, char **str)
+static char	*get_next_token(char **str)
 {
 	char	*new_str;
 	char	*tmp_str;
@@ -96,11 +84,11 @@ static char	*get_next_token(t_vars *vars, char **str)
 		while ((**str != '\0') && (is_space(**str) == 0))
 		{
 			if ((**str == '\'') || (**str == '"'))
-				tmp_str = get_string_in_quotes(vars, str);
+				tmp_str = get_string_in_quotes(str);
 			else
 			{
 				tmp_str = copy_token_to_str(str, token_end(*str));
-				tmp_str = handle_vars(vars, tmp_str);
+				// tmp_str = handle_vars(vars, tmp_str);
 			}
 			if (new_str == NULL)
 				new_str = tmp_str;
@@ -132,7 +120,7 @@ t_list	*tokenize(t_vars *vars, char *str)
 			str++;
 		if (*str != '\0')
 		{
-			new_str = get_next_token(vars, &str);
+			new_str = get_next_token(&str);
 			if (new_str == NULL)
 				return (ft_lstclear(&str_list, free), NULL);
 			tmp = ft_lstnew(new_str);
