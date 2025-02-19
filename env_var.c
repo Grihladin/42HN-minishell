@@ -6,13 +6,13 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 10:25:37 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:31:54 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*copy_lst_to_str(t_list **lst)
+char	*mv_lst_to_str(t_list **lst)
 {
 	t_list	*tmp_lst;
 	char	*result_str;
@@ -67,19 +67,23 @@ static char	*get_next_part(t_vars *vars, char **str)
 {
 	int		size;
 	char	*new_str;
-	char	*tmp_str;
+	t_list	*str_list;
 	char	*end;
 
 	size = 0;
 	new_str = NULL;
-	tmp_str = NULL;
+	str_list = NULL;
 	if (**str == '"')
 	{
 		(*str)++;
 		while (**str != '"')
 		{
+			// printf("%s\n", *str);
 			(*str)++;
+			// add_str_to_list(get_var(vars, str), &str_list);
 		}
+		(*str)++;
+		new_str = mv_lst_to_str(&str_list);
 	}
 	else if (**str == '\'')
 	{
@@ -123,14 +127,15 @@ char	*handle_env_var(t_vars *vars, char *str)
 	while (*str != '\0')
 	{
 		new_str = get_next_part(vars, &str);
-		if (new_str != NULL)
-		{
-			tmplst = ft_lstnew(new_str);
-			ft_lstadd_back(&str_list, tmplst);
-		}
+		add_str_to_list(new_str, &str_list);
+		// if (new_str != NULL)
+		// {
+		// 	tmplst = ft_lstnew(new_str);
+		// 	ft_lstadd_back(&str_list, tmplst);
+		// }
 	}
-	result_str = copy_lst_to_str(&str_list);
-	free_list(&str_list);
+	result_str = mv_lst_to_str(&str_list);
+	// free_list(&str_list);
 	return (result_str);
 }
 

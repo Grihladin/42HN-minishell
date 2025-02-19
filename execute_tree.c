@@ -6,18 +6,22 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 11:10:28 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:45:47 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_node(t_vars *vars, t_node *node)
+static int	execute_node(t_vars *vars, t_node *node)
 {
 	if (!node)
-		return ;
+		return (0);
 	if (node->type == COMMAND_TYPE)
+	{
+		if (node->command_args == NULL)
+			return (ERR_SYNTAX);
 		execute_command(vars, node, node->command_args);
+	}
 	else if (node->type == REDIRECT_TYPE)
 	{
 		save_fds(&(node->old_fds));
@@ -53,7 +57,8 @@ static void	execute_node(t_vars *vars, t_node *node)
 			close(node->new_fds[0]);
 		}
 		close_fds(&(node->new_fds));
-		execute_node(vars, node->left);
+		if (execute_node(vars, node->left))
+			return (ERR_SYNTAX);
 		restore_fds(&(node->old_fds));
 		close_fds(&(node->old_fds));
 	}
@@ -63,15 +68,29 @@ static void	execute_node(t_vars *vars, t_node *node)
 		{
 			save_fds(&(node->old_fds));
 			if (create_pipe(&(node->new_fds)) < 0)
-				return ;
+			{
+				restore_fds(&(node->old_fds));
+				close_fds(&(node->new_fds));
+				return (77);
+			}
 			dup2(node->new_fds[1], STDOUT_FILENO);
-			execute_node(vars, node->left);
+			if (execute_node(vars, node->left))
+			{
+				restore_fds(&(node->old_fds));
+				close_fds(&(node->new_fds));
+				return (ERR_SYNTAX);
+			}
 			close(node->new_fds[1]);
 			dup2(node->old_fds[1], STDOUT_FILENO);
 			close(node->old_fds[1]);
 
 			dup2(node->new_fds[0], STDIN_FILENO);
-			execute_node(vars, node->right);
+			if (execute_node(vars, node->right))
+			{
+				restore_fds(&(node->old_fds));
+				close_fds(&(node->new_fds));
+				return (ERR_SYNTAX);
+			}
 			close(node->new_fds[0]);
 			dup2(node->old_fds[0], STDIN_FILENO);
 			close(node->old_fds[0]);
@@ -81,21 +100,26 @@ static void	execute_node(t_vars *vars, t_node *node)
 		// только если первая часть не верна;
 		else if (node->type == OR_TYPE)
 		{
-			execute_node(vars, node->left);
+			if (execute_node(vars, node->left))
+				return (ERR_SYNTAX);
 			wait_childs(vars);
 			if (vars->return_code != 0)
-				execute_node(vars, node->right);
+				if (execute_node(vars, node->right))
+					return (ERR_SYNTAX);
 		}
 		// && является логическим «И» и выполнит вторую часть оператора
 		// только в том случае, если первая часть верна.
 		else if (node->type == AND_TYPE)
 		{
-			execute_node(vars, node->left);
+			if (execute_node(vars, node->left))
+				return (ERR_SYNTAX);
 			wait_childs(vars);
 			if (vars->return_code == 0)
-				execute_node(vars, node->right);
+				if (execute_node(vars, node->right))
+					return (ERR_SYNTAX);
 		}
 	}
+	return (0);
 }
 
 int	execute_tree(t_vars *vars, char *cmnd)
@@ -112,7 +136,8 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// printf("Print tree\n");
 	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
-	execute_node(vars, vars->node_list);
+	if (execute_node(vars, vars->node_list))
+		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);
 	reset_vars(vars);
 	return (0);

@@ -68,7 +68,7 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 all: $(NAME)
 	@echo "\033[0;32m$(NAME) built successfully!\033[0m"
 
-$(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJ)
+$(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJ) $(HEADERS)
 	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT) $(GET_NEXT_LINE)
 
 $(OBJ_DIR)/%.o: %.c

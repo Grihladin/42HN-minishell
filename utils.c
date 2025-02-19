@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:53:28 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:37:38 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:15:46 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ void	print_tree(t_node *node, int depth)
 	if (node->type == COMMAND_TYPE)
 	{
 		printf("Command: ");
-		for (int i = 0; node->command_args[i]; i++)
+		if (node->command_args)
+		{
+			for (int i = 0; node->command_args[i]; i++)
 			printf("%s ", node->command_args[i]);
+		}
 		printf("\n");
 	}
 	else if (node->type == REDIRECT_TYPE)

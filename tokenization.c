@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 10:28:11 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:28:34 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*get_string_in_quotes(char **str)
 	return (new_str);
 }
 
-static char	*get_next_token(char **str)
+static char	*get_next_token(t_vars *vars, char **str)
 {
 	char	*new_str;
 	char	*tmp_str;
@@ -81,7 +81,7 @@ static char	*get_next_token(char **str)
 		return (copy_token_to_str(str, (*str + is_operator(*str))));
 	else
 	{
-		while ((**str != '\0') && (is_space(**str) == 0))
+		while ((**str != '\0') && (is_space(**str) == 0) && (is_operator(*str) == 0))
 		{
 			if ((**str == '\'') || (**str == '"'))
 				tmp_str = get_string_in_quotes(str);
@@ -102,9 +102,9 @@ static char	*get_next_token(char **str)
 		}
 	}
 	// Debug
-	// tmp_str = handle_vars(vars, new_str);
+	tmp_str = handle_vars(vars, new_str);
 	// free(new_str);
-	// new_str = tmp_str;
+	new_str = tmp_str;
 	return (new_str);
 }
 
@@ -124,7 +124,7 @@ t_list	*tokenize(t_vars *vars, char *str)
 			str++;
 		if (*str != '\0')
 		{
-			new_str = get_next_token(&str);
+			new_str = get_next_token(vars, &str);
 			if (new_str == NULL)
 				return (ft_lstclear(&str_list, free), NULL);
 			tmp = ft_lstnew(new_str);
