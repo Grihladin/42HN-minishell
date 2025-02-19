@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 17:45:47 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:53:06 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,13 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	// printf("Print tokens list:\n");
-	// print_list(vars->tokens);
+	printf("Print tokens list:\n");
+	print_list(vars->tokens);
 	add_history(cmnd);
-	vars->node_list = parse_tokens(&(vars->tokens));
-	// printf("Print tree\n");
-	// print_tree(vars->node_list, 0);
-	// printf("Execute tree\n");
+	vars->node_list = parse_tokens(&(vars->tokens), vars);
+	printf("Print tree\n");
+	print_tree(vars->node_list, 0);
+	printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);

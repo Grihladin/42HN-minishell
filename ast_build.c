@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 17:13:26 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:52:06 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // HERE need to implement quotes and doublequotes and dollar sign expansion
 // this fucntion gets a starting token and then goes until next operator
 // and creates a command node with the arguments
-static t_node	*parse_command(t_list **current)
+static t_node	*parse_command(t_list **current, t_vars *vars)
 {
 	int		arg_count;
 	t_list	*temp;
@@ -38,6 +38,7 @@ static t_node	*parse_command(t_list **current)
 	args = malloc((arg_count + 1) * sizeof(char *));
 	while (i < arg_count)
 	{
+		(*current)->content = handle_vars(vars, (*current)->content);
 		args[i] = ft_strdup((*current)->content);
 		if (!args[i])
 			return (free_double_array(args), NULL);
@@ -48,14 +49,14 @@ static t_node	*parse_command(t_list **current)
 	return (create_command_node(args));
 }
 
-static t_node	*parse_redirect(t_list **tokens)
+static t_node	*parse_redirect(t_list **tokens, t_vars *vars)
 {
 	t_node	*left;
 	t_list	*current;
 	char	*file;
 	char	*oper;
 
-	left = parse_command(tokens);
+	left = parse_command(tokens, vars);
 	current = *tokens;
 	while (*tokens && type_of_operator(current->content) == REDIRECT_TYPE)
 	{
@@ -74,37 +75,37 @@ static t_node	*parse_redirect(t_list **tokens)
 	return (left);
 }
 
-static t_node	*parse_pipe(t_list **tokens)
+static t_node	*parse_pipe(t_list **tokens, t_vars *vars)
 {
 	t_node	*left;
 	t_list	*current;
 	t_node	*right;
 
-	left = parse_redirect(tokens);
+	left = parse_redirect(tokens, vars);
 	current = *tokens;
 	while (*tokens && type_of_operator(current->content) == PIPE_TYPE)
 	{
 		*tokens = current->next;
-		right = parse_redirect(tokens);
+		right = parse_redirect(tokens, vars);
 		left = create_operator_node(PIPE_TYPE, left, right);
 		current = *tokens;
 	}
 	return (left);
 }
 
-static t_node	*parse_and_or(t_list **tokens)
+static t_node	*parse_and_or(t_list **tokens, t_vars *vars)
 {
 	t_node	*left;
 	t_list	*current;
 	t_node	*right;
 
-	left = parse_pipe(tokens);
+	left = parse_pipe(tokens, vars);
 	current = *tokens;
 	while (*tokens && (type_of_operator(current->content) == AND_TYPE
 			|| type_of_operator(current->content) == OR_TYPE))
 	{
 		*tokens = current->next;
-		right = parse_tokens(tokens);
+		right = parse_tokens(tokens, vars);
 		left = create_operator_node(type_of_operator(current->content), left,
 				right);
 		current = *tokens;
@@ -112,7 +113,7 @@ static t_node	*parse_and_or(t_list **tokens)
 	return (left);
 }
 
-t_node	*parse_tokens(t_list **tokens)
+t_node	*parse_tokens(t_list **tokens, t_vars *vars)
 {
-	return (parse_and_or(tokens));
+	return (parse_and_or(tokens, vars));
 }
