@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 21:35:27 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:52:42 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ static t_node	*create_new_node(void)
 	new_node = ft_calloc(1, sizeof(t_node));
 	if (!new_node)
 		return (NULL);
-	// new_node->right = NULL;
-	// new_node->left = NULL;
-	// new_node->command_args = NULL;
-	// new_node->env = NULL;
 	new_node->new_fds = ft_calloc(2, sizeof(int));
 	new_node->old_fds = ft_calloc(2, sizeof(int));
 	if (new_node->new_fds == NULL || new_node->old_fds == NULL)
@@ -56,6 +52,7 @@ t_node	*create_operator_node(t_node_type type, t_node *left, t_node *right)
 // Set the command arguments (["echo", "hi", NULL])
 // Command nodes don't have left children
 // Command nodes don't have right children
+
 t_node	*create_command_node(char **args)
 {
 	t_node	*new_node;
@@ -75,6 +72,7 @@ t_node	*create_command_node(char **args)
 // Set the redirection arguments
 // Set the command being redirected
 // Redirection nodes don't have right children
+
 t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 {
 	t_node	*new_node;

@@ -6,15 +6,12 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 17:52:06 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:52:07 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// HERE need to implement quotes and doublequotes and dollar sign expansion
-// this fucntion gets a starting token and then goes until next operator
-// and creates a command node with the arguments
 static t_node	*parse_command(t_list **current, t_vars *vars)
 {
 	int		arg_count;
@@ -23,26 +20,19 @@ static t_node	*parse_command(t_list **current, t_vars *vars)
 	int		i;
 
 	i = 0;
-	arg_count = 0;
 	temp = *current;
 	if (!temp || type_of_operator(temp->content) == PIPE_TYPE)
-	{
-		printf("syntax error near unexpected token `|'\n");
-		return (create_command_node(NULL));
-	}
-	while (temp && !type_of_operator(temp->content))
-	{
-		arg_count++;
-		temp = temp->next;
-	}
+		return (printf("syntax error near unexpected token `|'\n"),
+			create_command_node(NULL));
+	arg_count = calculate_args(temp);
 	args = malloc((arg_count + 1) * sizeof(char *));
 	while (i < arg_count)
 	{
-		(*current)->content = handle_vars(vars, (*current)->content);
-		args[i] = ft_strdup((*current)->content);
+		temp->content = handle_vars(vars, temp->content);
+		args[i] = ft_strdup(temp->content);
 		if (!args[i])
 			return (free_double_array(args), NULL);
-		*current = (*current)->next;
+		temp = temp->next;
 		i++;
 	}
 	args[arg_count] = NULL;

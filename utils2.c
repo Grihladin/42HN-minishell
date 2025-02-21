@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:35:55 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 14:47:18 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:47:52 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,17 @@ char	*mv_lst_to_str(t_list **lst)
 	}
 	free_list(lst);
 	return (result_str);
+}
+
+int	calculate_args(t_list *current)
+{
+	int	arg_count;
+
+	arg_count = 0;
+	while (current && !type_of_operator(current->content))
+	{
+		arg_count++;
+		current = current->next;
+	}
+	return (arg_count);
 }
