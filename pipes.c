@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 19:49:58 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:17:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,15 @@ int	restore_fds(int **fd)
 int	close_fds(int **fd)
 {
 	if ((*fd)[0] > -1)
+	{
 		close((*fd)[0]);
+		(*fd)[0] = -1;
+	}
 	if ((*fd)[1] > -1)
+	{
 		close((*fd)[1]);
+		(*fd)[1] = -1;
+	}
 	return (0);
 }
 
