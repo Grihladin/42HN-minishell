@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 16:08:29 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:36:16 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	shell_lvl(t_env_list **env_list)
 
 int	init(t_vars *vars, int argc, char **argv, char **env)
 {
+	g_signal_received = 0;
 	if ((argc == 0) || (argv == NULL))
 		return (0);
 	vars->env_list = NULL;
@@ -49,7 +50,7 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	vars->old_fds = ft_calloc(2, sizeof(int));
 	vars->old_fds[0] = -1;
 	vars->old_fds[1] = -1;
-	set_sigs(vars);
+	set_signals(vars);
 	create_env_list(&(vars->env_list), env);
 	shell_lvl(&(vars->env_list));
 	return (0);
