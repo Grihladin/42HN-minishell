@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 17:00:47 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:07:57 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void							ft_envdel(t_env_list **lst,
 // sig handling
 
 void							set_signals(t_vars *vars);
+void							set_signal_child(t_vars *vars);
 void							heredoc_handler(int signum);
 
 // pipes and redirection

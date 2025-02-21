@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 16:45:48 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:52:21 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	execute_program(t_vars *vars, t_node *node, char **args)
 	{
 		close_fds(&(node->new_fds));
 		close_fds(&(node->old_fds));
+		set_signal_child(vars);
 		fullpath = get_full_path(args[0], vars->paths);
 		if (fullpath != NULL)
 		{
