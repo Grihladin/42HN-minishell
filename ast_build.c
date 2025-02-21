@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 17:11:57 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:47:46 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,57 @@
 
 static t_node	*parse_command(t_list **current, t_vars *vars)
 {
+	t_node	*cmd_node;
+	char	**args;
 	int		arg_count;
 	t_list	*temp;
-	char	**args;
+	char	*oper;
+	char	*file;
 	int		i;
 
-	i = 0;
+	cmd_node = create_command_node(NULL);
+	args = NULL;
 	arg_count = 0;
 	temp = *current;
-	if (!temp || type_of_operator(temp->content) == PIPE_TYPE)
-		return (printf("syntax error near unexpected token `|'\n"),
-			create_command_node(NULL));
-	while (temp && !type_of_operator(temp->content))
+	while (temp && type_of_operator(temp->content) != PIPE_TYPE
+		&& type_of_operator(temp->content) != AND_TYPE
+		&& type_of_operator(temp->content) != OR_TYPE)
 	{
-		arg_count++;
-		temp = temp->next;
+		if (type_of_operator(temp->content) == REDIRECT_TYPE)
+		{
+			// Handle redirect
+			oper = temp->content;
+			temp = temp->next;
+			if (!temp)
+				return (NULL);
+			file = handle_vars(vars, temp->content);
+			create_redirect_node(cmd_node, oper, file);
+			temp = temp->next;
+		}
+		else
+		{
+			arg_count++;
+			temp = temp->next;
+		}
 	}
 	args = malloc((arg_count + 1) * sizeof(char *));
+	i = 0;
+	temp = *current;
 	while (i < arg_count)
 	{
-		(*current)->content = handle_vars(vars, (*current)->content);
-		args[i] = ft_strdup((*current)->content);
-		if (!args[i])
-			return (free_double_array(args), NULL);
-		*current = (*current)->next;
-		i++;
+		if (type_of_operator(temp->content) == REDIRECT_TYPE)
+			temp = temp->next->next;
+		else
+		{
+			args[i] = ft_strdup(handle_vars(vars, temp->content));
+			temp = temp->next;
+			i++;
+		}
 	}
 	args[arg_count] = NULL;
-	return (create_command_node(args));
+	cmd_node->command_args = args;
+	*current = temp;
+	return (cmd_node);
 }
 
 static t_node	*parse_redirect(t_list **tokens, t_vars *vars)
