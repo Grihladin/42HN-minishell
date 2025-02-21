@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/19 17:51:13 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 14:48:50 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 char					*mv_lst_to_str(t_list **lst);
 char					*copy_token_to_str(char **str, char *end);
-char					*handle_env_var(t_vars *vars, char *str);
 char					*handle_vars(t_vars *vars, char *instr);
 
 // paths
@@ -210,6 +209,7 @@ int						add_str_to_list(char *str, struct s_list **lst);
 int						is_operator(char *str);
 int						type_of_operator(char *str);
 int						is_space(char str);
+char					*get_home(t_vars *vars);
 char					*token_end(char *str);
 void					free_double_array(char **arr);
 void					free_vars(t_vars *vars);
