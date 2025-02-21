@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 16:49:53 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:00:47 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ char							*get_full_path(char *path, t_list *lstpath);
 
 // execution
 int						execute_tree(t_vars *vars, char *cmnd);
+int						execute_node(t_vars *vars, t_node *node);
 int						execute_command(t_vars *vars, t_node *node,
 							char **args);
 

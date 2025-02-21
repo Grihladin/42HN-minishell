@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 15:52:07 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:03:41 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_node	*parse_command(t_list **current, t_vars *vars)
 	int		i;
 
 	i = 0;
+	arg_count = 0;
 	temp = *current;
 	if (!temp || type_of_operator(temp->content) == PIPE_TYPE)
 		return (printf("syntax error near unexpected token `|'\n"),
@@ -28,11 +29,11 @@ static t_node	*parse_command(t_list **current, t_vars *vars)
 	args = malloc((arg_count + 1) * sizeof(char *));
 	while (i < arg_count)
 	{
-		temp->content = handle_vars(vars, temp->content);
-		args[i] = ft_strdup(temp->content);
+		(*current)->content = handle_vars(vars, (*current)->content);
+		args[i] = ft_strdup((*current)->content);
 		if (!args[i])
 			return (free_double_array(args), NULL);
-		temp = temp->next;
+		*current = (*current)->next;
 		i++;
 	}
 	args[arg_count] = NULL;
