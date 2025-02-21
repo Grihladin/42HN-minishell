@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 16:52:21 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/21 17:23:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 static int	it_builtin_program(char *cmd)
 {
-	cmd = ft_strtolower(cmd);
-	if ((!ft_strcmp("echo", cmd)) || (!ft_strcmp("cd", cmd))
-		|| (!ft_strcmp("pwd", cmd)) || (!ft_strcmp("export", cmd))
-		|| (!ft_strcmp("unset", cmd)) || (!ft_strcmp("exit", cmd)))
+	char	*tmp;
+
+	tmp = ft_strtolower(cmd);
+	if ((!ft_strcmp("echo", tmp)) || (!ft_strcmp("cd", tmp))
+		|| (!ft_strcmp("pwd", tmp)) || (!ft_strcmp("export", tmp))
+		|| (!ft_strcmp("unset", tmp)) || (!ft_strcmp("exit", tmp)))
+	{
+		ft_strlcpy(cmd, tmp, ft_strlen(cmd) + 1);
+		free(tmp);
 		return (1);
+	}
+
 	return (0);
 }
 
