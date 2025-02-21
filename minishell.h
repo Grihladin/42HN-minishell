@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 16:41:33 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:49:53 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,14 +179,14 @@ int								here_doc(t_vars *vars, t_node *node,
 
 // tree functions
 
-void							clear_tree(t_node **root);
-t_node							*create_command_node(char **args);
-t_node							*create_operator_node(t_node_type type,
-									t_node *left, t_node *right);
-t_node							*create_redirect_node(t_node *command,
-									char *operator, char * file);
-t_node							*parse_tokens(t_list **tokens, t_vars *vars);
-int								type_of_operator(char *str);
+void					clear_tree(t_node **root);
+t_node					*create_command_node(char **args);
+t_node					*create_operator_node(t_node_type type, t_node *left,
+							t_node *right);
+t_node					*create_redirect_node(t_node *command, char *operator,
+							char * file);
+t_node					*parse_tokens(t_list **tokens, t_vars *vars);
+int						type_of_operator(char *str);
 
 // tokenization
 t_list							*tokenize(t_vars *vars, char *str);
@@ -201,9 +201,9 @@ int								get_paths(t_vars *vars);
 char							*get_full_path(char *path, t_list *lstpath);
 
 // execution
-int								execute_tree(t_vars *vars, char *cmnd);
-int								execute_command(t_vars *vars, t_node *node,
-									char **args);
+int						execute_tree(t_vars *vars, char *cmnd);
+int						execute_command(t_vars *vars, t_node *node,
+							char **args);
 
 // utils
 
