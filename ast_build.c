@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 16:35:32 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/22 18:06:37 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_node	*parse_command(t_list **current)
 		}
 	}
 	args = malloc((arg_count + 1) * sizeof(char *));
+	if (arg_count == 0 || !args)
+		return (NULL);
 	i = 0;
 	temp = *current;
 	while (i < arg_count)
