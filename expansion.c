@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 17:27:16 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 17:51:37 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ char	*handle_vars(t_vars *vars, char *str)
 
 int	expansion(t_vars *vars, char **arr)
 {
-	if (arr != NULL)
-		(arr++);
+	// if (arr != NULL)
+	// 	(arr++);
 	while (*arr != NULL)
 	{
 		*arr = handle_vars(vars, *arr);

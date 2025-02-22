@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 17:45:00 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 17:49:21 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	execute_node(t_vars *vars, t_node *node)
 {
 	if (!node)
 		return (0);
-	if (!(node->type == REDIRECT_TYPE)
+	if (!(node->type == REDIRECT_TYPE) && (node->command_args != NULL)
 		&& (ft_strcmp("<<", node->command_args[0]) != 0))
 		expansion(vars, node->command_args);
 	if (node->type == COMMAND_TYPE)
