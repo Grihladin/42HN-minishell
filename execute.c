@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 11:54:45 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 16:26:27 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	it_builtin_program(char *cmd)
 		free(tmp);
 		return (1);
 	}
-
 	return (0);
 }
 

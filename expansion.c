@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var.c                                          :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 14:54:01 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 17:27:16 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*get_var(t_vars *vars, char **str, char quotes)
 		free(tmp_str);
 	}
 	else if (((**str != '"') && (**str != '\'') && (is_space(**str) == 0))
-			|| quotes)
+		|| quotes)
 	{
 		new_str = ft_calloc(2, 1);
 		ft_strlcpy(new_str, "$", 2);
@@ -143,4 +143,16 @@ char	*handle_vars(t_vars *vars, char *str)
 		str = result_str;
 	}
 	return (str);
+}
+
+int	expansion(t_vars *vars, char **arr)
+{
+	if (arr != NULL)
+		(arr++);
+	while (*arr != NULL)
+	{
+		*arr = handle_vars(vars, *arr);
+		arr++;
+	}
+	return (0);
 }

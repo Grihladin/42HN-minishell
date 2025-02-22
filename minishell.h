@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 16:35:49 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/22 17:12:26 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int						ft_exit(char **args, t_vars *vars);
 
 // HERE_DOC
 
-int						here_doc(t_vars *vars, t_node *node);
+int						here_doc(t_vars *vars, t_node *node, char expansion);
 
 // tree functions
 
@@ -194,7 +194,10 @@ t_list					*tokenize(t_vars *vars, char *str);
 char					**copy_lst_to_arr(t_list **lst);
 char					*mv_lst_to_str(t_list **lst);
 char					*copy_token_to_str(char **str, char *end);
+
+// expansion
 char					*handle_vars(t_vars *vars, char *instr);
+int						expansion(t_vars *vars, char **arr);
 
 // paths
 

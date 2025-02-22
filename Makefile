@@ -27,12 +27,12 @@ utils3.c \
 prompt.c \
 utils1.c \
 execute.c \
-env_var.c \
 get_path.c \
 here_doc.c \
 free_vars.c \
 ast_build.c \
 ast_nodes.c \
+expansion.c \
 list_to_arr.c \
 sig_actions.c \
 wait_childs.c \

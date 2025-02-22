@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 16:37:27 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/22 17:43:49 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,19 @@ static int	l_redirect(t_vars *vars, t_node *node)
 
 static int	ll_redirect(t_vars *vars, t_node *node)
 {
+	char	expans;
+
+	expans = 0;
 	if (vars->im_in_pipe)
 		reset_stdio(vars);
-	here_doc(vars, node);
+	if ((ft_strchr((node->command_args)[1], '\'') == 0
+		&& ft_strchr((node->command_args)[1], '"') == 0))
+	{
+		printf("Expans\n");
+		expansion(vars, node->command_args);
+		expans = 1;
+	}
+	here_doc(vars, node, expans);
 	restore_fds(&(node->old_fds));
 	write_list_to_fd(vars->here_doc_buf, STDOUT_FILENO);
 	free_list(&(vars->here_doc_buf));
@@ -113,6 +123,9 @@ int	execute_node(t_vars *vars, t_node *node)
 {
 	if (!node)
 		return (0);
+	if (!(node->type == REDIRECT_TYPE)
+		&& (ft_strcmp("<<", node->command_args[0]) != 0))
+		expansion(vars, node->command_args);
 	if (node->type == COMMAND_TYPE)
 	{
 		if (node->command_args == NULL)
