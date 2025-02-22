@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 08:36:17 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 11:54:45 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ static int	execute_program(t_vars *vars, t_node *node, char **args)
 	node->command_pid = fork();
 	if (node->command_pid == 0)
 	{
-		close_fds(&(node->new_fds));
-		close_fds(&(node->old_fds));
+		close_all_fds();
 		set_signal_child(vars);
 		fullpath = get_full_path(args[0], vars->paths);
 		if (fullpath != NULL)

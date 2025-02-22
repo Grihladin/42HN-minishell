@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 09:26:22 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 10:55:34 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	close_fds(int **fd)
 int	create_pipe(int **p)
 {
 	if (pipe(*p))
-		return (perror("Pipe create error"), free(*p), -1);
+		return (perror("Pipe create error"), -1);
 	return (0);
 }
 

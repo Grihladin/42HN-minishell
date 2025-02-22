@@ -23,6 +23,7 @@ init.c \
 utils.c \
 pipes.c \
 utils2.c \
+utils3.c \
 prompt.c \
 utils1.c \
 execute.c \

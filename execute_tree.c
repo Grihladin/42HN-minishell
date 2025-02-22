@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 09:56:32 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 11:35:03 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,42 @@ static int	rr_redirect(t_vars *vars, t_node *node)
 	return (0);
 }
 
+static int	pipe_redirect(t_vars *vars, t_node *node)
+{
+	save_fds(&(node->old_fds));
+	if (create_pipe(&(node->new_fds)) < 0)
+	{
+		restore_fds(&(node->old_fds));
+		close_fds(&(node->new_fds));
+		return (77);
+	}
+	dup2(node->new_fds[1], STDOUT_FILENO);
+	close(node->new_fds[1]);
+	vars->im_in_pipe = 1;
+	if (execute_node(vars, node->left))
+	{
+		restore_fds(&(node->old_fds));
+		close_fds(&(node->new_fds));
+		return (ERR_SYNTAX);
+	}
+	dup2(node->old_fds[1], STDOUT_FILENO);
+	close(node->old_fds[1]);
+	dup2(node->new_fds[0], STDIN_FILENO);
+	close(node->new_fds[0]);
+	vars->im_in_pipe = 1;
+	if (execute_node(vars, node->right))
+	{
+		restore_fds(&(node->old_fds));
+		close_fds(&(node->new_fds));
+		return (ERR_SYNTAX);
+	}
+	dup2(node->old_fds[0], STDIN_FILENO);
+	close(node->old_fds[0]);
+	vars->im_in_pipe = 0;
+	// restore_fds(&(node->old_fds));
+	return (0);
+}
+
 int	execute_node(t_vars *vars, t_node *node)
 {
 	if (!node)
@@ -95,64 +131,29 @@ int	execute_node(t_vars *vars, t_node *node)
 		else if (ft_strcmp("<<", node->command_args[0]) == 0)
 			ll_redirect(vars, node);
 	}
-	else
+	else if (node->type == PIPE_TYPE)
+		pipe_redirect(vars, node);
+	// || является логическим «ИЛИ» и выполнит вторую часть оператора,
+	// только если первая часть не верна;
+	else if (node->type == OR_TYPE)
 	{
-		if (node->type == PIPE_TYPE)
-		{
-			vars->im_in_pipe = 1;
-			save_fds(&(node->old_fds));
-			if (create_pipe(&(node->new_fds)) < 0)
-			{
-				restore_fds(&(node->old_fds));
-				close_fds(&(node->new_fds));
-				return (77);
-			}
-			dup2(node->new_fds[1], STDOUT_FILENO);
-			if (execute_node(vars, node->left))
-			{
-				restore_fds(&(node->old_fds));
-				close_fds(&(node->new_fds));
-				return (ERR_SYNTAX);
-			}
-			close(node->new_fds[1]);
-			dup2(node->old_fds[1], STDOUT_FILENO);
-			close(node->old_fds[1]);
-			dup2(node->new_fds[0], STDIN_FILENO);
-			vars->im_in_pipe = 1;
+		if (execute_node(vars, node->left))
+			return (ERR_SYNTAX);
+		wait_childs(vars);
+		if (vars->return_code != 0)
 			if (execute_node(vars, node->right))
-			{
-				restore_fds(&(node->old_fds));
-				close_fds(&(node->new_fds));
 				return (ERR_SYNTAX);
-			}
-			close(node->new_fds[0]);
-			dup2(node->old_fds[0], STDIN_FILENO);
-			close(node->old_fds[0]);
-			vars->im_in_pipe = 0;
-			// restore_fds(&(node->old_fds));
-		}
-		// || является логическим «ИЛИ» и выполнит вторую часть оператора,
-		// только если первая часть не верна;
-		else if (node->type == OR_TYPE)
-		{
-			if (execute_node(vars, node->left))
+	}
+	// && является логическим «И» и выполнит вторую часть оператора
+	// только в том случае, если первая часть верна.
+	else if (node->type == AND_TYPE)
+	{
+		if (execute_node(vars, node->left))
+			return (ERR_SYNTAX);
+		wait_childs(vars);
+		if (vars->return_code == 0)
+			if (execute_node(vars, node->right))
 				return (ERR_SYNTAX);
-			wait_childs(vars);
-			if (vars->return_code != 0)
-				if (execute_node(vars, node->right))
-					return (ERR_SYNTAX);
-		}
-		// && является логическим «И» и выполнит вторую часть оператора
-		// только в том случае, если первая часть верна.
-		else if (node->type == AND_TYPE)
-		{
-			if (execute_node(vars, node->left))
-				return (ERR_SYNTAX);
-			wait_childs(vars);
-			if (vars->return_code == 0)
-				if (execute_node(vars, node->right))
-					return (ERR_SYNTAX);
-		}
 	}
 	return (0);
 }
