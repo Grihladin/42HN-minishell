@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:50:59 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 22:29:54 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/22 17:39:40 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,16 @@ int	is_valid_var_name(char *str)
 		return (0);
 	if (!ft_strcmp(str, "_"))
 		return (0);
+	if (*str == '=')
+		return (0);
+	if (*str == '+' && *(str + 1) == '=')
+		return (0);
 	while (*str)
 	{
-		if (!ft_isalnum(*str) && *str != '_')
+		if ((!ft_isalnum(*str) && *str != '_') || (*str == '?' || *str == '='
+				|| *str == '/' || *str == ' ' || *str == '!' || *str == '@'
+				|| *str == '#' || *str == '$' || *str == '%' || *str == '^'
+				|| *str == '&' || *str == '*'))
 			return (0);
 		str++;
 	}
