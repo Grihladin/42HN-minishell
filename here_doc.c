@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 11:04:06 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 16:13:34 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 09:49:23 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,14 @@ void	write_list_to_fd(t_list *str_list, int fd)
 	}
 }
 
-int	here_doc(t_vars *vars, t_node *node, char **args)
+int	here_doc(t_vars *vars, t_node *node)
 {
 	char	*tmpstr;
 	t_list	*tmp;
 
-	vars->cmnd_nmbrs++;
-	vars->cmnd_nmbrs--;
-	node->command_pid = node->command_pid;
-	// node->command_pid = fork();
-	// if (node->command_pid == 0)
-	// tmpstr = get_next_line(0);
 	tmpstr = readline("> ");
-	while ((tmpstr != NULL) && (ft_strncmp(args[1], tmpstr,
-				ft_strlen(args[1])) != 0))
+	while ((tmpstr != NULL) && (ft_strncmp((node->command_args)[1], tmpstr,
+			ft_strlen((node->command_args)[1])) != 0))
 	{
 		tmp = ft_lstnew(tmpstr);
 		if (tmp == NULL)

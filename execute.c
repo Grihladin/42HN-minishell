@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 17:23:53 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 08:36:17 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,15 @@ int	execute_command(t_vars *vars, t_node *node, char **args)
 {
 	if (it_builtin_program(args[0]))
 	{
-		vars->return_code = execute_builtin_program(vars, args);
+		if (vars->im_in_pipe)
+		{
+			vars->cmnd_nmbrs++;
+			node->command_pid = fork();
+			if (node->command_pid == 0)
+				exit (execute_builtin_program(vars, args));
+		}
+		else
+			vars->return_code = execute_builtin_program(vars, args);
 		return (0);
 	}
 	else

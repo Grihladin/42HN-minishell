@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 17:07:57 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 09:25:44 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ typedef struct s_vars
 	int							cmnd_nmbrs;
 	int							return_code;
 	pid_t						last_pid;
+	char						im_in_pipe;
+	int							fd_stdin;
+	int							fd_stdout;
 }								t_vars;
 
 // initialisation
@@ -175,8 +178,7 @@ int								ft_exit(char **args, t_vars *vars);
 
 // HERE_DOC
 
-int								here_doc(t_vars *vars, t_node *node,
-									char **args);
+int								here_doc(t_vars *vars, t_node *node);
 
 // tree functions
 
@@ -227,6 +229,7 @@ void							free_list(t_list **lst);
 void							reset_vars(t_vars *vars);
 void							free_arr_of_str(char ***strings);
 void							delete_content(void *n);
+int								reset_stdio(t_vars *vars);
 
 char							**env_to_array(t_vars *vars);
 int								wait_childs(t_vars *vars);

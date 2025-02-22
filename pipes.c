@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 16:17:58 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 09:26:22 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,14 @@ int	create_pipe(int **p)
 {
 	if (pipe(*p))
 		return (perror("Pipe create error"), free(*p), -1);
+	return (0);
+}
+
+int	reset_stdio(t_vars *vars)
+{
+	if (isatty(STDIN_FILENO) == 0)
+		dup2(vars->fd_stdin, STDIN_FILENO);
+	if (isatty(STDOUT_FILENO) == 0)
+		dup2(vars->fd_stdout, STDOUT_FILENO);
 	return (0);
 }

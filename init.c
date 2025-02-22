@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 16:36:16 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/22 09:21:42 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int	init(t_vars *vars, int argc, char **argv, char **env)
 	vars->here_doc_buf = NULL;
 	vars->cmnd_nmbrs = 0;
 	vars->return_code = 0;
+	vars->im_in_pipe = 0;
+	vars->fd_stdin = dup(STDIN_FILENO);
+	vars->fd_stdout = dup(STDOUT_FILENO);
 	vars->old_fds = ft_calloc(2, sizeof(int));
 	vars->old_fds[0] = -1;
 	vars->old_fds[1] = -1;

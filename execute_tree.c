@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 18:01:31 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 09:56:32 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,18 @@ static int	l_redirect(t_vars *vars, t_node *node)
 		if (execute_node(vars, node->left))
 			return (ERR_SYNTAX);
 	}
+	restore_fds(&(node->old_fds));
 	return (0);
 }
 
 static int	ll_redirect(t_vars *vars, t_node *node)
 {
+	if (vars->im_in_pipe)
+		reset_stdio(vars);
+	here_doc(vars, node);
+	restore_fds(&(node->old_fds));
+	write_list_to_fd(vars->here_doc_buf, STDOUT_FILENO);
 	free_list(&(vars->here_doc_buf));
-	if (create_pipe(&(node->new_fds)) == -1)
-		return (-1);
-	else
-	{
-		here_doc(vars, node, node->command_args);
-		// dup2(node->new_fds[1], STDOUT_FILENO);
-		// close(node->new_fds[1]);
-		write_list_to_fd(vars->here_doc_buf, node->new_fds[1]);
-		free_list(&(vars->here_doc_buf));
-		dup2(node->old_fds[1], STDOUT_FILENO);
-		dup2(node->new_fds[0], STDIN_FILENO);
-		close(node->new_fds[0]);
-		close_fds(&(node->new_fds));
-		if (execute_node(vars, node->left))
-			return (ERR_SYNTAX);
-	}
 	return (0);
 }
 
@@ -62,6 +52,7 @@ static int	r_redirect(t_vars *vars, t_node *node)
 		if (execute_node(vars, node->left))
 			return (ERR_SYNTAX);
 	}
+	restore_fds(&(node->old_fds));
 	return (0);
 }
 
@@ -78,6 +69,7 @@ static int	rr_redirect(t_vars *vars, t_node *node)
 		if (execute_node(vars, node->left))
 			return (ERR_SYNTAX);
 	}
+	restore_fds(&(node->old_fds));
 	return (0);
 }
 
@@ -100,16 +92,14 @@ int	execute_node(t_vars *vars, t_node *node)
 			r_redirect(vars, node);
 		else if (ft_strcmp(">>", node->command_args[0]) == 0)
 			rr_redirect(vars, node);
-		// HEREDOC
 		else if (ft_strcmp("<<", node->command_args[0]) == 0)
 			ll_redirect(vars, node);
-		restore_fds(&(node->old_fds));
-		close_fds(&(node->old_fds));
 	}
 	else
 	{
 		if (node->type == PIPE_TYPE)
 		{
+			vars->im_in_pipe = 1;
 			save_fds(&(node->old_fds));
 			if (create_pipe(&(node->new_fds)) < 0)
 			{
@@ -128,6 +118,7 @@ int	execute_node(t_vars *vars, t_node *node)
 			dup2(node->old_fds[1], STDOUT_FILENO);
 			close(node->old_fds[1]);
 			dup2(node->new_fds[0], STDIN_FILENO);
+			vars->im_in_pipe = 1;
 			if (execute_node(vars, node->right))
 			{
 				restore_fds(&(node->old_fds));
@@ -137,6 +128,7 @@ int	execute_node(t_vars *vars, t_node *node)
 			close(node->new_fds[0]);
 			dup2(node->old_fds[0], STDIN_FILENO);
 			close(node->old_fds[0]);
+			vars->im_in_pipe = 0;
 			// restore_fds(&(node->old_fds));
 		}
 		// || является логическим «ИЛИ» и выполнит вторую часть оператора,
