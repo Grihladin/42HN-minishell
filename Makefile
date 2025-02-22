@@ -39,6 +39,7 @@ wait_childs.c \
 tokenization.c \
 execute_tree.c \
 env_to_array.c \
+expansion_heredoc.c \
 builtins/ft_cd/ft_cd.c \
 builtins/ft_pwd/ft_pwd.c \
 builtins/ft_env/ft_env.c \

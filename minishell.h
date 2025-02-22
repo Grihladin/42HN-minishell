@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 17:12:26 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 18:08:31 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ char					*copy_token_to_str(char **str, char *end);
 
 // expansion
 char					*handle_vars(t_vars *vars, char *instr);
+char					*handle_vars_heredoc(t_vars *vars, char *str);
 int						expansion(t_vars *vars, char **arr);
 
 // paths
@@ -232,6 +233,7 @@ void					free_arr_of_str(char ***strings);
 void					delete_content(void *n);
 int						reset_stdio(t_vars *vars);
 int						close_all_fds(void);
+char					*delete_quotes(char *str);
 
 char					**env_to_array(t_vars *vars);
 int						wait_childs(t_vars *vars);

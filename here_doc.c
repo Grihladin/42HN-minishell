@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 11:04:06 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 17:27:08 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 18:05:08 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	here_doc(t_vars *vars, t_node *node, char expans)
 			ft_strlen((node->command_args)[1])) != 0))
 	{
 		if (expans)
-			tmpstr = handle_vars(vars, tmpstr);
+			tmpstr = handle_vars_heredoc(vars, tmpstr);
 		tmp = ft_lstnew(tmpstr);
 		if (tmp == NULL)
 			return (ft_lstclear(&tmp, free), 1);

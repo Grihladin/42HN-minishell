@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 17:49:21 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/22 19:05:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ static int	l_redirect(t_vars *vars, t_node *node)
 {
 	node->new_fds[0] = open(node->command_args[1], O_RDONLY);
 	if (node->new_fds[0] == -1)
-		return (perror(node->command_args[0]), errno);
+	{
+		restore_fds(&(node->old_fds));
+		return (perror(node->command_args[1]), 0);
+	}
 	else
 	{
 		dup2(node->new_fds[0], STDIN_FILENO);
 		close_fds(&(node->new_fds));
 		if (execute_node(vars, node->left))
-			return (ERR_SYNTAX);
+			return (0);
 	}
 	restore_fds(&(node->old_fds));
 	return (0);
@@ -37,11 +40,8 @@ static int	ll_redirect(t_vars *vars, t_node *node)
 		reset_stdio(vars);
 	if ((ft_strchr((node->command_args)[1], '\'') == 0
 		&& ft_strchr((node->command_args)[1], '"') == 0))
-	{
-		printf("Expans\n");
-		expansion(vars, node->command_args);
 		expans = 1;
-	}
+	(node->command_args)[1] = delete_quotes((node->command_args)[1]);
 	here_doc(vars, node, expans);
 	restore_fds(&(node->old_fds));
 	write_list_to_fd(vars->here_doc_buf, STDOUT_FILENO);
@@ -130,6 +130,7 @@ int	execute_node(t_vars *vars, t_node *node)
 	{
 		if (node->command_args == NULL)
 			return (ERR_SYNTAX);
+		// printf("%s\n", (node->command_args)[0]);
 		execute_command(vars, node, node->command_args);
 	}
 	else if (node->type == REDIRECT_TYPE)
@@ -186,7 +187,8 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
-		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
+		return (ERR_SYNTAX);
+		// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);
 	reset_vars(vars);
 	return (0);
