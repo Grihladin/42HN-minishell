@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/19 10:27:18 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:40:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	wait_command(t_vars *vars)
 {
 	char	*cmd;
 	char	*line;
-	int		exit_code;
 
-	exit_code = vars->return_code;
 	while (1)
 	{
 		cmd = NULL;
@@ -39,11 +37,8 @@ int	wait_command(t_vars *vars)
 				break ;
 		}
 		if (*cmd)
-		{
 			execute_tree(vars, cmd);
-			exit_code = vars->return_code;
-		}
 		delete_content(cmd);
 	}
-	return (free_vars(vars), exit_code);
+	return (free_vars(vars), vars->return_code);
 }

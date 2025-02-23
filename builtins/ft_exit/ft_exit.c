@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:12:43 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 22:29:42 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:46:51 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static int	is_numeric(char *str)
 {
 	int	i;
+	int	is_digit;
 
 	i = 0;
+	is_digit = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i])
@@ -24,8 +26,9 @@ static int	is_numeric(char *str)
 		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
+		is_digit = 1;
 	}
-	return (1);
+	return (is_digit);
 }
 
 int	ft_exit(char **args, t_vars *vars)

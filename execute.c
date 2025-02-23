@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:16:14 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 16:26:27 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:18:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	execute_command(t_vars *vars, t_node *node, char **args)
 			node->command_pid = fork();
 			if (node->command_pid == 0)
 				exit (execute_builtin_program(vars, args));
+			else
+				vars->last_pid = node->command_pid;
 		}
 		else
 			vars->return_code = execute_builtin_program(vars, args);

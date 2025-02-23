@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 19:05:58 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:29:56 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	l_redirect(t_vars *vars, t_node *node)
 		dup2(node->new_fds[0], STDIN_FILENO);
 		close_fds(&(node->new_fds));
 		if (execute_node(vars, node->left))
-			return (0);
+			return (ERR_SYNTAX);
 	}
 	restore_fds(&(node->old_fds));
 	return (0);
@@ -187,7 +187,7 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
-		return (ERR_SYNTAX);
+		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 		// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);
 	reset_vars(vars);
