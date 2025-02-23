@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:19:52 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/15 12:33:55 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/23 17:08:53 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_full_path(char *path, t_list *lstpath)
 	char	*fullpath;
 	char	*tmp;
 
+	if (ft_strlen(path) < 1)
+		return (NULL);
 	fullpath = NULL;
 	while (lstpath != NULL)
 	{

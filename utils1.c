@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 17:02:40 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/23 17:27:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ int	error_message(t_node *node, int error)
 		ft_putendl_fd("permission denied", 2);
 	else if (error == ERR_SYNTAX)
 		ft_putendl_fd("syntax error", 2);
-	else if (error == ERR_GENERAL)
+	else if (error == ERR_SYNTAX_NEAR)
+		ft_putendl_fd("syntax error near unexpected token", 2);
+	else
 		ft_putendl_fd("error", 2);
 	return (error);
 }

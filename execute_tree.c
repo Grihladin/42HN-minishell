@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/23 13:36:50 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/23 17:36:27 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ static int	rr_redirect(t_vars *vars, t_node *node)
 
 static int	pipe_redirect(t_vars *vars, t_node *node)
 {
+	if ((node->left == NULL) || (node->right)
+		|| (node->left->command_args == NULL)
+		|| (node->right->command_args == NULL))
+		return (error_message(node, 258), 258);
 	save_fds(&(node->old_fds));
 	if (create_pipe(&(node->new_fds)) < 0)
 	{

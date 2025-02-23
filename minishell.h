@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 18:08:31 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/23 17:27:59 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define ERR_NO_PERM 126
 # define ERR_SYNTAX 2
 # define ERR_GENERAL 1
+# define ERR_SYNTAX_NEAR 258
 # define ERR_HEADER "minishell: "
 # define MAX_FD 12288
 
