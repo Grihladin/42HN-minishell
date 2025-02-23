@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 22:29:57 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/23 17:03:30 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ int	ft_export(t_env_list **env, char **args)
 	i = 1;
 	while (args[i] != NULL)
 	{
+		if (!is_valid_var_name(args[i]))
+			return (printf("minishell: export: `%s': not a valid identifier\n",
+					args[1]), 1);
 		node = is_in_env(*env, args[i]);
 		if (node)
 			replace_value(node, args, i);
