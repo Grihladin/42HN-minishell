@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/23 17:03:30 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:27:15 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@ static t_env_list	*separate_line(char *str, int i)
 	key = ft_substr(str, 0, i);
 	if (!key || !is_valid_var_name(key))
 		return (free(key), NULL);
-	value = ft_strdup(str + i + 1);
-	if (!value)
+	if (str[i] == '=')
+		value = ft_strdup(str + i + 1);
+	else
+		value = NULL;
+	if (value == NULL && str[i] == '=')
 		return (free(key), NULL);
 	node = ft_new_env(key, value);
 	if (!node)
-		return (free(key), free(value), NULL);
+	{
+		free(key);
+		free(value);
+		return (NULL);
+	}
 	return (node);
 }
 
@@ -53,14 +60,20 @@ t_env_list	*env_split_line(char *str)
 	return (node);
 }
 
-static void	add_new_env_line(t_env_list **head, char *arg)
+static int	add_new_env_line(t_env_list **head, char *arg)
 {
 	t_env_list	*node;
 
 	node = env_split_line(arg);
 	if (!node)
-		return ;
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (1);
+	}
 	ft_envadd_back(head, node);
+	return (0);
 }
 
 static void	replace_value(t_env_list *node, char **args, int i)
@@ -92,14 +105,14 @@ int	ft_export(t_env_list **env, char **args)
 	i = 1;
 	while (args[i] != NULL)
 	{
-		if (!is_valid_var_name(args[i]))
-			return (printf("minishell: export: `%s': not a valid identifier\n",
-					args[1]), 1);
 		node = is_in_env(*env, args[i]);
 		if (node)
 			replace_value(node, args, i);
 		else
-			add_new_env_line(env, args[i]);
+		{
+			if (add_new_env_line(env, args[i]))
+				return (1);
+		}
 		i++;
 	}
 	return (0);

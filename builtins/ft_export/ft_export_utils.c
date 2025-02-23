@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:20:18 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/18 22:29:50 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/23 19:16:17 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ t_env_list	*env_listdup(t_env_list *head)
 		key_copy = ft_strdup(current->key);
 		if (!key_copy)
 			return (ft_envdel(&new_list, free), NULL);
-		value_copy = ft_strdup(current->value);
-		if (!value_copy)
-			return (free(key_copy), ft_envdel(&new_list, free), NULL);
+		if (!current->value)
+			value_copy = NULL;
+		else
+			value_copy = ft_strdup(current->value);
 		new_node = ft_new_env(key_copy, value_copy);
 		if (!new_node)
 			return (free(key_copy), free(value_copy), ft_envdel(&new_list,
@@ -85,10 +86,12 @@ void	print_env_export(t_env_list *sorted_env_list)
 	current = sorted_env_list;
 	while (current)
 	{
-		if (current->value != NULL && ft_strcmp(current->key, "_"))
+		if (ft_strcmp(current->key, "_") != 0)
 		{
-			if (!ft_strcmp(current->value, ""))
+			if (current->value == NULL)
 				printf("declare -x %s\n", current->key);
+			else if (current->value[0] == '\0')
+				printf("declare -x %s=\"\"\n", current->key);
 			else
 				printf("declare -x %s=\"%s\"\n", current->key, current->value);
 		}

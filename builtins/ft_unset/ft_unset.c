@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:53:37 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 17:36:56 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:52:26 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ int	ft_unset(t_vars *vars, char **args)
 	{
 		if (!is_valid_var_name(args[i]))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n", args[i]);
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			ret = 1;
 			i++;
 			continue ;
