@@ -6,66 +6,74 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/22 18:06:37 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/24 00:09:03 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	is_control_operator(char *token)
+{
+	if (ft_strcmp(token, "&&") == 0 || ft_strcmp(token, "||") == 0
+		|| ft_strcmp(token, "|") == 0)
+		return (1);
+	return (0);
+}
+
 static t_node	*parse_command(t_list **current)
 {
-	t_node	*cmd_node;
+	t_node	*cmd_root;
+	t_node	*current_node;
 	char	**args;
+	t_list	*iter;
 	int		arg_count;
-	t_list	*temp;
+	int		i;
 	char	*oper;
 	char	*file;
-	int		i;
+	t_node	*redirect;
 
-	cmd_node = create_command_node(NULL);
-	args = NULL;
+	cmd_root = create_command_node(NULL);
+	current_node = cmd_root;
+	iter = *current;
 	arg_count = 0;
-	temp = *current;
-	while (temp && type_of_operator(temp->content) != PIPE_TYPE
-		&& type_of_operator(temp->content) != AND_TYPE
-		&& type_of_operator(temp->content) != OR_TYPE)
+	while (iter && !is_control_operator(iter->content))
 	{
-		if (type_of_operator(temp->content) == REDIRECT_TYPE)
+		if (type_of_operator(iter->content) == REDIRECT_TYPE)
 		{
-			oper = temp->content;
-			temp = temp->next;
-			if (!temp)
+			iter = iter->next;
+			if (!iter || type_of_operator(iter->content))
 				return (NULL);
-			file = temp->content;
-			create_redirect_node(cmd_node, oper, file);
-			temp = temp->next;
+			iter = iter->next;
 		}
 		else
 		{
 			arg_count++;
-			temp = temp->next;
+			iter = iter->next;
 		}
 	}
 	args = malloc((arg_count + 1) * sizeof(char *));
-	if (arg_count == 0 || !args)
-		return (NULL);
+	iter = *current;
 	i = 0;
-	temp = *current;
 	while (i < arg_count)
 	{
-		if (type_of_operator(temp->content) == REDIRECT_TYPE)
-			temp = temp->next->next;
+		if (type_of_operator(iter->content) == REDIRECT_TYPE)
+		{
+			oper = iter->content;
+			file = iter->next->content;
+			redirect = create_redirect_node(current_node, oper, file);
+			current_node = redirect;
+			iter = iter->next->next;
+		}
 		else
 		{
-			args[i] = ft_strdup(temp->content);
-			temp = temp->next;
-			i++;
+			args[i++] = ft_strdup(iter->content);
+			iter = iter->next;
 		}
 	}
 	args[arg_count] = NULL;
-	cmd_node->command_args = args;
-	*current = temp;
-	return (cmd_node);
+	cmd_root->command_args = args;
+	*current = iter;
+	return (current_node);
 }
 
 static t_node	*parse_redirect(t_list **tokens)
