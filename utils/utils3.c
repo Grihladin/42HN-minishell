@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 11:51:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 18:20:14 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:13:10 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	close_all_fds(void)
 {
-	int		fd;
+	int	fd;
 
 	fd = 3;
 	while (fd < MAX_FD)
@@ -33,7 +33,7 @@ static char	*get_next_part(char **str)
 	new_str = NULL;
 	size = 0;
 	while (((*str)[size] != '\'') && ((*str)[size] != '\0')
-		&& ((*str)[size] != '"'))
+			&& ((*str)[size] != '"'))
 		size++;
 	new_str = ft_calloc(size + 1, 1);
 	ft_strlcpy(new_str, *str, size + 1);
@@ -60,4 +60,18 @@ char	*delete_quotes(char *str)
 	result_str = mv_lst_to_str(&str_list);
 	free(str);
 	return (result_str);
+}
+
+int	type_of_operator(char *str)
+{
+	if (!ft_strcmp(str, ">") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<")
+		|| !ft_strcmp(str, "<<"))
+		return (REDIRECT_TYPE);
+	else if (!ft_strcmp(str, "|"))
+		return (PIPE_TYPE);
+	else if (!ft_strcmp(str, "&&"))
+		return (AND_TYPE);
+	else if (!ft_strcmp(str, "||"))
+		return (OR_TYPE);
+	return (COMMAND_TYPE);
 }

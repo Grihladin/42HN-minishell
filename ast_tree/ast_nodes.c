@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 12:54:05 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:25:58 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static t_node	*create_new_node(void)
 {
@@ -73,7 +73,32 @@ t_node	*create_command_node(char **args)
 // Set the command being redirected
 // Redirection nodes don't have right children
 
-t_node	*create_redirect_node(t_node *command, char *operator, char * file)
+static char	**create_redirect_args(char *operator, char *file)
+{
+	char	**args;
+
+	args = malloc(3 * sizeof(char *));
+	if (!args)
+		return (NULL);
+	args[0] = NULL;
+	args[1] = NULL;
+	args[2] = NULL;
+	if (operator)
+	{
+		args[0] = ft_strdup(operator);
+		if (!args[0])
+			return (free_double_array(args), NULL);
+	}
+	if (file)
+	{
+		args[1] = ft_strdup(file);
+		if (!args[1])
+			return (free_double_array(args), NULL);
+	}
+	return (args);
+}
+
+t_node	*create_redirect_node(t_node *command, char *operator, char *file)
 {
 	t_node	*new_node;
 	char	**args;
@@ -81,21 +106,9 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 	new_node = create_new_node();
 	if (!new_node)
 		return (NULL);
-	args = malloc(3 * sizeof(char *));
+	args = create_redirect_args(operator, file);
 	if (!args)
-		return (free(new_node), NULL);
-	if (operator)
-		args[0] = ft_strdup(operator);
-	else
-		args[0] = NULL;
-	if (file)
-		args[1] = ft_strdup(file);
-	else
-		args[1] = NULL;
-	args[2] = NULL;
-	if ((operator && !args[0]) || (file && !args[1]))
 	{
-		free_double_array(args);
 		free(new_node);
 		return (NULL);
 	}
@@ -103,18 +116,4 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 	new_node->command_args = args;
 	new_node->left = command;
 	return (new_node);
-}
-
-int	type_of_operator(char *str)
-{
-	if (!ft_strcmp(str, ">") || !ft_strcmp(str, ">>") || !ft_strcmp(str, "<")
-		|| !ft_strcmp(str, "<<"))
-		return (REDIRECT_TYPE);
-	else if (!ft_strcmp(str, "|"))
-		return (PIPE_TYPE);
-	else if (!ft_strcmp(str, "&&"))
-		return (AND_TYPE);
-	else if (!ft_strcmp(str, "||"))
-		return (OR_TYPE);
-	return (COMMAND_TYPE);
 }

@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 22:26:03 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/23 20:27:15 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:06:26 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,8 @@ int	ft_export(t_env_list **env, char **args)
 		node = is_in_env(*env, args[i]);
 		if (node)
 			replace_value(node, args, i);
-		else
-		{
-			if (add_new_env_line(env, args[i]))
-				return (1);
-		}
+		else if (add_new_env_line(env, args[i]))
+			return (1);
 		i++;
 	}
 	return (0);

@@ -6,11 +6,11 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:35:55 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 15:47:52 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:13:06 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	is_space(char str)
 {

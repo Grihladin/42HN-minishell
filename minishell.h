@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 09:50:02 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:19:44 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,15 @@ int						execute_command(t_vars *vars, t_node *node,
 // user input
 
 char					*get_next_user_input(char *prompt);
+
+// ast_utils
+void					populate_command_arguments(t_node *cmd_root,
+							t_list **current, int arg_count);
+int						count_command_arguments(t_list *iter);
+t_node					*handle_redirection(t_node *node, t_list **iter);
+t_node					*handle_invalid_redirection(t_node *node, char *oper,
+							t_list **iter);
+int						is_control_operator(char *token);
 
 // utils
 

@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror
 
 #################################
 #			Files				#
@@ -20,18 +20,12 @@ CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
 SRC = \
 main.c \
 init.c \
-utils.c \
 pipes.c \
-utils2.c \
-utils3.c \
 prompt.c \
-utils1.c \
 execute.c \
 get_path.c \
 here_doc.c \
 free_vars.c \
-ast_build.c \
-ast_nodes.c \
 expansion.c \
 user_input.c \
 list_to_arr.c \
@@ -40,7 +34,14 @@ wait_childs.c \
 tokenization.c \
 execute_tree.c \
 env_to_array.c \
+utils/utils.c \
+utils/utils1.c \
+utils/utils2.c \
+utils/utils3.c \
 expansion_heredoc.c \
+ast_tree/ast_nodes.c \
+ast_tree/ast_build.c \
+ast_tree/ast_utils.c \
 builtins/ft_cd/ft_cd.c \
 builtins/ft_pwd/ft_pwd.c \
 builtins/ft_env/ft_env.c \
