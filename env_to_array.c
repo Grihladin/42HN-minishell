@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:59:16 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 17:48:46 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:36:31 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@
 // 	}
 // }
 
-char	**env_to_array(t_vars *vars)
+char	**env_to_array(t_env_list	*env_lst)
 {
-	t_env_list	*env_lst;
 	size_t		arr_size;
 	char		**arr;
 	char		**arrtmp;
 	char		*tmpstr;
 
-	env_lst = vars->env_list;
 	arr_size = env_lstsize(env_lst);
 	arr = ft_calloc(arr_size + 1, sizeof(char *));
 	if (arr == NULL)
@@ -52,6 +50,5 @@ char	**env_to_array(t_vars *vars)
 		env_lst = env_lst->next;
 	}
 	*arrtmp = NULL;
-	// print_arr_of_str(arr);
 	return (arr);
 }

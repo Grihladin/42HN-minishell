@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 15:11:37 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:05:19 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <termios.h>
 # include <unistd.h>
 
@@ -68,6 +69,8 @@ typedef struct s_node
 	pid_t				command_pid;
 	struct s_node		*left;
 	struct s_node		*right;
+	// struct sigaction	orig_int;
+	// struct sigaction	orig_quit;
 }						t_node;
 
 typedef struct s_env_list
@@ -133,7 +136,9 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 void					set_signals(t_vars *vars);
 void					set_signal_child(t_vars *vars);
 void					heredoc_handler(int signum);
-void					set_signal_heredoc(void);
+void					set_signal_heredoc(t_vars *vars);
+void					set_signal_quit(t_vars *vars);
+void					set_signal_handler_parent(t_vars *vars);
 
 // pipes and redirection
 
@@ -251,7 +256,7 @@ int						reset_stdio(t_vars *vars);
 int						close_all_fds(void);
 char					*delete_quotes(char *str);
 
-char					**env_to_array(t_vars *vars);
+char					**env_to_array(t_env_list	*env_lst);
 int						wait_childs(t_vars *vars);
 
 #endif

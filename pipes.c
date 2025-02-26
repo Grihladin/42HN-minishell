@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 14:53:37 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:32:08 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ int	create_pipe(int **p)
 
 int	reset_stdio(t_vars *vars)
 {
-	// if (isatty(STDIN_FILENO) == 0)
 	dup2(vars->fd_stdin, STDIN_FILENO);
-	// if (isatty(STDOUT_FILENO) == 0)
 	dup2(vars->fd_stdout, STDOUT_FILENO);
 	return (0);
 }

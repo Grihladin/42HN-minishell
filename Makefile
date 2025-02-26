@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
 
 #################################
 #			Files				#
@@ -30,7 +30,6 @@ expansion.c \
 user_input.c \
 list_to_arr.c \
 sig_actions.c \
-sig_actions1.c \
 wait_childs.c \
 tokenization.c \
 execute_tree.c \
@@ -39,10 +38,12 @@ utils/utils.c \
 utils/utils1.c \
 utils/utils2.c \
 utils/utils3.c \
+sig_actions_quit.c \
 expansion_heredoc.c \
 ast_tree/ast_nodes.c \
 ast_tree/ast_build.c \
 ast_tree/ast_utils.c \
+sig_actions_here_doc.c \
 builtins/ft_cd/ft_cd.c \
 builtins/ft_pwd/ft_pwd.c \
 builtins/ft_env/ft_env.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_actions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:01:56 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 15:17:43 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:20:45 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ static void	parent_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (signum == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
 }
 
 static void	child_handler(int signum)
@@ -36,6 +30,13 @@ static void	child_handler(int signum)
 		exit(130);
 	else if (signum == SIGQUIT)
 		exit(131);
+}
+
+void	set_signal_handler_parent(t_vars *vars)
+{
+	vars->sa.sa_handler = parent_handler;
+	sigaction(SIGINT, &vars->sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	set_signals(t_vars *vars)
@@ -47,7 +48,7 @@ void	set_signals(t_vars *vars)
 	sigemptyset(&vars->sa.sa_mask);
 	vars->sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &vars->sa, NULL);
-	sigaction(SIGQUIT, &vars->sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	set_signal_child(t_vars *vars)

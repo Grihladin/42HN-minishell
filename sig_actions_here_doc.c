@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_actions1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:17:34 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 15:40:28 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:55:28 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,14 @@ void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(1, "\n", 1);
 		g_signal_received = 2;
-		close(STDIN_FILENO);
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	}
 }
-void	set_signal_heredoc(void)
-{
-	struct sigaction	sa;
-	struct termios		term;
 
-	sa.sa_handler = heredoc_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
+void	set_signal_heredoc(t_vars *vars)
+{
+	vars->sa.sa_handler = heredoc_handler;
+	sigaction(SIGINT, &vars->sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
