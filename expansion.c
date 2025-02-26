@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/23 16:37:06 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:21:51 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,17 +151,11 @@ int	expansion(t_vars *vars, char **arr)
 	char	**tmp;
 
 	tmp = arr;
-	// if (arr != NULL)
-	// 	(arr++);
 	while (*arr != NULL)
 	{
-		// printf("%s\n", *arr);
 		*arr = handle_vars(vars, *arr);
-		// printf("%s\n", *arr);
 		arr++;
 	}
-	// while (*arr == NULL)
-	// if ((tmp[i] == NULL) || (ft_strlen(tmp[i]) == 0))
 	while ((*arr != NULL) && (ft_strlen(*arr) == 0))
 	{
 		i = 0;

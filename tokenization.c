@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/21 14:04:09 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:24:20 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,13 @@ static char	*get_string_in_quotes(char **str)
 	if (**str == '"')
 	{
 		end = ft_strchr((*str) + 1, '"');
-		// end = ft_strchr(*str, '"');
 		new_str = copy_token_to_str(str, end + 1);
-		// (*str)++;
-		// new_str = handle_vars(vars, new_str);
 		return (new_str);
 	}
 	else if (**str == '\'')
 	{
 		end = ft_strchr((*str) + 1, '\'');
-		// end = ft_strchr(*str, '\'');
 		new_str = copy_token_to_str(str, end + 1);
-		// (*str)++;
 		return (new_str);
 	}
 	return (new_str);
@@ -81,14 +76,14 @@ static char	*get_next_token(char **str)
 		return (copy_token_to_str(str, (*str + is_operator(*str))));
 	else
 	{
-		while ((**str != '\0') && (is_space(**str) == 0) && (is_operator(*str) == 0))
+		while ((**str != '\0') && (is_space(**str) == 0)
+			&& (is_operator(*str) == 0))
 		{
 			if ((**str == '\'') || (**str == '"'))
 				tmp_str = get_string_in_quotes(str);
 			else
 			{
 				tmp_str = copy_token_to_str(str, token_end(*str));
-				// tmp_str = handle_vars(vars, tmp_str);
 			}
 			if (new_str == NULL)
 				new_str = tmp_str;
@@ -101,10 +96,6 @@ static char	*get_next_token(char **str)
 			}
 		}
 	}
-	// Debug
-	// tmp_str = handle_vars(vars, new_str);
-	// free(new_str);
-	// new_str = tmp_str;
 	return (new_str);
 }
 

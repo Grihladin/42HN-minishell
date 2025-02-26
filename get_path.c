@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:19:52 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 11:13:11 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:22:23 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,5 @@ int	get_paths(t_vars *vars)
 				return (-1);
 		}
 	}
-	// ft_lstprint_paths(vars->paths);
 	return (0);
 }

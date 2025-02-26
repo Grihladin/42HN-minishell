@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:17:34 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 18:08:10 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 18:21:28 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	parent_handler_quit(int signum)
 void	set_signal_quit(t_vars *vars)
 {
 	vars->sa.sa_handler = parent_handler_quit;
-	// sigaction(SIGINT, &vars->sa, NULL);
 	signal(SIGINT, SIG_IGN);
 	sigaction(SIGQUIT, &vars->sa, NULL);
 }
