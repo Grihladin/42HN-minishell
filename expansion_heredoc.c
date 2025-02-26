@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 18:06:27 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:13:23 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ static char	*get_next_part(t_vars *vars, char **str)
 {
 	int		size;
 	char	*new_str;
-	t_list	*str_list;
 
 	size = 0;
 	new_str = NULL;
-	str_list = NULL;
 	if (**str == '$')
 		new_str = get_var(vars, str);
 	else
@@ -78,12 +76,10 @@ char	*handle_vars_heredoc(t_vars *vars, char *str)
 	char	*new_str;
 	char	*old_str;
 	t_list	*str_list;
-	t_list	*tmplst;
 	char	*result_str;
 
 	str_list = NULL;
 	new_str = NULL;
-	tmplst = NULL;
 	result_str = NULL;
 	old_str = str;
 	if (ft_strchr(str, '$'))

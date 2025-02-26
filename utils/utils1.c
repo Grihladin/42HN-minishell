@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 14:12:56 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:12:20 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_lstprint_str(t_list *lst)
 {
 	while (lst != NULL)
 	{
-		printf("%s\n", lst->content);
+		printf("%s\n", (char *)lst->content);
 		lst = lst->next;
 	}
 }

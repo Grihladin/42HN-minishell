@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 18:05:19 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:18:57 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define ERR_HEADER "minishell: "
 # define MAX_FD 12288
 
-sig_atomic_t			g_signal_received;
+extern sig_atomic_t			g_signal_received;
 // command type declaration
 
 typedef enum s_node_type

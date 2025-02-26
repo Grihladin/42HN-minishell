@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:17:26 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 18:21:51 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:11:29 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static char	*get_var(t_vars *vars, char **str, char quotes)
 	}
 	else if ((ft_isalnum(**str) || (**str == '_')))
 	{
-		while (((*str)[size] != '\0')
-			&& (ft_isalnum((*str)[size]) || ((*str)[size] == '_')))
+		while (((*str)[size] != '\0') && (ft_isalnum((*str)[size])
+				|| ((*str)[size] == '_')))
 			size++;
 		tmp_str = ft_calloc(size + 1, 1);
 		ft_strlcpy(tmp_str, *str, size + 1);
@@ -43,7 +43,7 @@ static char	*get_var(t_vars *vars, char **str, char quotes)
 		free(tmp_str);
 	}
 	else if (((**str != '"') && (**str != '\'') && (is_space(**str) == 0))
-		|| quotes)
+				|| quotes)
 	{
 		new_str = ft_calloc(2, 1);
 		ft_strlcpy(new_str, "$", 2);
@@ -122,16 +122,14 @@ char	*handle_vars(t_vars *vars, char *str)
 	char	*new_str;
 	char	*old_str;
 	t_list	*str_list;
-	t_list	*tmplst;
 	char	*result_str;
 
 	str_list = NULL;
 	new_str = NULL;
-	tmplst = NULL;
 	result_str = NULL;
 	old_str = str;
 	if (ft_strchr(str, '\'') || ft_strchr(str, '"') || ft_strchr(str, '$')
-		|| ft_strchr(str, '~'))
+			|| ft_strchr(str, '~'))
 	{
 		while (*str != '\0')
 		{
@@ -147,10 +145,8 @@ char	*handle_vars(t_vars *vars, char *str)
 
 int	expansion(t_vars *vars, char **arr)
 {
-	int		i;
-	char	**tmp;
+	int	i;
 
-	tmp = arr;
 	while (*arr != NULL)
 	{
 		*arr = handle_vars(vars, *arr);

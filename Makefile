@@ -75,7 +75,7 @@ all: $(NAME)
 	@echo "\033[0;32m$(NAME) built successfully!\033[0m"
 
 $(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJ) $(HEADERS)
-	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT) $(GET_NEXT_LINE)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(GET_NEXT_LINE) -lreadline -lncurses
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
