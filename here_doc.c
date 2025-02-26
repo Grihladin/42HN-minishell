@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 11:04:06 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 09:49:15 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 11:28:21 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	here_doc(t_vars *vars, t_node *node, char expans)
 {
 	char	*line;
 	t_list	*tmp_lst;
-	int		mark_len;
+	// int		mark_len;
 
-	mark_len = ft_strlen((node->command_args)[1]);
+	// mark_len = ft_strlen((node->command_args)[1]);
 	line = get_next_user_input(PROMPT_HERE_DOC);
-	while (line && ft_strncmp((node->command_args)[1], line, mark_len))
+	while (line && ft_strcmp((node->command_args)[1], line))
 	{
 		if (expans)
 			line = handle_vars_heredoc(vars, line);
