@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 10:35:43 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 12:59:16 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ int	execute_node(t_vars *vars, t_node *node)
 	}
 	else if (node->type == REDIRECT_TYPE)
 	{
+		if ((node->command_args)[1] == NULL)
+			return (error_message(node, 258), 258);
 		save_fds(&(node->old_fds));
 		if (ft_strcmp("<", node->command_args[0]) == 0)
 			l_redirect(vars, node);
@@ -194,13 +196,13 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	printf("Print tokens list:\n");
-	print_list(vars->tokens);
+	// printf("Print tokens list:\n");
+	// print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(&(vars->tokens));
-	printf("Print tree\n");
-	print_tree(vars->node_list, 0);
-	printf("Execute tree\n");
+	// printf("Print tree\n");
+	// print_tree(vars->node_list, 0);
+	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
