@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 13:27:20 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:28:11 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	ll_redirect(t_vars *vars, t_node *node)
 	if (vars->im_in_pipe)
 		reset_stdio(vars);
 	if ((ft_strchr((node->command_args)[1], '\'') == 0
-			&& ft_strchr((node->command_args)[1], '"') == 0))
+				&& ft_strchr((node->command_args)[1], '"') == 0))
 		expans = 1;
 	(node->command_args)[1] = delete_quotes((node->command_args)[1]);
 	return (here_doc(vars, node, expans));
@@ -64,7 +64,7 @@ static int	r_redirect(t_vars *vars, t_node *node)
 		close_fds(&(node->new_fds));
 		// if (execute_node(vars, node->left))
 		execute_node(vars, node->left);
-			// return (restore_fds(&(node->old_fds)), ERR_SYNTAX);
+		// return (restore_fds(&(node->old_fds)), ERR_SYNTAX);
 	}
 	restore_fds(&(node->old_fds));
 	return (0);
@@ -196,13 +196,13 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	// printf("Print tokens list:\n");
-	// print_list(vars->tokens);
+	printf("Print tokens list:\n");
+	print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(&(vars->tokens));
-	// printf("Print tree\n");
-	// print_tree(vars->node_list, 0);
-	// printf("Execute tree\n");
+	printf("Print tree\n");
+	print_tree(vars->node_list, 0);
+	printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (ERR_SYNTAX);
 	// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);

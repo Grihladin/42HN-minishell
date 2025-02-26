@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:32:04 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 11:20:06 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:31:33 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ int	new_line_check(char **args, int *i)
 	int	new_line_flag;
 
 	new_line_flag = 1;
-	if (!ft_strcmp(args[1], "-n"))
+	while (args[*i])
 	{
-		(*i)++;
-		return (0);
-	}
-	while (args[*i] && args[*i][0] == '-' && args[*i][1] == 'n')
-	{
-		j = 1;
+		if (args[*i][0] != '-')
+			break ;
+		if (args[*i][1] != 'n')
+			break ;
+		j = 2;
 		while (args[*i][j] == 'n')
 			j++;
 		if (args[*i][j] != '\0')

@@ -30,6 +30,7 @@ expansion.c \
 user_input.c \
 list_to_arr.c \
 sig_actions.c \
+sig_actions1.c \
 wait_childs.c \
 tokenization.c \
 execute_tree.c \

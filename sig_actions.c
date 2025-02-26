@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:01:56 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 14:35:38 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:17:43 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,6 @@ static void	child_handler(int signum)
 		exit(130);
 	else if (signum == SIGQUIT)
 		exit(131);
-}
-
-void	heredoc_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		exit(130);
-	}
 }
 
 void	set_signals(t_vars *vars)

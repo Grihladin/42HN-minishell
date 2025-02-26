@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 14:19:44 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:11:37 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void					ft_envdel(t_env_list **lst, void (*del)(void *));
 void					set_signals(t_vars *vars);
 void					set_signal_child(t_vars *vars);
 void					heredoc_handler(int signum);
+void					set_signal_heredoc(void);
 
 // pipes and redirection
 
