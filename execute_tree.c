@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/23 23:53:57 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 10:17:37 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	l_redirect(t_vars *vars, t_node *node)
 	if (node->new_fds[0] == -1)
 	{
 		restore_fds(&(node->old_fds));
+		vars->return_code = 1;
 		return (perror(node->command_args[1]), 0);
 	}
 	else
@@ -36,17 +37,15 @@ static int	ll_redirect(t_vars *vars, t_node *node)
 	char	expans;
 
 	expans = 0;
+	if (ft_strlen((node->command_args)[1]) < 1)
+		return (error_message(node, 258), 258);
 	if (vars->im_in_pipe)
 		reset_stdio(vars);
 	if ((ft_strchr((node->command_args)[1], '\'') == 0
-				&& ft_strchr((node->command_args)[1], '"') == 0))
+		&& ft_strchr((node->command_args)[1], '"') == 0))
 		expans = 1;
 	(node->command_args)[1] = delete_quotes((node->command_args)[1]);
-	here_doc(vars, node, expans);
-	restore_fds(&(node->old_fds));
-	write_list_to_fd(vars->here_doc_buf, STDOUT_FILENO);
-	free_list(&(vars->here_doc_buf));
-	return (0);
+	return (here_doc(vars, node, expans));
 }
 
 static int	r_redirect(t_vars *vars, t_node *node)
@@ -54,7 +53,11 @@ static int	r_redirect(t_vars *vars, t_node *node)
 	node->new_fds[1] = open(node->command_args[1], O_CREAT | O_TRUNC | O_WRONLY,
 			0644);
 	if (node->new_fds[1] == -1)
-		perror(node->command_args[1]);
+	{
+		restore_fds(&(node->old_fds));
+		vars->return_code = 1;
+		return (perror(node->command_args[1]), 1);
+	}
 	else
 	{
 		dup2(node->new_fds[1], STDOUT_FILENO);
@@ -71,7 +74,11 @@ static int	rr_redirect(t_vars *vars, t_node *node)
 	node->new_fds[1] = open(node->command_args[1],
 			O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (node->new_fds[1] == -1)
-		perror(node->command_args[1]);
+	{
+		restore_fds(&(node->old_fds));
+		vars->return_code = 1;
+		return (perror(node->command_args[1]), 1);
+	}
 	else
 	{
 		dup2(node->new_fds[1], STDOUT_FILENO);
@@ -85,9 +92,10 @@ static int	rr_redirect(t_vars *vars, t_node *node)
 
 static int	pipe_redirect(t_vars *vars, t_node *node)
 {
-	if ((node->left == NULL) || (node->right)
-		|| (node->left->command_args == NULL)
-		|| (node->right->command_args == NULL))
+	if ((node->left == NULL) || (node->right == NULL)
+		|| ((node->left->type != PIPE_TYPE) && (node->left->command_args == NULL))
+		|| ((node->right->type != PIPE_TYPE)
+			&& (node->right->command_args == NULL)))
 		return (error_message(node, 258), 258);
 	save_fds(&(node->old_fds));
 	if (create_pipe(&(node->new_fds)) < 0)
@@ -127,12 +135,12 @@ int	execute_node(t_vars *vars, t_node *node)
 {
 	if (!node)
 		return (0);
-	if ((node->command_args != NULL) && (ft_strcmp("<<",
-				node->command_args[0]) != 0))
+	if ((node->command_args != NULL) && (node->command_args[0] != NULL)
+		&& (ft_strcmp("<<", node->command_args[0]) != 0))
 		expansion(vars, node->command_args);
 	if (((node->type == REDIRECT_TYPE) || (node->type == COMMAND_TYPE))
 		&& ((node->command_args == NULL) || ((node->command_args)[0] == NULL)))
-		return (0);
+		return (error_message(node, 258), 258);
 	if (node->type == COMMAND_TYPE)
 	{
 		if (node->command_args == NULL)
@@ -185,13 +193,13 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	printf("Print tokens list:\n");
-	print_list(vars->tokens);
+	// printf("Print tokens list:\n");
+	// print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(&(vars->tokens));
-	printf("Print tree\n");
-	print_tree(vars->node_list, 0);
-	printf("Execute tree\n");
+	// printf("Print tree\n");
+	// print_tree(vars->node_list, 0);
+	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);

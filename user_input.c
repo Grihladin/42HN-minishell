@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   user_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 09:57:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 09:58:28 by psenko           ###   ########.fr       */
+/*   Created: 2025/02/26 09:36:02 by psenko            #+#    #+#             */
+/*   Updated: 2025/02/26 09:49:48 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wait_command(t_vars *vars)
+char	*get_next_user_input(char *prompt)
 {
 	char	*cmd;
+	char	*line;
 
-	while (1)
+	cmd = NULL;
+	line = NULL;
+	if (isatty(STDIN_FILENO))
 	{
-		cmd = NULL;
-		cmd = get_next_user_input(PROMPT);
-		if ((cmd != NULL) && (*cmd))
-			execute_tree(vars, cmd);
-		if (cmd == NULL)
-			break ;
-		delete_content(cmd);
+		cmd = readline(prompt);
+		return (cmd);
 	}
-	return (free_vars(vars), vars->return_code);
+	else
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+			return (line);
+		cmd = ft_strtrim(line, "\n");
+		free(line);
+		return (cmd);
+	}
+	return (NULL);
 }

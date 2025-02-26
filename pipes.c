@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:49:57 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/22 10:55:34 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 09:11:19 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	create_pipe(int **p)
 
 int	reset_stdio(t_vars *vars)
 {
-	if (isatty(STDIN_FILENO) == 0)
-		dup2(vars->fd_stdin, STDIN_FILENO);
-	if (isatty(STDOUT_FILENO) == 0)
-		dup2(vars->fd_stdout, STDOUT_FILENO);
+	// if (isatty(STDIN_FILENO) == 0)
+	dup2(vars->fd_stdin, STDIN_FILENO);
+	// if (isatty(STDOUT_FILENO) == 0)
+	dup2(vars->fd_stdout, STDOUT_FILENO);
 	return (0);
 }

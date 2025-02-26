@@ -33,6 +33,7 @@ free_vars.c \
 ast_build.c \
 ast_nodes.c \
 expansion.c \
+user_input.c \
 list_to_arr.c \
 sig_actions.c \
 wait_childs.c \

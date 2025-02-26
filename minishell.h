@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/23 17:27:59 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 09:50:02 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define DEFAULT_PATH "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # define PROMPT "⚡️ minishell ⚡️ ➜ "
+# define PROMPT_HERE_DOC "> "
 
 # include "get_next_line/get_next_line_bonus.h"
 # include "libft/libft.h"
@@ -211,6 +212,10 @@ int						execute_tree(t_vars *vars, char *cmnd);
 int						execute_node(t_vars *vars, t_node *node);
 int						execute_command(t_vars *vars, t_node *node,
 							char **args);
+
+// user input
+
+char					*get_next_user_input(char *prompt);
 
 // utils
 
