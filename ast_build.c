@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 10:34:25 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 12:54:32 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,14 @@ static t_node	*parse_command(t_list **current)
 	{
 		if (type_of_operator(iter->content) == REDIRECT_TYPE)
 		{
+			oper = iter->content;
 			iter = iter->next;
 			if (!iter || type_of_operator(iter->content))
-				return (cmd_root);
+			{
+				redirect = create_redirect_node(current_node, oper, NULL);
+				*current = iter;
+				return (redirect);
+			}
 			iter = iter->next;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:18:13 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/21 15:52:42 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 12:54:05 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,22 @@ t_node	*create_redirect_node(t_node *command, char *operator, char * file)
 	args = malloc(3 * sizeof(char *));
 	if (!args)
 		return (free(new_node), NULL);
-	args[0] = ft_strdup(operator);
-	args[1] = ft_strdup(file);
+	if (operator)
+		args[0] = ft_strdup(operator);
+	else
+		args[0] = NULL;
+	if (file)
+		args[1] = ft_strdup(file);
+	else
+		args[1] = NULL;
 	args[2] = NULL;
-	if (!args[0] || !args[1])
-		return (free_double_array(args), NULL);
-	new_node->type = REDIRECT_TYPE;
-	if (!new_node)
+	if ((operator && !args[0]) || (file && !args[1]))
+	{
+		free_double_array(args);
+		free(new_node);
 		return (NULL);
+	}
+	new_node->type = REDIRECT_TYPE;
 	new_node->command_args = args;
 	new_node->left = command;
 	return (new_node);
