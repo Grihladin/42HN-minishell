@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 13:01:46 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:27:20 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ static int	pipe_redirect(t_vars *vars, t_node *node)
 	if (create_pipe(&(node->new_fds)) < 0)
 	{
 		restore_fds(&(node->old_fds));
-		close_fds(&(node->new_fds));
 		return (77);
 	}
 	dup2(node->new_fds[1], STDOUT_FILENO);
@@ -112,8 +111,8 @@ static int	pipe_redirect(t_vars *vars, t_node *node)
 	if (execute_node(vars, node->left))
 	{
 		restore_fds(&(node->old_fds));
-		close_fds(&(node->new_fds));
-		return (ERR_SYNTAX);
+		vars->im_in_pipe = 0;
+		return (close_fds(&(node->new_fds)), ERR_SYNTAX);
 	}
 	dup2(node->old_fds[1], STDOUT_FILENO);
 	close(node->old_fds[1]);
@@ -123,8 +122,8 @@ static int	pipe_redirect(t_vars *vars, t_node *node)
 	if (execute_node(vars, node->right))
 	{
 		restore_fds(&(node->old_fds));
-		close_fds(&(node->new_fds));
-		return (ERR_SYNTAX);
+		vars->im_in_pipe = 0;
+		return (close_fds(&(node->new_fds)), ERR_SYNTAX);
 	}
 	dup2(node->old_fds[0], STDIN_FILENO);
 	close(node->old_fds[0]);
@@ -146,13 +145,13 @@ int	execute_node(t_vars *vars, t_node *node)
 	if (node->type == COMMAND_TYPE)
 	{
 		if (node->command_args == NULL)
-			return (ERR_SYNTAX);
+			return (error_message(node, 258), ERR_SYNTAX);
 		execute_command(vars, node, node->command_args);
 	}
 	else if (node->type == REDIRECT_TYPE)
 	{
 		if ((node->command_args)[1] == NULL)
-			return (error_message(node, 258), 258);
+			return (vars->return_code = 2, error_message(node, 258), 258);
 		save_fds(&(node->old_fds));
 		if (ft_strcmp("<", node->command_args[0]) == 0)
 			l_redirect(vars, node);
@@ -205,7 +204,7 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
-		return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
+		return (ERR_SYNTAX);
 	// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);
 	reset_vars(vars);

@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/23 11:42:22 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/26 13:25:56 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	reset_vars(t_vars *vars)
 {
 	clear_tree(&(vars->node_list));
 	free_list(&(vars->tokens));
+	vars->im_in_pipe = 0;
 	// free_list(&(vars->here_doc_buf));
 	// vars->return_code = 0;
 }
