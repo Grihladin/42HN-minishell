@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/24 00:09:03 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 10:34:25 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_node	*parse_command(t_list **current)
 		{
 			iter = iter->next;
 			if (!iter || type_of_operator(iter->content))
-				return (NULL);
+				return (cmd_root);
 			iter = iter->next;
 		}
 		else
