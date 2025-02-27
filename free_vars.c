@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 14:32:51 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:10:54 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	free_list(t_list **lst)
 {
 	t_list	*nxt;
 
-	while (*lst != NULL)
+	while ((*lst) != NULL)
 	{
 		nxt = (*lst)->next;
+		printf("%s\n", (char *)(*lst)->content);
 		ft_lstdelone(*lst, delete_content);
 		*lst = nxt;
 	}
@@ -76,9 +77,10 @@ void	free_vars(t_vars *vars)
 {
 	// struct s_list	*tmp;
 	free_env(&(vars->env_list));
-	// free_list(&(vars->tokens));
-	ft_lstclear(&(vars->tokens), delete_content);
-	free(vars->old_fds);
+	free_list(&(vars->tokens));
+	// ft_lstclear(&(vars->tokens), delete_content);
+	delete_content(vars->old_fds);
+	vars->old_fds = NULL;
 
 	// free_list(&(lists->paths));
 	// free_list(&(lists->cmndlst));

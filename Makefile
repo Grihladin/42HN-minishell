@@ -108,4 +108,7 @@ test_forks: re
 test: re
 	valgrind --leak-check=full --track-origins=yes ./$(NAME)
 
+test_r:
+	valgrind --leak-check=full --track-origins=yes ./$(NAME)
+
 .PHONY: all clean fclean re

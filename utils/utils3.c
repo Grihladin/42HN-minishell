@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 11:51:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 14:13:10 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 16:55:39 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	close_all_fds(void)
 {
-	int	fd;
+	int			fd;
+	struct stat	buf;
 
 	fd = 3;
 	while (fd < MAX_FD)
 	{
-		close(fd);
+		if (!fstat(fd, &buf))
+			close(fd);
 		fd++;
 	}
 	return (0);

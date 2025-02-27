@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 16:52:18 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:10:08 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
-		return (ERR_SYNTAX);
+		return (reset_vars(vars), ERR_SYNTAX);
 	// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);
 	reset_vars(vars);
