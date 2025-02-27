@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:55:51 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 17:21:17 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:24:19 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_node	*handle_invalid_redirection(t_node *node, char *oper, t_list **iter)
 	return (redirect);
 }
 
-void	populate_command_arguments(t_node *cmd_root, t_list *current,
+void	populate_command_arguments(t_node *cmd_root, t_list **current,
 		int arg_count)
 {
 	char	**args;
@@ -78,7 +78,7 @@ void	populate_command_arguments(t_node *cmd_root, t_list *current,
 
 	args = malloc((arg_count + 1) * sizeof(char *));
 	i = 0;
-	iter = current;
+	iter = *current;
 	while (i < arg_count && iter)
 	{
 		if (type_of_operator(iter->content) == REDIRECT_TYPE)
@@ -95,5 +95,5 @@ void	populate_command_arguments(t_node *cmd_root, t_list *current,
 	}
 	args[arg_count] = NULL;
 	cmd_root->command_args = args;
-	current = iter;
+	*current = iter;
 }
