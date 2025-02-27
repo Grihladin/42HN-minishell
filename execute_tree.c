@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 17:29:51 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:42:58 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,12 +190,12 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	printf("Print tokens list:\n");
-	print_list(vars->tokens);
+	// printf("Print tokens list:\n");
+	// print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(vars->tokens);
-	printf("Print tree\n");
-	print_tree(vars->node_list, 0);
+	// printf("Print tree\n");
+	// print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (reset_vars(vars), ERR_SYNTAX);
