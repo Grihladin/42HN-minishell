@@ -19,22 +19,22 @@ CFLAGS		:= -Wall -Wextra -Werror
 
 SRC = \
 main.c \
-init.c \
-prompt.c \
-here_doc.c \
-user_input.c \
+utils/init.c \
 utils/utils.c \
 utils/pipes.c \
-wait_childs.c \
-tokenization.c \
 utils/utils1.c \
 utils/utils2.c \
 utils/utils3.c \
+utils/prompt.c \
 utils/get_path.c \
+utils/here_doc.c \
 execute/execute.c \
 utils/free_vars.c \
+utils/user_input.c \
 utils/list_to_arr.c \
 ast_tree/ast_build.c \
+utils/wait_childs.c \
+utils/tokenization.c \
 utils/env_to_array.c \
 ast_tree/ast_utils.c \
 ast_tree/ast_nodes.c \

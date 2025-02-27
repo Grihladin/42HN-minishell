@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:24:58 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 18:54:47 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:16:36 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static char	*copy_next_command(char **str, t_list *lst)
 {

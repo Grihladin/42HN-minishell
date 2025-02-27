@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wait_childs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:48:36 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 18:06:24 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:17:48 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	wait_childs(t_vars *vars)
 {
