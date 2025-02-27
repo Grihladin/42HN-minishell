@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:38:40 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 19:20:21 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 14:20:00 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int	main(int argc, char **argv, char **env)
 	{
 		wait_command(&vars);
 	}
+	free_vars(&vars);
 	return (vars.return_code);
 }

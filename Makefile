@@ -11,7 +11,7 @@ CC	:= gcc
 #################################
 
 DEBUG_FLAGS	:= -g -fsanitize=address -fsanitize=undefined -O0
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g
 
 #################################
 #			Files				#
@@ -101,5 +101,11 @@ fclean: clean
 	@$(MAKE) -C $(GET_NEXT_LINE_DIR) fclean
 
 re: fclean all
+
+test_forks: re
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes ./$(NAME)
+
+test: re
+	valgrind --leak-check=full --track-origins=yes ./$(NAME)
 
 .PHONY: all clean fclean re

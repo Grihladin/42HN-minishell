@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:07:22 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 19:12:20 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 14:20:13 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ void	clear_tree(t_node **root)
 	clear_tree(&((*root)->left));
 	clear_tree(&((*root)->right));
 	free_double_array((*root)->command_args);
+	(*root)->command_args = NULL;
 	free_double_array((*root)->env);
+	(*root)->env = NULL;
 	delete_content((*root)->new_fds);
 	delete_content((*root)->old_fds);
 	delete_content(*root);
