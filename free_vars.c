@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:53:39 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 17:10:54 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:28:10 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_list(t_list **lst)
 	while ((*lst) != NULL)
 	{
 		nxt = (*lst)->next;
-		printf("%s\n", (char *)(*lst)->content);
+		// printf("%s\n", (char *)(*lst)->content);
 		ft_lstdelone(*lst, delete_content);
 		*lst = nxt;
 	}
