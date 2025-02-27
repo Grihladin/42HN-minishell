@@ -29,7 +29,6 @@ free_vars.c \
 expansion.c \
 user_input.c \
 list_to_arr.c \
-sig_actions.c \
 wait_childs.c \
 tokenization.c \
 execute_tree.c \
@@ -38,21 +37,22 @@ utils/utils.c \
 utils/utils1.c \
 utils/utils2.c \
 utils/utils3.c \
-sig_actions_quit.c \
 expansion_heredoc.c \
-ast_tree/ast_nodes.c \
 ast_tree/ast_build.c \
 ast_tree/ast_utils.c \
-sig_actions_here_doc.c \
+ast_tree/ast_nodes.c \
+signals/sig_actions.c \
 builtins/ft_cd/ft_cd.c \
 builtins/ft_pwd/ft_pwd.c \
 builtins/ft_env/ft_env.c \
 builtins/ft_echo/ft_echo.c \
+signals/sig_actions_quit.c \
 builtins/ft_exit/ft_exit.c \
 builtins/ft_unset/ft_unset.c \
 builtins/ft_cd/ft_cd_utils.c \
 builtins/ft_export/ft_export.c \
 builtins/ft_env/ft_env_utils.c \
+signals/sig_actions_here_doc.c \
 builtins/ft_export/ft_export_utils.c \
 builtins/ft_export/ft_export_utils1.c \
 

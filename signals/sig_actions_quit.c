@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_actions1.c                                     :+:      :+:    :+:   */
+/*   sig_actions_quit.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:17:34 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 17:55:28 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 16:37:43 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	heredoc_handler(int signum)
+static void	parent_handler_quit(int signum)
 {
-	if (signum == SIGINT)
-	{
-		g_signal_received = 2;
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	}
+	if (signum == SIGQUIT)
+		ft_putstr_fd("^\\Quit\n", STDERR_FILENO);
 }
 
-void	set_signal_heredoc(t_vars *vars)
+void	set_signal_quit(t_vars *vars)
 {
-	vars->sa.sa_handler = heredoc_handler;
-	sigaction(SIGINT, &vars->sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	vars->sa.sa_handler = parent_handler_quit;
+	signal(SIGINT, SIG_IGN);
+	sigaction(SIGQUIT, &vars->sa, NULL);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sig_actions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:01:56 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 18:20:45 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 16:37:48 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	parent_handler(int signum)
 {
