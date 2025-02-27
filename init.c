@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:17:27 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 13:52:08 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 16:31:17 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ static void	shell_lvl(t_env_list **env_list)
 			value = ft_itoa(lvl);
 			free(node->value);
 			node->value = value;
-			break ;
+			return ;
 		}
 		node = node->next;
 	}
+	node = ft_new_env("SHLVL", "1");
+	ft_envadd_back(env_list, node);
 }
 
 int	init(t_vars *vars, int argc, char **argv, char **env)
