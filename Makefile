@@ -31,7 +31,6 @@ utils/here_doc.c \
 execute/execute.c \
 utils/free_vars.c \
 utils/user_input.c \
-utils/list_to_arr.c \
 ast_tree/ast_build.c \
 utils/wait_childs.c \
 utils/tokenization.c \

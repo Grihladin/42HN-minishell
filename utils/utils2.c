@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:35:55 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/26 14:13:06 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:23:41 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,30 @@ int	calculate_args(t_list *current)
 		current = current->next;
 	}
 	return (arg_count);
+}
+
+char	**copy_lst_to_arr(t_list **lst)
+{
+	size_t	arr_size;
+	t_list	*tmp_list;
+	char	**result;
+	char	**tmp_array;
+
+	tmp_list = NULL;
+	arr_size = ft_lstsize(*lst);
+	result = ft_calloc(arr_size + 1, sizeof(char *));
+	if (result == NULL)
+		return (ft_lstclear(lst, free), NULL);
+	tmp_list = *lst;
+	tmp_array = result;
+	while (tmp_list != NULL)
+	{
+		*tmp_array = tmp_list->content;
+		tmp_array++;
+		tmp_list->content = NULL;
+		tmp_list = tmp_list->next;
+	}
+	*tmp_array = NULL;
+	ft_lstclear(lst, free);
+	return (result);
 }
