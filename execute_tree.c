@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 17:20:49 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:29:51 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,6 @@ int	execute_node(t_vars *vars, t_node *node)
 	}
 	else if (node->type == PIPE_TYPE)
 		pipe_redirect(vars, node);
-	// || является логическим «ИЛИ» и выполнит вторую часть оператора,
-	// только если первая часть не верна;
 	else if (node->type == OR_TYPE)
 	{
 		if (execute_node(vars, node->left))
@@ -175,8 +173,6 @@ int	execute_node(t_vars *vars, t_node *node)
 			if (execute_node(vars, node->right))
 				return (ERR_SYNTAX);
 	}
-	// && является логическим «И» и выполнит вторую часть оператора
-	// только в том случае, если первая часть верна.
 	else if (node->type == AND_TYPE)
 	{
 		if (execute_node(vars, node->left))
@@ -191,21 +187,18 @@ int	execute_node(t_vars *vars, t_node *node)
 
 int	execute_tree(t_vars *vars, char *cmnd)
 {
-	// struct termios	term1;
-	// printf("Execute command: %s\n", cmnd);
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	// printf("Print tokens list:\n");
-	// print_list(vars->tokens);
+	printf("Print tokens list:\n");
+	print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(vars->tokens);
-	// printf("Print tree\n");
-	// print_tree(vars->node_list, 0);
+	printf("Print tree\n");
+	print_tree(vars->node_list, 0);
 	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (reset_vars(vars), ERR_SYNTAX);
-	// return (error_message(NULL, ERR_SYNTAX), ERR_SYNTAX);
 	wait_childs(vars);
 	reset_vars(vars);
 	return (0);

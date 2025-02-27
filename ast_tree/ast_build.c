@@ -6,7 +6,7 @@
 /*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:11:08 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 17:34:48 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:41:55 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static t_node	*parse_and_or(t_list **tokens)
 			|| type_of_operator(current->content) == OR_TYPE))
 	{
 		*tokens = current->next;
-		right = parse_tokens(tokens);
+		right = parse_tokens(*tokens);
 		left = create_operator_node(type_of_operator(current->content), left,
 				right);
 		current = *tokens;
