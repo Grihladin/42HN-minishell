@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 16:54:09 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:22:28 by mratke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
 							char * file);
-t_node					*parse_tokens(t_list **tokens);
+t_node					*parse_tokens(t_list *tokens);
 int						type_of_operator(char *str);
 
 // tokenization
@@ -224,7 +224,7 @@ char					*get_next_user_input(char *prompt);
 
 // ast_utils
 void					populate_command_arguments(t_node *cmd_root,
-							t_list **current, int arg_count);
+							t_list current, int arg_count);
 int						count_command_arguments(t_list *iter);
 t_node					*handle_redirection(t_node *node, t_list **iter);
 t_node					*handle_invalid_redirection(t_node *node, char *oper,
