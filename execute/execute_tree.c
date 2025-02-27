@@ -6,11 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 18:13:14 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:07:21 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	execute_node_prepare(t_vars *vars, t_node *node)
 {

@@ -6,23 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:59:16 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 17:36:31 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:12:46 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-// static void	print_arr_of_str(char **arr)
-// {
-// 	char		**strings;
-
-// 	strings = arr;
-// 	while (*strings != NULL)
-// 	{
-// 		printf("%s\n", *strings);
-// 		strings++;
-// 	}
-// }
+#include "../minishell.h"
 
 char	**env_to_array(t_env_list	*env_lst)
 {

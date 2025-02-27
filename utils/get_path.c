@@ -6,11 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:19:52 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 18:22:23 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:13:30 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*get_full_path(char *path, t_list *lstpath)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list_to_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:30:13 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/18 23:13:02 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:11:57 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	**copy_lst_to_arr(t_list **lst)
 {

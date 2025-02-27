@@ -6,11 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:53:20 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 18:17:59 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:07:14 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	pipe_redirect_p2(t_vars *vars, t_node *node)
 {

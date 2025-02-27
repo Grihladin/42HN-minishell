@@ -6,11 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:56:01 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 18:14:08 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:07:17 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	l_redirect(t_vars *vars, t_node *node)
 {

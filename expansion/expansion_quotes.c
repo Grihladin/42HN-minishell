@@ -6,11 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:37:58 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 18:43:02 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:09:40 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static char	*get_next_single_part(char **str)
 {
