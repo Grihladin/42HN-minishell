@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 17:41:15 by mratke           ###   ########.fr       */
+/*   Updated: 2025/02/27 18:43:10 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,12 @@ void					set_signal_handler_parent(t_vars *vars);
 // pipes and redirection
 
 void					write_list_to_fd(t_list *str_list, int fd);
+int						execute_redirect(t_vars *vars, t_node *node);
+int						l_redirect(t_vars *vars, t_node *node);
+int						ll_redirect(t_vars *vars, t_node *node);
+int						r_redirect(t_vars *vars, t_node *node);
+int						rr_redirect(t_vars *vars, t_node *node);
+int						pipe_redirect(t_vars *vars, t_node *node);
 
 // getnextline
 # ifndef BUFFER_SIZE
@@ -192,7 +198,7 @@ t_node					*create_command_node(char **args);
 t_node					*create_operator_node(t_node_type type, t_node *left,
 							t_node *right);
 t_node					*create_redirect_node(t_node *command, char *operator,
-							char * file);
+							char *file);
 t_node					*parse_tokens(t_list *tokens);
 int						type_of_operator(char *str);
 
@@ -206,6 +212,10 @@ char					*copy_token_to_str(char **str, char *end);
 char					*handle_vars(t_vars *vars, char *instr);
 char					*handle_vars_heredoc(t_vars *vars, char *str);
 int						expansion(t_vars *vars, char **arr);
+char					*expansion_get_var(t_vars *vars,
+							char **str, char quotes);
+char					*get_next_part_double_quotes(t_vars *vars, char **str);
+char					*get_next_part_single_quotes(char **str);
 
 // paths
 
@@ -238,7 +248,6 @@ int						error_message(t_node *node, int error);
 char					*ft_strtolower(char *str);
 void					print_list(t_list *head);
 void					ft_lstprint_str(t_list *lst);
-void					print_tree(t_node *root, int depth);
 int						add_str_to_list(char *str, struct s_list **lst);
 int						is_operator(char *str);
 int						type_of_operator(char *str);

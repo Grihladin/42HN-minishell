@@ -6,14 +6,11 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:31:43 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/26 18:24:20 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 19:02:09 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// ls | cat Makefile | cat << 'asd' > out in this case need to save '' as part of the token
-// crucial moment fore $ expand
 
 char	*copy_token_to_str(char **str, char *end)
 {
@@ -63,7 +60,7 @@ static char	*get_string_in_quotes(char **str)
 	return (new_str);
 }
 
-static char	*get_next_token(char **str)
+static char	*get_next_token_p2(char **str)
 {
 	char	*new_str;
 	char	*tmp_str;
@@ -72,30 +69,35 @@ static char	*get_next_token(char **str)
 	new_str = NULL;
 	tmp_str = NULL;
 	tmp_str1 = NULL;
+	while ((**str != '\0') && (is_space(**str) == 0)
+		&& (is_operator(*str) == 0))
+	{
+		if ((**str == '\'') || (**str == '"'))
+			tmp_str = get_string_in_quotes(str);
+		else
+			tmp_str = copy_token_to_str(str, token_end(*str));
+		if (new_str == NULL)
+			new_str = tmp_str;
+		else
+		{
+			tmp_str1 = ft_strjoin(new_str, tmp_str);
+			free(new_str);
+			free(tmp_str);
+			new_str = tmp_str1;
+		}
+	}
+	return (new_str);
+}
+
+static char	*get_next_token(char **str)
+{
+	char	*new_str;
+
+	new_str = NULL;
 	if (is_operator(*str))
 		return (copy_token_to_str(str, (*str + is_operator(*str))));
 	else
-	{
-		while ((**str != '\0') && (is_space(**str) == 0)
-			&& (is_operator(*str) == 0))
-		{
-			if ((**str == '\'') || (**str == '"'))
-				tmp_str = get_string_in_quotes(str);
-			else
-			{
-				tmp_str = copy_token_to_str(str, token_end(*str));
-			}
-			if (new_str == NULL)
-				new_str = tmp_str;
-			else
-			{
-				tmp_str1 = ft_strjoin(new_str, tmp_str);
-				free(new_str);
-				free(tmp_str);
-				new_str = tmp_str1;
-			}
-		}
-	}
+		new_str = get_next_token_p2(str);
 	return (new_str);
 }
 

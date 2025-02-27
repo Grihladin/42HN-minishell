@@ -37,7 +37,11 @@ utils/utils.c \
 utils/utils1.c \
 utils/utils2.c \
 utils/utils3.c \
+execute_pipe.c \
+expansion_quotes.c \
+execute_redirect.c \
 expansion_heredoc.c \
+expansion_get_var.c \
 ast_tree/ast_build.c \
 ast_tree/ast_utils.c \
 ast_tree/ast_nodes.c \

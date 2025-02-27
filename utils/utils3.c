@@ -6,11 +6,17 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 11:51:50 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 16:55:39 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:50:09 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	delete_content(void *n)
+{
+	if (n != NULL)
+		free(n);
+}
 
 int	close_all_fds(void)
 {

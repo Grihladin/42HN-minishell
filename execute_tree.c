@@ -6,142 +6,50 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 17:42:58 by psenko           ###   ########.fr       */
+/*   Updated: 2025/02/27 18:13:14 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	l_redirect(t_vars *vars, t_node *node)
+static int	execute_node_prepare(t_vars *vars, t_node *node)
 {
-	node->new_fds[0] = open(node->command_args[1], O_RDONLY);
-	if (node->new_fds[0] == -1)
+	if (!node)
+		return (1);
+	if (((node->type == REDIRECT_TYPE) || (node->type == COMMAND_TYPE))
+		&& ((node->command_args == NULL) || ((node->command_args)[0] == NULL)))
 	{
-		restore_fds(&(node->old_fds));
-		vars->return_code = 1;
-		return (perror(node->command_args[1]), 0);
-	}
-	else
-	{
-		dup2(node->new_fds[0], STDIN_FILENO);
-		close_fds(&(node->new_fds));
-		if (execute_node(vars, node->left))
-			return (restore_fds(&(node->old_fds)), ERR_SYNTAX);
-	}
-	restore_fds(&(node->old_fds));
-	return (0);
-}
-
-static int	ll_redirect(t_vars *vars, t_node *node)
-{
-	char	expans;
-
-	expans = 0;
-	if (ft_strlen((node->command_args)[1]) < 1)
+		vars->return_code = 258;
 		return (error_message(node, 258), 258);
-	if (vars->im_in_pipe)
-		reset_stdio(vars);
-	if ((ft_strchr((node->command_args)[1], '\'') == 0
-				&& ft_strchr((node->command_args)[1], '"') == 0))
-		expans = 1;
-	(node->command_args)[1] = delete_quotes((node->command_args)[1]);
-	return (here_doc(vars, node, expans));
-}
-
-static int	r_redirect(t_vars *vars, t_node *node)
-{
-	node->new_fds[1] = open(node->command_args[1], O_CREAT | O_TRUNC | O_WRONLY,
-			0644);
-	if (node->new_fds[1] == -1)
-	{
-		vars->return_code = 1;
-		restore_fds(&(node->old_fds));
-		return (perror(node->command_args[1]), 1);
 	}
-	else
-	{
-		dup2(node->new_fds[1], STDOUT_FILENO);
-		close_fds(&(node->new_fds));
-		// if (execute_node(vars, node->left))
-		execute_node(vars, node->left);
-		// return (restore_fds(&(node->old_fds)), ERR_SYNTAX);
-	}
-	restore_fds(&(node->old_fds));
+	if ((node->command_args != NULL) && (node->command_args[0] != NULL)
+		&& (ft_strcmp("<<", node->command_args[0]) != 0))
+		expansion(vars, node->command_args);
 	return (0);
 }
 
-static int	rr_redirect(t_vars *vars, t_node *node)
+static int	execute_or_and(t_vars *vars, t_node *node)
 {
-	node->new_fds[1] = open(node->command_args[1],
-			O_CREAT | O_APPEND | O_WRONLY, 0644);
-	if (node->new_fds[1] == -1)
-	{
-		restore_fds(&(node->old_fds));
-		vars->return_code = 1;
-		return (perror(node->command_args[1]), 1);
-	}
-	else
-	{
-		dup2(node->new_fds[1], STDOUT_FILENO);
-		close_fds(&(node->new_fds));
-		if (execute_node(vars, node->left))
-			return (restore_fds(&(node->old_fds)), ERR_SYNTAX);
-	}
-	restore_fds(&(node->old_fds));
-	return (0);
-}
-
-static int	pipe_redirect(t_vars *vars, t_node *node)
-{
-	if ((node->left == NULL) || (node->right == NULL)
-		|| ((node->left->type != PIPE_TYPE)
-			&& (node->left->command_args == NULL))
-		|| ((node->right->type != PIPE_TYPE)
-			&& (node->right->command_args == NULL)))
-		return (error_message(node, 258), 258);
-	save_fds(&(node->old_fds));
-	if (create_pipe(&(node->new_fds)) < 0)
-	{
-		restore_fds(&(node->old_fds));
-		return (77);
-	}
-	dup2(node->new_fds[1], STDOUT_FILENO);
-	close(node->new_fds[1]);
-	vars->im_in_pipe = 1;
 	if (execute_node(vars, node->left))
+		return (ERR_SYNTAX);
+	wait_childs(vars);
+	if ((node->type == OR_TYPE) && (vars->return_code != 0))
 	{
-		restore_fds(&(node->old_fds));
-		vars->im_in_pipe = 0;
-		return (close_fds(&(node->new_fds)), ERR_SYNTAX);
+		if (execute_node(vars, node->right))
+			return (ERR_SYNTAX);
 	}
-	dup2(node->old_fds[1], STDOUT_FILENO);
-	close(node->old_fds[1]);
-	dup2(node->new_fds[0], STDIN_FILENO);
-	close(node->new_fds[0]);
-	vars->im_in_pipe = 1;
-	if (execute_node(vars, node->right))
+	else if ((node->type == AND_TYPE) && (vars->return_code == 0))
 	{
-		restore_fds(&(node->old_fds));
-		vars->im_in_pipe = 0;
-		return (close_fds(&(node->new_fds)), ERR_SYNTAX);
+		if (execute_node(vars, node->right))
+			return (ERR_SYNTAX);
 	}
-	dup2(node->old_fds[0], STDIN_FILENO);
-	close(node->old_fds[0]);
-	vars->im_in_pipe = 0;
-	// restore_fds(&(node->old_fds));
 	return (0);
 }
 
 int	execute_node(t_vars *vars, t_node *node)
 {
-	if (!node)
-		return (0);
-	if ((node->command_args != NULL) && (node->command_args[0] != NULL)
-		&& (ft_strcmp("<<", node->command_args[0]) != 0))
-		expansion(vars, node->command_args);
-	if (((node->type == REDIRECT_TYPE) || (node->type == COMMAND_TYPE))
-		&& ((node->command_args == NULL) || ((node->command_args)[0] == NULL)))
-		return (error_message(node, 258), 258);
+	if (execute_node_prepare(vars, node) != 0)
+		return (1);
 	if (node->type == COMMAND_TYPE)
 	{
 		if (node->command_args == NULL)
@@ -150,37 +58,15 @@ int	execute_node(t_vars *vars, t_node *node)
 	}
 	else if (node->type == REDIRECT_TYPE)
 	{
-		if ((node->command_args)[1] == NULL)
-			return (vars->return_code = 2, error_message(node, 258), 258);
-		save_fds(&(node->old_fds));
-		if (ft_strcmp("<", node->command_args[0]) == 0)
-			l_redirect(vars, node);
-		else if (ft_strcmp(">", node->command_args[0]) == 0)
-			r_redirect(vars, node);
-		else if (ft_strcmp(">>", node->command_args[0]) == 0)
-			rr_redirect(vars, node);
-		else if (ft_strcmp("<<", node->command_args[0]) == 0)
-			ll_redirect(vars, node);
+		if (execute_redirect(vars, node) != 0)
+			return (258);
 	}
 	else if (node->type == PIPE_TYPE)
 		pipe_redirect(vars, node);
-	else if (node->type == OR_TYPE)
+	else if ((node->type == OR_TYPE) || (node->type == AND_TYPE))
 	{
-		if (execute_node(vars, node->left))
+		if (execute_or_and(vars, node) != 0)
 			return (ERR_SYNTAX);
-		wait_childs(vars);
-		if (vars->return_code != 0)
-			if (execute_node(vars, node->right))
-				return (ERR_SYNTAX);
-	}
-	else if (node->type == AND_TYPE)
-	{
-		if (execute_node(vars, node->left))
-			return (ERR_SYNTAX);
-		wait_childs(vars);
-		if (vars->return_code == 0)
-			if (execute_node(vars, node->right))
-				return (ERR_SYNTAX);
 	}
 	return (0);
 }
@@ -190,13 +76,8 @@ int	execute_tree(t_vars *vars, char *cmnd)
 	vars->tokens = tokenize(vars, cmnd);
 	if (ft_lstsize(vars->tokens) < 1)
 		return (free_list(&(vars->tokens)), 0);
-	// printf("Print tokens list:\n");
-	// print_list(vars->tokens);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(vars->tokens);
-	// printf("Print tree\n");
-	// print_tree(vars->node_list, 0);
-	// printf("Execute tree\n");
 	if (execute_node(vars, vars->node_list))
 		return (reset_vars(vars), ERR_SYNTAX);
 	wait_childs(vars);
