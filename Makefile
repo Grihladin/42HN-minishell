@@ -31,8 +31,9 @@ utils/here_doc.c \
 execute/execute.c \
 utils/free_vars.c \
 utils/user_input.c \
-ast_tree/ast_build.c \
 utils/wait_childs.c \
+utils/compare_fds.c \
+ast_tree/ast_build.c \
 utils/tokenization.c \
 utils/env_to_array.c \
 ast_tree/ast_utils.c \

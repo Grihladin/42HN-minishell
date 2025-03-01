@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:56:01 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 19:07:17 by psenko           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:25:25 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ int	ll_redirect(t_vars *vars, t_node *node)
 	expans = 0;
 	if (ft_strlen((node->command_args)[1]) < 1)
 		return (error_message(node, 258), 258);
-	if (vars->im_in_pipe)
+	if ((compare_fds(STDIN_FILENO, vars->fd_stdin) == 0)
+		|| (compare_fds(STDOUT_FILENO, vars->fd_stdout) == 0))
 		reset_stdio(vars);
 	if ((ft_strchr((node->command_args)[1], '\'') == 0
 		&& ft_strchr((node->command_args)[1], '"') == 0))
 		expans = 1;
 	(node->command_args)[1] = delete_quotes((node->command_args)[1]);
+	set_signal_heredoc(vars);
 	return (here_doc(vars, node, expans));
 }
 

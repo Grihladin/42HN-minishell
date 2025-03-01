@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mratke <mratke@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 11:04:06 by psenko            #+#    #+#             */
-/*   Updated: 2025/02/27 19:17:24 by mratke           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:21:46 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	here_doc(t_vars *vars, t_node *node, char expans)
 	char				*line;
 	t_list				*tmp_lst;
 
-	set_signal_heredoc(vars);
 	line = get_next_user_input(PROMPT_HERE_DOC);
 	while (line && ft_strcmp((node->command_args)[1], line))
 	{
@@ -55,6 +54,7 @@ int	here_doc(t_vars *vars, t_node *node, char expans)
 		ft_lstadd_back(&(vars->here_doc_buf), tmp_lst);
 		line = get_next_user_input(PROMPT_HERE_DOC);
 	}
+	restore_fds(&(node->old_fds));
 	write_list_to_fd(vars->here_doc_buf, STDOUT_FILENO);
 	free_list(&(vars->here_doc_buf));
 	free(line);

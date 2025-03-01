@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:31:01 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 18:43:10 by psenko           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:18:44 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int						ll_redirect(t_vars *vars, t_node *node);
 int						r_redirect(t_vars *vars, t_node *node);
 int						rr_redirect(t_vars *vars, t_node *node);
 int						pipe_redirect(t_vars *vars, t_node *node);
+int						compare_fds(int fd1, int fd2);
 
 // getnextline
 # ifndef BUFFER_SIZE
