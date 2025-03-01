@@ -6,7 +6,7 @@
 /*   By: psenko <psenko@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:48:58 by mratke            #+#    #+#             */
-/*   Updated: 2025/02/27 19:07:21 by psenko           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:28:12 by psenko           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	execute_node_prepare(t_vars *vars, t_node *node)
 	if (((node->type == REDIRECT_TYPE) || (node->type == COMMAND_TYPE))
 		&& ((node->command_args == NULL) || ((node->command_args)[0] == NULL)))
 	{
-		vars->return_code = 258;
+		vars->return_code = 2;
 		return (error_message(node, 258), 258);
 	}
 	if ((node->command_args != NULL) && (node->command_args[0] != NULL)
@@ -31,7 +31,10 @@ static int	execute_node_prepare(t_vars *vars, t_node *node)
 static int	execute_or_and(t_vars *vars, t_node *node)
 {
 	if (execute_node(vars, node->left))
+	{
+		vars->return_code = 2;
 		return (ERR_SYNTAX);
+	}
 	wait_childs(vars);
 	if ((node->type == OR_TYPE) && (vars->return_code != 0))
 	{
@@ -78,9 +81,8 @@ int	execute_tree(t_vars *vars, char *cmnd)
 		return (free_list(&(vars->tokens)), 0);
 	add_history(cmnd);
 	vars->node_list = parse_tokens(vars->tokens);
-	if (execute_node(vars, vars->node_list))
-		return (reset_vars(vars), ERR_SYNTAX);
+	execute_node(vars, vars->node_list);
 	wait_childs(vars);
 	reset_vars(vars);
-	return (0);
+	return (vars->return_code);
 }
