@@ -84,51 +84,51 @@ Minishell handles various error conditions gracefully:
 
 ```
 42HN-minishell/
-├── inc/                    # Header files
-│   └── minishell.h        # Main header with all declarations
-├── src/                   # Source files
-│   ├── main.c             # Program entry point
-│   ├── ast_tree/          # Abstract Syntax Tree implementation
-│   │   ├── ast_build.c    # AST construction
-│   │   ├── ast_nodes.c    # Node creation and management
-│   │   └── ast_utils.c    # AST utility functions
-│   ├── builtins/          # Built-in command implementations
-│   │   ├── ft_cd/         # Change directory command
-│   │   ├── ft_echo/       # Echo command
-│   │   ├── ft_env/        # Environment commands
-│   │   ├── ft_exit/       # Exit command
-│   │   ├── ft_export/     # Export command
-│   │   ├── ft_pwd/        # Print working directory
-│   │   └── ft_unset/      # Unset command
-│   ├── execute/           # Command execution engine
-│   │   ├── execute.c      # Main execution logic
-│   │   ├── execute_pipe.c # Pipeline execution
-│   │   ├── execute_redirect.c # Redirection handling
-│   │   └── execute_tree.c # AST traversal and execution
-│   ├── expansion/         # Variable and quote expansion
-│   │   ├── expansion.c    # Main expansion logic
-│   │   ├── expansion_get_var.c # Variable resolution
-│   │   ├── expansion_heredoc.c # Heredoc expansion
-│   │   └── expansion_quotes.c  # Quote processing
-│   ├── signals/           # Signal handling
-│   │   ├── sig_actions.c  # Main signal setup
+├── inc/                           # Header files
+│   └── minishell.h                # Main header with all declarations
+├── src/                           # Source files
+│   ├── main.c                     # Program entry point
+│   ├── ast_tree/                  # Abstract Syntax Tree implementation
+│   │   ├── ast_build.c            # AST construction
+│   │   ├── ast_nodes.c            # Node creation and management
+│   │   └── ast_utils.c            # AST utility functions
+│   ├── builtins/                  # Built-in command implementations
+│   │   ├── ft_cd/                 # Change directory command
+│   │   ├── ft_echo/               # Echo command
+│   │   ├── ft_env/                # Environment commands
+│   │   ├── ft_exit/               # Exit command
+│   │   ├── ft_export/             # Export command
+│   │   ├── ft_pwd/                # Print working directory
+│   │   └── ft_unset/              # Unset command
+│   ├── execute/                   # Command execution engine
+│   │   ├── execute.c              # Main execution logic
+│   │   ├── execute_pipe.c         # Pipeline execution
+│   │   ├── execute_redirect.c     # Redirection handling
+│   │   └── execute_tree.c         # AST traversal and execution
+│   ├── expansion/                 # Variable and quote expansion
+│   │   ├── expansion.c            # Main expansion logic
+│   │   ├── expansion_get_var.c    # Variable resolution
+│   │   ├── expansion_heredoc.c    # Heredoc expansion
+│   │   └── expansion_quotes.c     # Quote processing
+│   ├── signals/                   # Signal handling
+│   │   ├── sig_actions.c          # Main signal setup
 │   │   ├── sig_actions_here_doc.c # Heredoc signals
 │   │   └── sig_actions_quit.c     # Quit signal handling
-│   └── utils/             # Utility functions
-│       ├── init.c         # Initialization
-│       ├── tokenization.c # Input tokenization
-│       ├── user_input.c   # Input handling
-│       ├── prompt.c       # Prompt display
-│       ├── here_doc.c     # Heredoc implementation
-│       ├── pipes.c        # Pipe utilities
-│       ├── get_path.c     # PATH resolution
-│       ├── env_to_array.c # Environment conversion
-│       ├── free_vars.c    # Memory cleanup
-│       └── utils*.c       # Various utilities
-├── libft/                 # Custom C library (submodule)
-├── get_next_line/         # Line reading utility (submodule)
-├── Makefile              # Build configuration
-└── README.md             # This file
+│   └── utils/                     # Utility functions
+│       ├── init.c                 # Initialization
+│       ├── tokenization.c         # Input tokenization
+│       ├── user_input.c           # Input handling
+│       ├── prompt.c               # Prompt display
+│       ├── here_doc.c             # Heredoc implementation
+│       ├── pipes.c                # Pipe utilities
+│       ├── get_path.c             # PATH resolution
+│       ├── env_to_array.c         # Environment conversion
+│       ├── free_vars.c            # Memory cleanup
+│       └── utils*.c               # Various utilities
+├── libft/                         # Custom C library (submodule)
+├── get_next_line/                 # Line reading utility (submodule)
+├── Makefile                       # Build configuration
+└── README.md                      # Documentation
 ```
 
 ---
