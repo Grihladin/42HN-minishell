@@ -34,6 +34,7 @@ Minishell implements core shell functionality including command execution, pipin
 - macOS
 - Homebrew (macOS)
 - Miniconda (automatically installed if missing)
+  <span style="color:red; font-weight:bold;">If Miniconda was just installed, you need to restart your terminal before running <code>make</code>!</span>
 
 ```bash
 git clone --recursive https://github.com/Grihladin/42HN-minishell.git
