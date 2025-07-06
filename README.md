@@ -31,7 +31,7 @@ Minishell implements core shell functionality including command execution, pipin
 ## 📦 Installation
 
 **Requirements:**
-- macOS or Linux
+- macOS
 - Homebrew (macOS)
 - Miniconda (automatically installed if missing)
 
