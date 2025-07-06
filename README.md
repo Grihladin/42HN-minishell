@@ -38,7 +38,7 @@ Minishell implements core shell functionality including command execution, pipin
 > **⚠️ If Miniconda was just installed, you need to restart your terminal before running `make`!**
 
 ```bash
-git clone --recursive https://github.com/Grihladin/42HN-minishell.git
+git clone https://github.com/Grihladin/42HN-minishell.git
 cd 42HN-minishell
 make
 ```
