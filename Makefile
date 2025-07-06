@@ -75,7 +75,7 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 #################################
 
 all: $(NAME)
-	@echo "🎉 $(NAME) built successfully!"
+	@echo "\033[0;32m🎉 $(NAME) built successfully!\033[0m"
 
 # Check for dependencies
 check_deps:
@@ -101,8 +101,9 @@ check_deps:
 READLINE_PATH := $(shell if [ -d "/opt/homebrew/Caskroom/miniconda/base/lib" ]; then echo "/opt/homebrew/Caskroom/miniconda/base/lib"; elif [ -d "/opt/homebrew/opt/readline/lib" ]; then echo "/opt/homebrew/opt/readline/lib"; else echo ""; fi)
 
 $(NAME): check_deps $(LIBFT) $(OBJ) $(HEADERS)
+	@echo "🔗 Linking $(NAME)..."
 	@if [ -n "$(READLINE_PATH)" ]; then \
-		$(CC) $(CFLAGS) -I inc -I libft/inc -I get_next_line/inc -o $(NAME) $(OBJ) $(LIBFT) -L$(READLINE_PATH) -lreadline -lncurses; \
+		$(CC) $(CFLAGS) -I inc -I libft/inc -I get_next_line/inc -o $(NAME) $(OBJ) $(LIBFT) -L$(READLINE_PATH) -Wl,-rpath,$(READLINE_PATH) -lreadline -lncurses; \
 	else \
 		$(CC) $(CFLAGS) -I inc -I libft/inc -I get_next_line/inc -o $(NAME) $(OBJ) $(LIBFT) -lreadline -lncurses; \
 	fi
