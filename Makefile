@@ -75,10 +75,37 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 #################################
 
 all: $(NAME)
-	@echo "\033[0;32m🎉 $(NAME) built successfully!\033[0m"
+	@echo "🎉 $(NAME) built successfully!"
 
-$(NAME): $(LIBFT) $(OBJ) $(HEADERS)
-	$(CC) $(CFLAGS) -I inc -I libft/inc -I get_next_line/inc -o $(NAME) $(OBJ) $(LIBFT) -L/opt/homebrew/Caskroom/miniconda/base/lib -lreadline -lncurses
+# Check for dependencies
+check_deps:
+	@echo "🔍 Checking dependencies..."
+	@if ! brew --version >/dev/null 2>&1; then \
+		echo "❌ Error: Homebrew is not installed. Please install Homebrew first:"; \
+		echo "/bin/bash -c \"\$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""; \
+		exit 1; \
+	fi
+	@if ! command -v conda >/dev/null 2>&1; then \
+		echo "📦 Miniconda not found. Installing miniconda..."; \
+		brew install --cask miniconda; \
+		echo "✅ Miniconda installed successfully!"; \
+		echo "⚠️  Please restart your terminal or run: source ~/.zshrc"; \
+	fi
+	@if ! find /opt/homebrew/Caskroom/miniconda/base/lib -name "libreadline*" >/dev/null 2>&1; then \
+		echo "❌ Readline library not found in miniconda. Please check your miniconda installation."; \
+		exit 1; \
+	fi
+	@echo "✅ All dependencies are available!"
+
+# Detect readline library location
+READLINE_PATH := $(shell if [ -d "/opt/homebrew/Caskroom/miniconda/base/lib" ]; then echo "/opt/homebrew/Caskroom/miniconda/base/lib"; elif [ -d "/opt/homebrew/opt/readline/lib" ]; then echo "/opt/homebrew/opt/readline/lib"; else echo ""; fi)
+
+$(NAME): check_deps $(LIBFT) $(OBJ) $(HEADERS)
+	@if [ -n "$(READLINE_PATH)" ]; then \
+		$(CC) $(CFLAGS) -I inc -I libft/inc -I get_next_line/inc -o $(NAME) $(OBJ) $(LIBFT) -L$(READLINE_PATH) -lreadline -lncurses; \
+	else \
+		$(CC) $(CFLAGS) -I inc -I libft/inc -I get_next_line/inc -o $(NAME) $(OBJ) $(LIBFT) -lreadline -lncurses; \
+	fi
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -89,19 +116,35 @@ $(OBJ_DIR): $(HEADERS)
 
 $(LIBFT):
 	@if [ ! -f $(LIBFT_DIR)/Makefile ]; then \
-		echo "\033[0;33mInitializing submodules...\033[0m"; \
+		echo "🔄 Initializing git submodules..."; \
 		git submodule update --init --recursive; \
+		echo "🔍 Verifying submodules are properly initialized..."; \
+		if [ ! -f "libft/Makefile" ]; then \
+			echo "⚠️  libft not properly initialized, retrying..."; \
+			git submodule update --init libft; \
+		fi; \
+		if [ ! -f "get_next_line/src/get_next_line.c" ]; then \
+			echo "⚠️  get_next_line not properly initialized, retrying..."; \
+			git submodule update --init get_next_line; \
+		fi; \
+		echo "✅ All submodules ready!"; \
 	fi
+	@echo "🔨 Building libft..."
 	@$(MAKE) -C $(LIBFT_DIR) all
 	@$(MAKE) -C $(LIBFT_DIR) bonus
+	@echo "✅ libft built successfully!"
 
 clean:
+	@echo "🧹 Cleaning object files..."
 	@rm -rf $(OBJ_DIR)
 	@if [ -f $(LIBFT_DIR)/Makefile ]; then $(MAKE) -C $(LIBFT_DIR) clean; fi
+	@echo "✅ Clean completed!"
 
 fclean: clean
+	@echo "🗑️  Removing executable..."
 	@rm -f $(NAME)
 	@if [ -f $(LIBFT_DIR)/Makefile ]; then $(MAKE) -C $(LIBFT_DIR) fclean; fi
+	@echo "✅ Full clean completed!"
 
 re: fclean all
 
@@ -115,18 +158,29 @@ test_r:
 	valgrind --leak-check=full --track-origins=yes ./$(NAME)
 
 submodules:
-	@echo "\033[0;33mInitializing submodules...\033[0m"
+	@echo "🔄 Initializing git submodules..."
 	@git submodule update --init --recursive
+	@echo "🔍 Verifying submodules are properly initialized..."
+	@if [ ! -f "libft/Makefile" ]; then \
+		echo "⚠️  libft not properly initialized, retrying..."; \
+		git submodule update --init libft; \
+	fi
+	@if [ ! -f "get_next_line/src/get_next_line.c" ]; then \
+		echo "⚠️  get_next_line not properly initialized, retrying..."; \
+		git submodule update --init get_next_line; \
+	fi
+	@echo "✅ All submodules ready!"
 
 help:
-	@echo "\033[0;32mAvailable targets:\033[0m"
-	@echo "  \033[0;34mall\033[0m         - Build the project (default target)"
-	@echo "  \033[0;34mclean\033[0m       - Remove object files"
-	@echo "  \033[0;34mfclean\033[0m      - Remove object files and executable"
-	@echo "  \033[0;34mre\033[0m          - Clean and rebuild"
-	@echo "  \033[0;34msubmodules\033[0m  - Initialize/update git submodules"
-	@echo "  \033[0;34mtest\033[0m        - Run with valgrind"
-	@echo "  \033[0;34mtest_forks\033[0m  - Run with valgrind (trace children)"
-	@echo "  \033[0;34mhelp\033[0m        - Show this help message"
+	@echo "📖 Available targets:"
+	@echo "  🎯 all         - Build the project (default target)"
+	@echo "  🔍 check_deps  - Check and install dependencies"
+	@echo "  🧹 clean       - Remove object files"
+	@echo "  🗑️  fclean      - Remove object files and executable"
+	@echo "  🔄 re          - Clean and rebuild"
+	@echo "  📦 submodules  - Initialize/update git submodules"
+	@echo "  🧪 test        - Run with valgrind"
+	@echo "  🧪 test_forks  - Run with valgrind (trace children)"
+	@echo "  📖 help        - Show this help message"
 
-.PHONY: all clean fclean re submodules help
+.PHONY: all clean fclean re submodules help check_deps
